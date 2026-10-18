@@ -1,0 +1,11 @@
+id:
+  slugPinyin: beijing-daxue
+  nama: Peking University
+  deskripsi: Peking University berdiri pada 1898 di Beijing, ibu kota Tiongkok (China). Bidangnya luas, dari humaniora dan ilmu sosial sampai sains, teknik, dan kedokteran.
+  kota: beijing
+  jenjang: []
+  tujuanAlumni: true
+  contoh: false
+zh:
+  nama: 北京大学
+  deskripsi: 北京大学创办于1898年，位于首都北京，学科涵盖人文、社会科学、理学、工学和医学等领域。

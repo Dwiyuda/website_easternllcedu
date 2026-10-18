@@ -1,0 +1,25 @@
+id:
+  judul: Study Tour Shanghai dan Hangzhou
+  jenis: culture-experience
+  mulai: '2024-06-17'
+  selesai: '2024-06-25'
+  kota: [shanghai, hangzhou]
+  termasuk:
+    - Tiket pesawat pulang-pergi Pekanbaru–Tiongkok
+    - Visa
+    - Hotel
+    - Makan
+    - Transportasi
+    - Tur
+  tampilkanHarga: false
+  sampul: ../../assets/foto/camp-2.webp
+  contoh: false
+zh:
+  judul: 上海、杭州游学
+  termasuk:
+    - 北干巴鲁往返中国机票
+    - 签证
+    - 住宿
+    - 餐饮
+    - 交通
+    - 参观

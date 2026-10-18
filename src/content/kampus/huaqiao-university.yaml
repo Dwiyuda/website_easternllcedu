@@ -1,0 +1,19 @@
+id:
+  slugPinyin: huaqiao-daxue
+  nama: Huaqiao University
+  deskripsi: Huaqiao University berdiri pada 1960 dengan dua kampus, di Quanzhou dan Xiamen, Provinsi Fujian, Tiongkok (China). Namanya berarti universitas perantau Tionghoa. Jurusan Pendidikan Bahasa Mandarin punya beasiswa penuh dengan kontrak mengajar tiga tahun, dan beasiswa Chen Jiageng tersedia untuk mahasiswa keturunan Tionghoa. Business Administration dan International Business tersedia dalam bahasa Inggris.
+  kota: xiamen
+  logo: ../../assets/logo-kampus/huaqiao-university.png
+  jenjang:
+    - Bahasa
+    - S1
+  situs: https://www.hqu.edu.cn/
+  jurusanInggris:
+    - nama: Business Administration
+      jenjang: S1
+    - nama: International Business
+      jenjang: S1
+  contoh: false
+zh:
+  nama: 华侨大学
+  deskripsi: 华侨大学创办于1960年，在福建泉州和厦门设有两个校区。华文教育专业提供全额奖学金（须签约任教三年），华裔学生可申请陈嘉庚奖学金。工商管理和国际商务设有英文授课项目。

@@ -1,0 +1,37 @@
+---
+import LencanaContoh from '../LencanaContoh.astro';
+import { UI } from '../../i18n/ui';
+import { RUTE } from '../../i18n/rute';
+import type { Bahasa } from '../../lib/dua-bahasa';
+import type { Kutipan } from '../../lib/konten';
+
+interface Props { bahasa: Bahasa; teks: { judul: string; kalimat: string; tautan: string }; kutipan?: Kutipan }
+const { bahasa, teks, kutipan } = Astro.props;
+const ui = UI[bahasa];
+---
+<section class="bagian" aria-labelledby="judul-alumni">
+  <div class="wadah dua">
+    <div class="judul-bagian">
+      <h2 id="judul-alumni">{teks.judul}</h2>
+      <p>{teks.kalimat}</p>
+      <a href={RUTE.testimoni[bahasa]}>{teks.tautan}</a>
+    </div>
+    {kutipan && (
+      <figure class="kartu kutipan" data-muncul>
+        <LencanaContoh bahasa={bahasa} tampil={kutipan.contoh} />
+        <blockquote><p>{kutipan.teks}</p></blockquote>
+        <figcaption>{kutipan.nama} · {ui.peran[kutipan.peran]}{kutipan.tahun ? ` · ${kutipan.tahun}` : ''}</figcaption>
+      </figure>
+    )}
+  </div>
+</section>
+
+<style>
+  .dua { display: grid; gap: var(--ruang-5); align-items: start; }
+  @media (min-width: 1024px) { .dua { grid-template-columns: 1fr 1fr; } }
+  .kutipan { display: grid; justify-items: start; gap: var(--ruang-2); margin: 0; }
+  blockquote { margin: 0; }
+  blockquote p { font: 400 1.125rem / 1.5 var(--font-judul); font-variation-settings: "SOFT" 100; color: var(--teks-900); }
+  :lang(zh) blockquote p { font-family: var(--font-judul-han); }
+  figcaption { color: var(--teks-600); font-size: var(--huruf-mini); font-weight: 600; }
+</style>

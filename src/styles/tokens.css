@@ -1,0 +1,93 @@
+/* Semua nilai dari MASTER.md. Nilai baru ditambahkan ke MASTER.md dulu dan disetujui. */
+:root {
+  --krem-100: #F7EFE5;
+  --krem-200: #EFE3D3;
+  --krem-300: #E6D5C0;
+  --peach-100: #FBE3D3;
+  --peach-200: #F6D3BC;
+  --kartu-50: #FFFDF9;
+  --kartu-100: #FFF9F2;
+  --teks-900: #3A2A23;
+  --teks-600: #6A564B;
+  --teks-400: #9C887B;
+  --marun-500: #8A3A33;
+  --marun-600: #642621;
+  --marun-700: #4E1D19;
+  --terakota-600: #A84A33;
+  --terakota-700: #8E3C28;
+  --sukses: #4D6B2A;
+  --sukses-latar: #E9EDD6;
+  --peringatan: #8A5A0B;
+  --peringatan-latar: #F8E7C4;
+  --galat: #A11F24;
+  --galat-latar: #F6DAD5;
+  --wa-hijau: #25D366;
+  --putih-logo: #FFFFFF;
+  --tirai: rgb(58 42 35 / 0.4);
+  --tirai-pembuka: linear-gradient(to bottom, rgb(58 42 35 / 0.2), rgb(58 42 35 / 0.75));
+
+  --font-judul: "Fraunces Variable", "Fraunces", "Iowan Old Style", Georgia, serif;
+  --font-isi: "Figtree Variable", "Figtree", "Segoe UI", system-ui, sans-serif;
+  --font-judul-han: "LXGW WenKai GB", "Kaiti SC", "STKaiti", "KaiTi", serif;
+  --font-isi-han: "Figtree Variable", "Figtree", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", "Source Han Sans SC", sans-serif;
+
+  --huruf-tampilan: clamp(2.75rem, 2.134rem + 2.629vw, 4.5rem);
+  --huruf-judul-1: clamp(2.25rem, 1.81rem + 1.878vw, 3.5rem);
+  --huruf-judul-2: clamp(1.75rem, 1.486rem + 1.127vw, 2.5rem);
+  --huruf-judul-3: clamp(1.375rem, 1.243rem + 0.563vw, 1.75rem);
+  --huruf-judul-4: 1.25rem;
+  --huruf-angka: clamp(2.5rem, 2.148rem + 1.502vw, 3.5rem);
+  --huruf-pembuka: clamp(1.125rem, 1.059rem + 0.282vw, 1.3125rem);
+  --huruf-isi: 1.0625rem;
+  --huruf-kecil: 0.9375rem;
+  --huruf-mini: 0.8125rem;
+
+  --ruang-1: 8px;
+  --ruang-2: 16px;
+  --ruang-3: 24px;
+  --ruang-4: 32px;
+  --ruang-5: 40px;
+  --ruang-6: 48px;
+  --ruang-8: 64px;
+  --ruang-10: 80px;
+  --ruang-12: 96px;
+  --ruang-16: 128px;
+
+  --wadah: 1088px;
+  --tepi: 16px;
+  --ruang-bagian: 64px;
+  --lebar-baca: 65ch;
+  --lebar-baca-han: 36em;
+  --tinggi-bilah: 64px;
+  --ukuran-hanzi: 112px;
+
+  --radius-kecil: 14px;
+  --radius-besar: 20px;
+  --radius-pil: 999px;
+  --garis: 1.5px;
+  --fokus: 2px;
+  --fokus-jarak: 3px;
+
+  --z-menu: 10;
+  --z-tirai: 20;
+  --z-lapisan: 30;
+  --z-wa: 40;
+
+  --kurva: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --durasi-muncul: 500ms;
+  --jeda-urut: 85ms;
+  --jarak-naik: 14px;
+  --durasi-kursor: 180ms;
+  --jarak-angkat: 2px;
+  --skala-tekan: 0.98;
+  --durasi-pindah: 250ms;
+  --durasi-stempel: 450ms;
+}
+
+@media (min-width: 768px) {
+  :root { --tepi: 24px; --ruang-bagian: 80px; }
+}
+
+@media (min-width: 1024px) {
+  :root { --tepi: 48px; --ruang-bagian: 96px; --tinggi-bilah: 72px; --ukuran-hanzi: 160px; }
+}

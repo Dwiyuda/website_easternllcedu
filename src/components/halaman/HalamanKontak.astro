@@ -1,0 +1,149 @@
+---
+// Halaman Kontak (Naskah Kontak; Panduan Visual 9g; MASTER.md Halaman Kontak dan Tautan media sosial): pembuka ringkas 联, lalu dua kolom.
+// Kolom admin (lima layanan: nama, keterangan, nomor sebagai teks, Konsultasi, Salin nomor), email, media sosial; kolom kantor (foto gedung
+// berbingkai, alamat, jam, peta). Kolom admin lebih dulu di HTML karena di HP admin lebih dulu; desktop menaruh kantor di kiri.
+// Peta Indonesia: embed Google Maps yang dimuat saat mendekati layar. Peta 中文: gambar OpenStreetMap (P21 A), tanpa layanan Google.
+// Tombol Konsultasi per admin berpesan nama layanannya (keputusan rencana K1). Nomor, alamat, jam, legalitas dari src/data/kontak.ts.
+import { getEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import Ikon from '../Ikon.astro';
+import PembukaRingkas from '../bagian/PembukaRingkas.astro';
+import Dasar from '../../layouts/Dasar.astro';
+import fotoGedung from '../../assets/foto/gedung.webp';
+import petaKantor from '../../assets/peta/kantor-osm.webp';
+import { ADMIN, ALAMAT, ALAMAT_RINGKAS, EMAIL, JAM, LEGALITAS, PETA, SOSIAL, type KunciAdmin } from '../../data/kontak';
+import { UI, tandaTabBaru } from '../../i18n/ui';
+import { RUTE } from '../../i18n/rute';
+import type { Bahasa } from '../../lib/dua-bahasa';
+import { butirRemah } from '../../lib/navigasi';
+import { tautanWa } from '../../lib/wa';
+
+interface Props { bahasa: Bahasa }
+const { bahasa } = Astro.props;
+const halaman = await getEntry('halamanKontak', 'kontak');
+if (!halaman) throw new Error('src/content/halaman/kontak.yaml tidak ditemukan');
+const h = halaman.data[bahasa];
+const ui = UI[bahasa];
+const zh = bahasa === 'zh';
+const tabBaru = tandaTabBaru(bahasa);
+const URUTAN: KunciAdmin[] = ['kursusOffline', 'kursusOnline', 'kuliah1', 'kuliah2', 'kantor'];
+---
+<Dasar bahasa={bahasa} judul={h.seo.judul} deskripsi={h.seo.deskripsi} judulWa={h.pembuka.judul}>
+  <PembukaRingkas bahasa={bahasa} hanzi="联" judul={h.pembuka.judul} kalimat={h.pembuka.kalimat}
+    remah={butirRemah(bahasa, [], h.pembuka.judul, RUTE.kontak[bahasa])} />
+  <div class="bagian bagian-peach">
+    <div class="wadah dua">
+      <div class="kolom-admin">
+        <section aria-labelledby="judul-admin">
+          <div class="judul-bagian"><h2 id="judul-admin">{h.admin.judul}</h2><p>{h.admin.kalimat}</p></div>
+          <ul class="daftar-admin">
+            {URUTAN.map((k) => (
+              <li class="kartu">
+                <span class="nama">{ADMIN[k].layanan[bahasa]}</span>
+                <span class="kecil">{ADMIN[k].keterangan[bahasa]}</span>
+                <span class="nomor">{ADMIN[k].nomor}</span>
+                <span class="tombol-baris">
+                  <a class="tombol tombol-utama" href={tautanWa(ADMIN[k].nomor, ADMIN[k].layanan[bahasa], bahasa)} target="_blank" rel="noopener"
+                    aria-label={`${ui.konsultasi}${ui.titikDua}${ADMIN[k].layanan[bahasa]} · ${ui.konsultasiLabel}${tabBaru}`}>{ui.konsultasi}</a>
+                  <button type="button" class="tombol tombol-kedua" data-salin={ADMIN[k].nomor.replace(/\s/g, '')} data-tersalin={ui.tersalin}
+                    aria-live="polite" hidden>{h.admin.salin}</button>
+                </span>
+              </li>
+            ))}
+          </ul>
+          <p class="baris"><Ikon nama="mail" ukuran={20} /><span><a href={`mailto:${EMAIL}`}>{EMAIL}</a><span class="kecil blok">{h.admin.email}</span></span></p>
+        </section>
+        <section aria-labelledby="judul-sosial">
+          <h2 id="judul-sosial" class="kecil-judul">{h.sosial.judul}</h2>
+          <ul class="sosial">
+            {SOSIAL.map((s) => (
+              <li>
+                <a class="pil-sosial" href={s.url} target="_blank" rel="noopener" aria-label={`${s.nama} ${s.akun}${tabBaru}`}>
+                  <span class="lingkaran"><Ikon nama={s.ikon} ukuran={20} /></span>
+                  <span><span class="platform">{s.nama}</span><span class="akun">{s.akun}</span></span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </div>
+      <section class="kantor" aria-labelledby="judul-kantor">
+        <h2 id="judul-kantor">{h.kantor.judul}</h2>
+        <figure class="bingkai">
+          <Image src={fotoGedung} alt="" widths={[480, 800]} sizes="(min-width: 1024px) 520px, 100vw" data-warna="hangat" />
+          <figcaption><span class="apa">{h.kantor.foto}</span></figcaption>
+        </figure>
+        <p class="baris"><Ikon nama="location_on" ukuran={20} /><span>{ALAMAT[bahasa]}</span></p>
+        <p class="baris"><Ikon nama="schedule" ukuran={20} /><span>{JAM[bahasa]}</span></p>
+        <a href={zh ? PETA.osm : PETA.google} target="_blank" rel="noopener">{h.kantor.peta}<span class="sr">{tabBaru}</span></a>
+        {zh
+          ? (
+            <figure class="bingkai peta">
+              <Image src={petaKantor} alt="" width={480} />
+              <figcaption><span class="kapan"><a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap<span class="sr">{tabBaru}</span></a></span></figcaption>
+            </figure>
+          )
+          : <iframe class="peta" src={PETA.sematan} title={`${h.kantor.judul} · ${ALAMAT_RINGKAS.id}`} loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>}
+      </section>
+    </div>
+  </div>
+  <div class="bagian">
+    <p class="wadah kecil legal">
+      {ui.legalitas.nib}{zh ? '' : ' '}{LEGALITAS.nib} · {ui.legalitas.izin} {LEGALITAS.izin} · <a href={RUTE.tentang[bahasa]}>{h.legalitas.tautan}</a>
+    </p>
+  </div>
+</Dasar>
+
+<style>
+  .dua { display: grid; gap: var(--ruang-6); }
+  .kolom-admin, .kantor { display: grid; align-content: start; gap: var(--ruang-3); }
+  /* Tautan peta selebar isinya, bukan selebar kolom grid .kantor (justify-self bawaan stretch). */
+  .kantor > a { justify-self: start; }
+  @media (min-width: 1024px) {
+    .dua { grid-template-columns: 1fr 1fr; align-items: start; }
+    .kantor { grid-column: 1; grid-row: 1; }
+    .kolom-admin { grid-column: 2; grid-row: 1; }
+  }
+  .kolom-admin .judul-bagian { margin-bottom: var(--ruang-3); }
+  .daftar-admin { display: grid; gap: var(--ruang-2); margin-bottom: var(--ruang-3); }
+  .daftar-admin .kartu { display: grid; gap: var(--ruang-1); }
+  .nama { font-weight: 600; }
+  .nomor { color: var(--marun-600); font: 500 var(--huruf-judul-4) / 1.3 var(--font-judul); font-variant-numeric: tabular-nums; user-select: all; }
+  .tombol-baris { display: flex; flex-wrap: wrap; gap: var(--ruang-1); margin-top: var(--ruang-1); }
+  /* .tombol (display: inline-flex) menimpa [hidden] bawaan browser: tanpa JavaScript tombol Salin nomor harus tetap tersembunyi. */
+  .tombol-baris [hidden] { display: none; }
+  .baris { display: flex; align-items: flex-start; gap: var(--ruang-1); }
+  .blok { display: block; }
+  .kecil-judul { margin-bottom: var(--ruang-2); font-size: var(--huruf-judul-4); }
+  :lang(zh) .kecil-judul { font-size: calc(var(--huruf-judul-4) * 0.9); }
+  .sosial { display: grid; gap: var(--ruang-1); }
+  /* Tautan media sosial (MASTER.md): pil kartu-100, logo putih di lingkaran marun-600, kursor naik 2 px dan lingkaran marun-500. */
+  .pil-sosial { display: inline-flex; align-items: center; gap: var(--ruang-2); padding: var(--ruang-1) var(--ruang-3) var(--ruang-1) var(--ruang-1); border-radius: var(--radius-pil); background: var(--kartu-100); color: var(--teks-900); text-decoration: none; transition: transform var(--durasi-kursor) var(--kurva), background-color var(--durasi-kursor) var(--kurva); }
+  .pil-sosial:hover { transform: translateY(calc(-1 * var(--jarak-angkat))); background: var(--kartu-50); color: var(--teks-900); }
+  .lingkaran { display: grid; place-items: center; flex: none; width: 40px; height: 40px; border-radius: 50%; background: var(--marun-600); color: var(--putih-logo); transition: background-color var(--durasi-kursor) var(--kurva); }
+  .pil-sosial:hover .lingkaran { background: var(--marun-500); }
+  .platform { display: block; color: var(--marun-600); font-weight: 600; }
+  .akun { display: block; color: var(--teks-600); font-size: var(--huruf-kecil); }
+  .peta { width: 100%; aspect-ratio: 3 / 2; border: 0; border-radius: var(--radius-besar); }
+  .bingkai.peta { aspect-ratio: auto; }
+</style>
+
+<script>
+  // Salin nomor (Naskah Kontak bagian 3): tombol hanya muncul kalau browser bisa menyalin; yang disalin angka saja. Label kembali
+  // sesudah 2 detik. Teks "Tersalin" dibaca dari atribut, jadi skrip tanpa teks 中文.
+  if (navigator.clipboard) {
+    for (const b of document.querySelectorAll<HTMLButtonElement>('[data-salin]')) {
+      b.hidden = false;
+      const label = b.textContent ?? '';
+      let t: ReturnType<typeof setTimeout>;
+      b.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(b.dataset.salin!);
+          b.textContent = b.dataset.tersalin!;
+          clearTimeout(t);
+          t = setTimeout(() => { b.textContent = label; }, 2000);
+        } catch { /* ponytail: clipboard ditolak (izin/fokus/konteks tak aman), biarkan label apa adanya */ }
+      });
+    }
+  }
+</script>

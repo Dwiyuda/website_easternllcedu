@@ -1,0 +1,42 @@
+---
+// Kartu legalitas (MASTER.md): Beranda empat baris dengan tautan ke Tentang Kami; Tentang Kami lengkap lima baris (dengan Layanan), tanpa tautan ke dirinya sendiri.
+import Stempel from '../Stempel.astro';
+import { LEGALITAS } from '../../data/kontak';
+import { UI } from '../../i18n/ui';
+import { RUTE } from '../../i18n/rute';
+import type { Bahasa } from '../../lib/dua-bahasa';
+import { formatRentang } from '../../lib/tanggal';
+
+interface Props { bahasa: Bahasa; teks: { judul: string; tautan?: string }; lengkap?: boolean }
+const { bahasa, teks, lengkap = false } = Astro.props;
+const ui = UI[bahasa];
+---
+<section class="bagian" aria-labelledby="judul-legalitas">
+  <div class="wadah">
+    <div class="kartu legalitas">
+      <Stempel />
+      <div class="isi">
+        <h2 id="judul-legalitas">{teks.judul}</h2>
+        <dl>
+          <div><dt>{ui.legalitas.nib}</dt><dd>{LEGALITAS.nib}</dd></div>
+          <div><dt>{ui.legalitas.izin}</dt><dd>{LEGALITAS.izin}</dd></div>
+          <div><dt>{ui.legalitas.masaBerlaku}</dt><dd>{formatRentang(LEGALITAS.mulai, LEGALITAS.sampai, bahasa)}</dd></div>
+          <div><dt>{ui.legalitas.badan}</dt><dd>{LEGALITAS.badan[bahasa]}</dd></div>
+          {lengkap && <div><dt>{ui.legalitas.layanan}</dt><dd>{LEGALITAS.layanan[bahasa]}</dd></div>}
+        </dl>
+        {teks.tautan && <a href={RUTE.tentang[bahasa]}>{teks.tautan}</a>}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .legalitas { display: grid; gap: var(--ruang-3); }
+  @media (min-width: 768px) { .legalitas { grid-template-columns: auto 1fr; align-items: start; } }
+  .isi { display: grid; gap: var(--ruang-3); justify-items: start; }
+  dl { display: grid; gap: var(--ruang-2) var(--ruang-4); margin: 0; }
+  @media (min-width: 1024px) { dl { grid-template-columns: repeat(3, auto); } }
+  dt { color: var(--teks-600); font-size: var(--huruf-mini); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+  :lang(zh) dt { letter-spacing: 0; text-transform: none; }
+  dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; }
+</style>

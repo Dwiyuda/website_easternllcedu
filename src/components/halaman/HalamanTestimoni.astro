@@ -1,0 +1,110 @@
+---
+// Testimoni (Naskah Testimoni; Panduan Visual 9f A suara dulu; MASTER.md Halaman Testimoni dan Pita karya siswa): pembuka ringkas 成,
+// video testimoni, kutipan siswa dan orang tua, alumni dan beasiswa per kampus (angka otomatis), pita karya siswa, testimoni camp,
+// penutup tiga admin seperti Beranda. Bagian kosong tersembunyi (aturan 6): saat tayang tanpa video dan kutipan, halaman dibuka
+// dengan daftar alumni. Pita karya siswa tanpa kliping dan tautan sampai filenya ada (P17).
+import { getEntry } from 'astro:content';
+import LencanaContoh from '../LencanaContoh.astro';
+import TeksCampur from '../TeksCampur.astro';
+import Video from '../Video.astro';
+import Penutup from '../beranda/Penutup.astro';
+import PembukaRingkas from '../bagian/PembukaRingkas.astro';
+import KartuTestimoni from '../testimoni/KartuTestimoni.astro';
+import Dasar from '../../layouts/Dasar.astro';
+import { RUTE } from '../../i18n/rute';
+import type { Bahasa } from '../../lib/dua-bahasa';
+import { alumniPerKampus, ambilTampil, keteranganTestimoni, kutipanTestimoni } from '../../lib/konten';
+import { butirRemah } from '../../lib/navigasi';
+import { isiTempat } from '../../lib/teks';
+
+interface Props { bahasa: Bahasa }
+const { bahasa } = Astro.props;
+const halaman = await getEntry('halamanTestimoni', 'testimoni');
+if (!halaman) throw new Error('src/content/halaman/testimoni.yaml tidak ditemukan');
+const h = halaman.data[bahasa];
+const semua = await ambilTampil('testimoni');
+// Peserta camp di bagian sendiri (Naskah Testimoni bagian 6); siswa, orang tua, dan alumni di bagian video dan kutipan.
+const pilih = (camp: boolean) => semua.filter((t) => (t.data.id.peran === 'peserta-camp') === camp);
+const video = (daftar: typeof semua) => daftar.flatMap((t) => (t.data.id.video
+  ? [{ ...t.data.id.video, keterangan: keteranganTestimoni(t.data.id, bahasa), contoh: t.data.id.contoh }] : []));
+const kutipan = (daftar: typeof semua) => daftar.filter((t) => t.data.id.kutipan).map((t) => kutipanTestimoni(t, bahasa));
+const biasa = { video: video(pilih(false)), kutipan: kutipan(pilih(false)) };
+const camp = { video: video(pilih(true)), kutipan: kutipan(pilih(true)) };
+const kampus = await alumniPerKampus(bahasa);
+const jumlahAlumni = kampus.reduce((n, k) => n + k.alumni.length, 0);
+---
+<Dasar bahasa={bahasa} judul={h.seo.judul} deskripsi={h.seo.deskripsi} judulWa={h.pembuka.judul}>
+  <PembukaRingkas bahasa={bahasa} hanzi="成" judul={h.pembuka.judul} kalimat={h.pembuka.kalimat} remah={butirRemah(bahasa, [], h.pembuka.judul, RUTE.testimoni[bahasa])} />
+  {biasa.video.length > 0 && (
+    <section class="bagian" aria-labelledby="judul-video">
+      <div class="wadah">
+        <div class="judul-bagian"><h2 id="judul-video">{h.video.judul}</h2></div>
+        <ul class="kisi">{biasa.video.map((v) => <li><Video bahasa={bahasa} youtube={v.youtube} sampul={v.sampul} judul={v.keterangan} keterangan={v.keterangan} /><LencanaContoh bahasa={bahasa} tampil={v.contoh} /></li>)}</ul>
+      </div>
+    </section>
+  )}
+  {biasa.kutipan.length > 0 && (
+    <section class="bagian" aria-labelledby="judul-kutipan">
+      <div class="wadah">
+        <div class="judul-bagian"><h2 id="judul-kutipan">{h.kutipan.judul}</h2></div>
+        <ul class="kisi">{biasa.kutipan.map((k, i) => <li data-muncul style={`--urut: ${i % 6}`}><KartuTestimoni bahasa={bahasa} kutipan={k} /></li>)}</ul>
+      </div>
+    </section>
+  )}
+  {kampus.length > 0 && (
+    <section class="bagian bagian-peach" aria-labelledby="judul-alumni">
+      <div class="wadah">
+        <div class="judul-bagian">
+          <h2 id="judul-alumni">{h.alumni.judul}</h2>
+          <p>{isiTempat(h.alumni.kalimat, { alumni: jumlahAlumni, kampus: kampus.length })} <LencanaContoh bahasa={bahasa} tampil={kampus.some((k) => k.contoh)} /></p>
+        </div>
+        <ul class="kampus-alumni">
+          {kampus.map((k, i) => (
+            <li class="kartu" data-muncul style={`--urut: ${i % 6}`}>
+              <div class="kampus"><a class="nama" href={k.url}><TeksCampur bahasa={bahasa} teks={k.nama} /></a><span class="kecil">{k.kota}</span></div>
+              <ul class="orang">{k.alumni.map((a) => <li>{a}</li>)}</ul>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+  <section class="bagian" aria-labelledby="judul-karya">
+    <div class="wadah">
+      <div class="kartu pita-karya">
+        <h2 id="judul-karya"><TeksCampur bahasa={bahasa} teks={h.karya.judul} /></h2>
+        <p><TeksCampur bahasa={bahasa} teks={h.karya.kalimat} /></p>
+      </div>
+    </div>
+  </section>
+  {(camp.video.length > 0 || camp.kutipan.length > 0) && (
+    <section class="bagian bagian-peach" aria-labelledby="judul-camp">
+      <div class="wadah">
+        <div class="judul-bagian"><h2 id="judul-camp">{h.camp.judul}</h2></div>
+        <ul class="kisi">
+          {camp.video.map((v) => <li><Video bahasa={bahasa} youtube={v.youtube} sampul={v.sampul} judul={v.keterangan} keterangan={v.keterangan} /><LencanaContoh bahasa={bahasa} tampil={v.contoh} /></li>)}
+          {camp.kutipan.map((k) => <li><KartuTestimoni bahasa={bahasa} kutipan={k} /></li>)}
+        </ul>
+      </div>
+    </section>
+  )}
+  <Penutup bahasa={bahasa} teks={h.penutup} judulHalaman={h.pembuka.judul} />
+</Dasar>
+
+<style>
+  .kisi { display: grid; gap: var(--ruang-3); }
+  @media (min-width: 1024px) { .kisi { grid-template-columns: 1fr 1fr; } }
+  .kisi li { display: grid; justify-items: start; gap: var(--ruang-1); }
+  .kampus-alumni { display: grid; gap: var(--ruang-2); }
+  .kampus-alumni > li { display: grid; gap: var(--ruang-2); }
+  @media (min-width: 768px) { .kampus-alumni > li { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); align-items: start; } }
+  .kampus { display: grid; gap: var(--ruang-1); }
+  .nama { font: 500 var(--huruf-judul-4) / 1.3 var(--font-judul); font-variation-settings: "SOFT" 100; }
+  :lang(zh) .nama { font-family: var(--font-judul-han); font-weight: 400; }
+  .orang { display: grid; gap: var(--ruang-1); }
+  /* Daftar panjang (lebih dari 8 nama, mis. Huaqiao) dua kolom mulai 1024 px supaya kartu tidak jauh lebih tinggi dari yang lain. */
+  @media (min-width: 1024px) { .orang:has(li:nth-child(9)) { grid-template-columns: 1fr 1fr; } }
+  .pita-karya { display: grid; justify-items: start; gap: var(--ruang-1); }
+  .pita-karya h2 { font-size: var(--huruf-judul-4); line-height: 1.3; }
+  :lang(zh) .pita-karya h2 { font-size: calc(var(--huruf-judul-4) * 0.9); }
+</style>

@@ -1,0 +1,14 @@
+id:
+  slugPinyin: fuzhou-daxue
+  nama: Fuzhou University
+  deskripsi: 'Fuzhou University berdiri pada 1958 di Fuzhou, ibu kota Provinsi Fujian, Tiongkok (China). Jurusan tekniknya banyak, antara lain teknik elektro, robotika, kecerdasan buatan, keamanan siber, teknik sipil, dan teknik kimia, selain bisnis, hukum, bahasa, dan seni. Program bahasa Mandarin, S1, S2, dan S3 tersedia. Beasiswa yang tercatat: Beasiswa Pemerintah Provinsi Fujian dan beasiswa Fuzhou University.'
+  kota: fuzhou
+  jenjang:
+    - Bahasa
+    - S1
+    - S2
+    - S3
+  contoh: false
+zh:
+  nama: 福州大学
+  deskripsi: 福州大学创建于1958年，位于福建省会福州。工科专业众多，包括电气工程、机器人工程、人工智能、网络空间安全、土木工程和化学工程等，另有商科、法学、语言和艺术类专业。学校设有汉语进修、本科、硕士和博士项目，可申请福建省政府奖学金和福州大学奖学金。

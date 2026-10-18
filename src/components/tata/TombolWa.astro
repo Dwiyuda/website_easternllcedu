@@ -1,0 +1,70 @@
+---
+// Tombol WhatsApp melayang, hijau resmi (MASTER.md). Panel popover: Esc dan klik di luar menutup.
+import Ikon from '../Ikon.astro';
+import { ADMIN, type KunciAdmin } from '../../data/kontak';
+import { UI } from '../../i18n/ui';
+import type { Bahasa } from '../../lib/dua-bahasa';
+import { tautanWa } from '../../lib/wa';
+
+interface Props { bahasa: Bahasa; judulHalaman: string }
+const { bahasa, judulHalaman } = Astro.props;
+const ui = UI[bahasa];
+const BARIS: [KunciAdmin, string][] = [
+  ['kursusOffline', ADMIN.kursusOffline.layanan[bahasa]],
+  ['kursusOnline', ADMIN.kursusOnline.layanan[bahasa]],
+  ['kuliah1', ADMIN.kuliah1.layanan[bahasa]],
+  ['kantor', ui.wa.studyTourKerjaSama],
+];
+---
+<button class="tombol-wa" type="button" popovertarget="panel-wa" aria-label={ui.konsultasiLabel}>
+  <span class="logo"><Ikon nama="merek-whatsapp" ukuran={28} /></span>
+  <span class="silang"><Ikon nama="close" ukuran={28} /></span>
+</button>
+
+<div id="panel-wa" popover role="dialog" class="panel-wa" aria-labelledby="judul-panel-wa">
+  <div class="kepala-panel">
+    <h2 id="judul-panel-wa">{ui.wa.judul}</h2>
+    <button type="button" class="tutup" popovertarget="panel-wa" popovertargetaction="hide" aria-label={ui.wa.tutup}><Ikon nama="close" /></button>
+  </div>
+  <ul>
+    {BARIS.map(([k, nama]) => (
+      <li>
+        <a href={tautanWa(ADMIN[k].nomor, judulHalaman, bahasa)} target="_blank" rel="noopener">
+          <span class="lencana-wa"><Ikon nama="merek-whatsapp" ukuran={16} /></span>
+          <span class="teks"><span class="nama">{nama}</span><span class="ket">{ADMIN[k].keterangan[bahasa]}</span></span>
+          <Ikon nama="arrow_forward" ukuran={20} />
+        </a>
+      </li>
+    ))}
+  </ul>
+</div>
+
+<style>
+  .tombol-wa { position: fixed; right: var(--ruang-2); bottom: var(--ruang-2); z-index: var(--z-wa); display: grid; place-items: center; width: 56px; height: 56px; border: 0; border-radius: 50%; background: var(--wa-hijau); color: var(--putih-logo); cursor: pointer; transition: transform var(--durasi-kursor) var(--kurva); }
+  .tombol-wa:hover { transform: translateY(calc(-1 * var(--jarak-angkat))); }
+  .tombol-wa:active { transform: scale(var(--skala-tekan)); }
+  .silang { display: none; }
+  :global(body:has(#panel-wa:popover-open)) .logo { display: none; }
+  :global(body:has(#panel-wa:popover-open)) .silang { display: grid; }
+  :global(html:has(#menu-hp[open])) .tombol-wa { display: none; }
+  /* Menu besar desktop terbuka: sembunyikan tombol WA (Panduan Visual melarang meredupkan logo WhatsApp), seperti Menu HP di atas. */
+  :global(html:has(#panel-program:popover-open)) .tombol-wa,
+  :global(html:has(#panel-kegiatan:popover-open)) .tombol-wa { display: none; }
+  @media (min-width: 768px) { .tombol-wa { right: var(--ruang-3); bottom: var(--ruang-3); } }
+  .panel-wa { position: fixed; inset: auto 0 0 0; width: 100%; margin: 0; padding: var(--ruang-3); border: 0; border-radius: var(--radius-besar) var(--radius-besar) 0 0; background: var(--kartu-100); color: var(--teks-900); max-height: calc(100dvh - var(--tinggi-bilah)); overflow-y: auto; }
+  @media (min-width: 768px) {
+    .panel-wa { inset: auto var(--ruang-3) calc(56px + var(--ruang-5)) auto; width: 320px; max-height: calc(100dvh - var(--tinggi-bilah) - 56px - var(--ruang-5)); border-radius: var(--radius-besar); }
+  }
+  .kepala-panel { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--ruang-2); }
+  h2 { font-size: var(--huruf-judul-4); line-height: 1.3; }
+  .tutup { display: inline-grid; place-items: center; width: 48px; height: 48px; border: 0; border-radius: var(--radius-pil); background: transparent; color: var(--marun-600); cursor: pointer; transition: background-color var(--durasi-kursor) var(--kurva); }
+  .tutup:hover { background: var(--peach-200); }
+  ul { display: grid; gap: var(--ruang-1); margin: 0; padding: 0; list-style: none; }
+  a { display: flex; align-items: center; gap: var(--ruang-2); padding: var(--ruang-2); border-radius: var(--radius-kecil); color: var(--teks-900); text-decoration: none; transition: background-color var(--durasi-kursor) var(--kurva); }
+  a:hover { background: var(--krem-200); color: var(--teks-900); }
+  a:active { background: var(--krem-300); }
+  .lencana-wa { display: grid; place-items: center; flex: none; width: 24px; height: 24px; border-radius: 50%; background: var(--wa-hijau); color: var(--putih-logo); }
+  .teks { display: grid; flex: 1; }
+  .nama { font-weight: 600; }
+  .ket { color: var(--teks-600); font-size: var(--huruf-kecil); line-height: 1.55; }
+</style>

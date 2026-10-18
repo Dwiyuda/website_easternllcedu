@@ -1,0 +1,46 @@
+---
+// Pembuka halaman program (MASTER.md, Panduan Visual 9b): foto penuh dengan --tirai-pembuka, remah, hanzi terang tanpa kerangka,
+// judul kartu-100, kalimat peach-100, keterangan foto kecil di pojok kanan bawah. Foto adalah LCP: dimuat lebih dulu.
+// Judul, kalimat, dan keterangan bisa diubah staf: lewat TeksCampur (Han di halaman Indonesia ber-lang zh, WCAG 3.1.2).
+// pendek: Tentang Kami, tinggi desktop dibatasi supaya kartu legalitas masih terlihat di layar pertama (MASTER.md, Pembuka Tentang Kami).
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Hanzi from '../Hanzi.astro';
+import TeksCampur from '../TeksCampur.astro';
+import Remah from './Remah.astro';
+import type { Bahasa } from '../../lib/dua-bahasa';
+import type { ButirRemah } from '../../lib/navigasi';
+
+interface Props { bahasa: Bahasa; foto: ImageMetadata; hanzi: string; judul: string; kalimat: string; keterangan?: string; remah: ButirRemah[]; pendek?: boolean }
+const { bahasa, foto, hanzi, judul, kalimat, keterangan, remah, pendek } = Astro.props;
+---
+<section class:list={['pembuka-program', { pendek }]} aria-labelledby="judul-halaman">
+  <div class="media" aria-hidden="true">
+    {/* Astro memangkas lebar di atas lebar foto dan menambahkan lebar foto itu sendiri. */}
+    <Image src={foto} alt="" widths={[640, 960, 1280, 1600]} sizes="100vw" loading="eager" fetchpriority="high" data-warna="hangat" />
+  </div>
+  <div class="wadah isi">
+    <Remah bahasa={bahasa} butir={remah} terang />
+    <Hanzi aksara={hanzi} warna="terang" kerangka={false} />
+    <h1 id="judul-halaman"><TeksCampur bahasa={bahasa} teks={judul} /></h1>
+    <p class="kalimat"><TeksCampur bahasa={bahasa} teks={kalimat} /></p>
+    <slot />
+  </div>
+  {keterangan && <p class="keterangan"><TeksCampur bahasa={bahasa} teks={keterangan} /></p>}
+</section>
+
+<style>
+  .pembuka-program { position: relative; display: grid; min-height: min(88svh, 760px); overflow: hidden; color: var(--kartu-100); }
+  .media, .media :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .media::after { content: ''; position: absolute; inset: 0; background: var(--tirai-pembuka); }
+  .isi { position: relative; align-self: end; display: grid; justify-items: start; gap: var(--ruang-3); padding-block: var(--ruang-16) var(--ruang-8); }
+  h1 { color: var(--kartu-100); }
+  .kalimat, .isi :global(.angka) { color: var(--peach-100); font-size: var(--huruf-pembuka); line-height: 1.6; }
+  /* Angka 中文 tidak dipisah dari satuannya ("26 / 所院校" di 375 px): baris hanya patah di spasi dan tanda baca. */
+  :lang(zh) .isi :global(.angka) { word-break: keep-all; }
+  /* Kanan --ruang-12 (96 px) melewati tombol WhatsApp melayang (56 px, 16/24 px dari tepi), di semua tinggi layar dan posisi gulir.
+     left + margin-left auto: tetap rata kanan saat max-width berlaku, dan tidak menempel tepi kiri HP saat teks panjang. */
+  .keterangan { position: absolute; left: var(--tepi); right: var(--ruang-12); bottom: var(--ruang-2); max-width: 40ch; margin-left: auto; color: var(--kartu-100); font-size: var(--huruf-mini); font-weight: 600; line-height: 1.2; text-align: right; }
+  /* Tentang Kami (MASTER.md, Pembuka Tentang Kami): di desktop kartu legalitas di bawahnya harus masih terlihat di layar pertama. */
+  @media (min-width: 1024px) { .pendek { min-height: min(64svh, 560px); } }
+</style>

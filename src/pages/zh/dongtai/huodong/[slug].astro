@@ -1,0 +1,15 @@
+---
+import '../../../../styles/font-han.css';
+import type { CollectionEntry } from 'astro:content';
+import HalamanDetailEvent from '../../../../components/halaman/HalamanDetailEvent.astro';
+import { eventTampil } from '../../../../lib/konten';
+import { slugZh } from '../../../../lib/slug';
+import { hariIniJakarta } from '../../../../lib/tanggal';
+
+// Alamat 中文 = slug pinyin (isian atau otomatis dari judul 中文, Model Konten aturan 3).
+export async function getStaticPaths() {
+  return (await eventTampil(hariIniJakarta())).map((entri) => ({ params: { slug: slugZh(entri.data) }, props: { entri } }));
+}
+const { entri } = Astro.props as { entri: CollectionEntry<'event'> };
+---
+<HalamanDetailEvent bahasa="zh" entri={entri} />

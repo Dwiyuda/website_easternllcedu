@@ -1,0 +1,24 @@
+---
+// Kotak tanggal (MASTER.md; Panduan Visual 9e): 88 px (paling kecil 56 px di HP), radius kecil, angka Fraunces marun berangka tabular,
+// di bawahnya bulan dan tahun huruf mini. Peach untuk yang akan datang, krem-200 untuk yang sudah lewat dan artikel; selalu ditemani
+// lencana status atau kategori di kartunya. Bulan 中文 (10月) memakai font judul Han.
+import type { Bahasa } from '../../lib/dua-bahasa';
+import { kotakTanggal } from '../../lib/tanggal';
+
+interface Props { bahasa: Bahasa; tanggal: string; satuan?: 'hari' | 'bulan'; lewat?: boolean }
+const { bahasa, tanggal, satuan = 'hari', lewat = false } = Astro.props;
+const k = kotakTanggal(tanggal, bahasa, satuan);
+---
+<span class:list={['kotak-tanggal', { lewat }]}>
+  <span class:list={['angka', { han: satuan === 'bulan' && bahasa === 'zh' }]}>{k.angka}</span><span class="bawah">{k.bawah}</span>
+</span>
+
+<style>
+  .kotak-tanggal { display: grid; place-content: center; justify-items: center; flex: none; min-width: 56px; min-height: 56px; padding: var(--ruang-1); border-radius: var(--radius-kecil); background: var(--peach-100); }
+  .lewat { background: var(--krem-200); }
+  @media (min-width: 768px) { .kotak-tanggal { width: 88px; height: 88px; } }
+  .angka { color: var(--marun-600); font: 500 var(--huruf-judul-3) / 1 var(--font-judul); font-variant-numeric: tabular-nums; }
+  .han { font-family: var(--font-judul-han); font-weight: 400; }
+  .bawah { color: var(--teks-600); font-size: var(--huruf-mini); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
+  :lang(zh) .bawah { letter-spacing: 0; text-transform: none; }
+</style>

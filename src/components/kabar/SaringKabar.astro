@@ -1,0 +1,42 @@
+---
+// Saringan Kabar terbaru (Naskah Kabar Dan Event bagian 3; MASTER.md Lencana pilihan): Semua, Event, empat kategori artikel. Tanpa
+// JavaScript tersembunyi dan semua baris tampil. ?saring=<nilai> (remah detail artikel dan event) memilih saringannya saat dibuka.
+import { UI } from '../../i18n/ui';
+import type { Bahasa } from '../../lib/dua-bahasa';
+
+interface Props { bahasa: Bahasa }
+const ui = UI[Astro.props.bahasa];
+const pilihan: [string, string][] = [['', ui.kabar.semua], ['event', ui.kabar.event], ...Object.entries(ui.kategori)];
+---
+<div class="baris-pilihan saring-kabar" data-saring-kabar hidden>
+  {pilihan.map(([nilai, label]) => <button class="pilihan" type="button" data-nilai={nilai} aria-pressed={nilai === '' ? 'true' : 'false'}>{label}</button>)}
+</div>
+
+<style>
+  .saring-kabar { margin-bottom: var(--ruang-3); }
+</style>
+
+<script>
+  import { cocokKabar } from '../../lib/saring';
+
+  const wadah = document.querySelector<HTMLElement>('[data-saring-kabar]');
+  const aliran = document.querySelector<HTMLElement>('[data-aliran]');
+  if (wadah && aliran) {
+    const tombol = [...wadah.querySelectorAll<HTMLButtonElement>('[data-nilai]')];
+    const baris = [...aliran.querySelectorAll<HTMLElement>('li[data-jenis]')];
+    const kosong = document.querySelector<HTMLElement>('[data-kosong]');
+    const pilih = (nilai: string) => {
+      for (const b of tombol) b.setAttribute('aria-pressed', String(b.dataset.nilai === nilai));
+      let n = 0;
+      for (const li of baris) {
+        li.hidden = !cocokKabar(li.dataset, nilai);
+        if (!li.hidden) n++;
+      }
+      if (kosong) kosong.hidden = n > 0;
+    };
+    for (const b of tombol) b.addEventListener('click', () => pilih(b.dataset.nilai ?? ''));
+    wadah.hidden = false;
+    const awal = new URLSearchParams(location.search).get('saring') ?? '';
+    pilih(tombol.some((b) => b.dataset.nilai === awal) ? awal : '');
+  }
+</script>

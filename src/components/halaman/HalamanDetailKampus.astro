@@ -1,0 +1,126 @@
+---
+// Detail kampus (Naskah Daftar Kampus, Pola halaman detail kampus; Panduan Visual 9c3 B): pembuka ringkas dengan logo, tanpa hanzi
+// (P12); kolom informasi di kiri dan panel "Biaya dan pendaftaran" di kanan yang menempel (HP: panel tepat setelah pembuka);
+// penutup marun ke admin kuliah. Bagian yang datanya kosong tidak tampil (aturan 6).
+import { getEntry, type CollectionEntry } from 'astro:content';
+import Ikon from '../Ikon.astro';
+import LencanaContoh from '../LencanaContoh.astro';
+import TeksCampur from '../TeksCampur.astro';
+import Penutup from '../beranda/Penutup.astro';
+import Remah from '../bagian/Remah.astro';
+import BlokBiaya from '../kampus/BlokBiaya.astro';
+import LogoKampus from '../kampus/LogoKampus.astro';
+import Dasar from '../../layouts/Dasar.astro';
+import { UI, tandaTabBaru } from '../../i18n/ui';
+import { RUTE } from '../../i18n/rute';
+import { ambil, type Bahasa } from '../../lib/dua-bahasa';
+import { tanggalUbah } from '../../lib/git';
+import { barisAlumni, hanyaSma, templatLokasi } from '../../lib/kampus';
+import { alamatKampus, ambilTampil, kampusTampil } from '../../lib/konten';
+import { butirRemah } from '../../lib/navigasi';
+import { formatTanggal } from '../../lib/tanggal';
+import { alamatHttps, isiTempat } from '../../lib/teks';
+
+interface Props { bahasa: Bahasa; entri: CollectionEntry<'kampus'> }
+const { bahasa, entri } = Astro.props;
+const ui = UI[bahasa];
+const t = ui.kampusDetail;
+const d = entri.data;
+const [{ kota }, semuaAlumni, pengaturan] = await Promise.all([kampusTampil(), ambilTampil('alumni'), getEntry('pengaturan', 'pengaturan')]);
+const k = kota.get(d.id.kota.id)!;
+const namaKota = ambil<string>(k.data, 'nama', bahasa);
+const provinsi = ambil<string>(k.data, 'provinsi', bahasa);
+const nama = bahasa === 'zh' ? d.zh!.nama! : d.id.nama!;
+const namaLain = bahasa === 'zh' ? d.id.nama! : d.zh!.nama!;
+const deskripsi = bahasa === 'zh' ? d.zh!.deskripsi! : d.id.deskripsi!;
+const pasanganBahasa = { id: alamatKampus(entri, 'id'), zh: alamatKampus(entri, 'zh') };
+// Beranda › Program › Daftar Kampus › [Kota] › [Nama kampus]; butir kota membuka kelompok kotanya di Daftar Kampus.
+const remah = butirRemah(bahasa, ['program', 'kampus'], nama, pasanganBahasa[bahasa]);
+remah.splice(-1, 0, { nama: namaKota, url: `${RUTE.kampus[bahasa]}#kota-${k.id}` });
+// Isian dua bahasa opsional tampil hanya kalau dua bahasanya terisi (Model Konten aturan 1).
+const duaBahasa = (id: string[], zh?: string[]) => (id.length > 0 && (zh?.length ?? 0) > 0 ? (bahasa === 'zh' ? zh! : id) : []);
+const unggulan = duaBahasa(d.id.jurusanUnggulan, d.zh?.jurusanUnggulan);
+const beasiswa = duaBahasa(d.id.beasiswa, d.zh?.beasiswa);
+// Alumni: nama disingkat · jenjang · tahun berangkat · beasiswa (lib/kampus.ts barisAlumni, sama dengan Testimoni).
+const alumni = semuaAlumni.filter((a) => a.data.id.kampus.id === entri.id).map((a) => barisAlumni(a.data.id, bahasa, provinsi));
+const biaya = pengaturan?.data.id.tampilkanBiayaKampus && (d.id.biayaKuliah || d.id.biayaAsrama) ? {
+  kuliah: d.id.biayaKuliah ? { min: d.id.biayaKuliah, sampai: d.id.biayaKuliahSampai } : undefined,
+  asrama: d.id.biayaAsrama ? { min: d.id.biayaAsrama, sampai: d.id.biayaAsramaSampai } : undefined,
+  tahun: d.id.tahunBiaya,
+} : undefined;
+const diperbarui = entri.filePath ? tanggalUbah(entri.filePath) : undefined;
+const situs = alamatHttps(d.id.situs);
+const judulTab = `${nama}${ui.akhiranTab}`;
+---
+<Dasar bahasa={bahasa} judul={judulTab} deskripsi={deskripsi} judulWa={nama} pasanganBahasa={pasanganBahasa}>
+  <section class="bagian pembuka-kampus" aria-labelledby="judul-halaman">
+    <div class="wadah isi">
+      <Remah bahasa={bahasa} butir={remah} />
+      <div class="kepala">
+        <LogoKampus logo={d.id.logo} nama={d.id.nama!} besar />
+        <div class="nama">
+          <h1 id="judul-halaman">{nama}</h1>
+          <p class="nama-lain" lang={bahasa === 'id' ? 'zh-Hans' : undefined}>{namaLain}</p>
+          <p class="lokasi"><Ikon nama="location_on" ukuran={20} />{isiTempat(templatLokasi(t.lokasi, k.data.id), { kota: namaKota, provinsi })}</p>
+          <span class="lencana-baris">
+            <span class:list={['lencana', { 'lencana-selesai': !d.id.tujuanAlumni }]}>{d.id.tujuanAlumni ? ui.kampus.kelas.tujuanAlumni : ui.kampus.kelas.mitra}</span>
+            {d.id.jenjang.map((j) => <span class="lencana">{ui.jenjang[j]}</span>)}
+            {alumni.length > 0 && <span class="lencana lencana-sukses">{ui.kampus.alumniAda}</span>}
+            <LencanaContoh bahasa={bahasa} tampil={d.id.contoh || !d.id.logo} />
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="wadah susunan">
+    <div class="samping"><BlokBiaya bahasa={bahasa} idJudul="judul-biaya" judulWa={nama} biaya={biaya} /></div>
+    <div class="info">
+      <div class="blok"><h2>{t.tentang}</h2><p><TeksCampur bahasa={bahasa} teks={deskripsi} /></p></div>
+      {d.id.jenjang.length > 0 && (
+        <div class="blok"><h2>{t.jenjang}</h2><span class="lencana-baris">{d.id.jenjang.map((j) => <span class="lencana">{ui.jenjang[j]}</span>)}</span></div>
+      )}
+      {unggulan.length > 0 && (
+        <div class="blok"><h2 id="judul-unggulan">{t.unggulan}</h2><ul class="daftar">{unggulan.map((x) => <li><TeksCampur bahasa={bahasa} teks={x} /></li>)}</ul></div>
+      )}
+      {d.id.jurusanInggris.length > 0 && (
+        <div class="blok"><h2>{t.inggris}</h2>
+          <ul class="daftar jurusan-inggris">{d.id.jurusanInggris.map((j) => <li><span lang="en">{j.nama}</span> <span class="lencana">{ui.jenjang[j.jenjang]}</span></li>)}</ul>
+        </div>
+      )}
+      {!hanyaSma(d.id.jenjang) && <div class="blok"><h2>{t.mandarin}</h2><p>{t.mandarinKalimat}</p></div>}
+      {beasiswa.length > 0 && (
+        <div class="blok"><h2 id="judul-beasiswa">{t.beasiswa}</h2><ul class="daftar">{beasiswa.map((x) => <li><TeksCampur bahasa={bahasa} teks={x} /></li>)}</ul></div>
+      )}
+      {alumni.length > 0 && <div class="blok alumni"><h2>{t.alumni}</h2><ul class="daftar">{alumni.map((x) => <li>{x}</li>)}</ul></div>}
+      {situs && (
+        <div class="blok situs"><h2>{t.situs}</h2>
+          <a href={situs.href} target="_blank" rel="noopener" aria-label={`${situs.host}${tandaTabBaru(bahasa)}`}>{situs.host}<Ikon nama="open_in_new" ukuran={20} /></a>
+        </div>
+      )}
+      {diperbarui && <p class="kecil">{isiTempat(ui.diperbarui, { tanggal: formatTanggal(diperbarui, bahasa) })}</p>}
+    </div>
+  </div>
+  <Penutup bahasa={bahasa} teks={{ judul: isiTempat(t.penutup.judul, { nama }), kalimat: t.penutup.kalimat }} judulHalaman={nama}
+    tombol={[{ admin: 'kuliah1', teks: ui.konsultasi }]} />
+</Dasar>
+
+<style>
+  .isi { display: grid; justify-items: start; gap: var(--ruang-3); }
+  .kepala { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--ruang-3); align-items: start; }
+  .nama { display: grid; justify-items: start; gap: var(--ruang-1); }
+  .nama-lain { color: var(--teks-600); font: 400 var(--huruf-judul-4) / 1.3 var(--font-judul-han); }
+  :lang(zh) .nama-lain { font-family: var(--font-judul); }
+  .lokasi { display: flex; align-items: center; gap: var(--ruang-1); color: var(--teks-600); }
+  .susunan { display: grid; gap: var(--ruang-5); padding-bottom: var(--ruang-bagian); }
+  @media (min-width: 1024px) {
+    .susunan { grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); align-items: start; }
+    .samping { grid-column: 2; grid-row: 1; position: sticky; top: calc(var(--tinggi-bilah) + var(--ruang-3)); }
+    .info { grid-column: 1; grid-row: 1; }
+  }
+  .info { display: grid; gap: var(--ruang-5); }
+  .blok { display: grid; justify-items: start; gap: var(--ruang-2); }
+  .blok h2 { font-size: var(--huruf-judul-3); }
+  :lang(zh) .blok h2 { font-size: calc(var(--huruf-judul-3) * 0.9); }
+  .daftar { display: grid; gap: var(--ruang-1); padding-left: var(--ruang-3); list-style: disc; }
+  .situs a { display: inline-flex; align-items: center; gap: var(--ruang-1); }
+</style>

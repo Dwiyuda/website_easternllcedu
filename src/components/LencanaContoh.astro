@@ -1,0 +1,9 @@
+---
+// Label isi contoh (P1). Build final sudah ditolak gerbang contoh, jadi label ini hanya muncul di prototipe.
+import { UI } from '../i18n/ui';
+import type { Bahasa } from '../lib/dua-bahasa';
+
+interface Props { bahasa: Bahasa; tampil: boolean }
+const { bahasa, tampil } = Astro.props;
+---
+{tampil && <span class="lencana lencana-peringatan lencana-contoh">{UI[bahasa].contoh}</span>}

@@ -1,0 +1,22 @@
+id:
+  slugPinyin: zhejiang-daxue
+  nama: Zhejiang University
+  deskripsi: Zhejiang University berdiri pada 1897 di Hangzhou, Provinsi Zhejiang, Tiongkok (China). Program berbahasa Mandarin tersedia dari humaniora, sains, dan teknik sampai kedokteran dan seni, ditambah program berbahasa Inggris seperti MBBS, teknik, dan Global Communication and Management. Kampus ini juga membuka program bahasa Mandarin jangka panjang dan jangka pendek. Beasiswa yang tercatat antara lain Beasiswa Pemerintah Tiongkok dan Beasiswa Pemerintah Provinsi Zhejiang untuk program berbahasa Mandarin.
+  kota: hangzhou
+  jenjang:
+    - Bahasa
+    - S1
+  situs: https://www.zju.edu.cn/english/
+  jurusanInggris:
+    - nama: MBBS
+      jenjang: S1
+    - nama: Dual Degree Programs in International Campus
+      jenjang: S1
+    - nama: Engineering Programs (ZJU Degree Only)
+      jenjang: S1
+    - nama: Global Communication and Management
+      jenjang: S1
+  contoh: false
+zh:
+  nama: 浙江大学
+  deskripsi: 浙江大学始建于1897年，位于浙江省杭州市。中文授课专业涵盖人文、理学、工学、医学和艺术等领域，另设临床医学（MBBS）、工程和全球传播与管理等英文授课项目，以及长期和短期汉语进修项目。中文授课项目可申请中国政府奖学金和浙江省政府奖学金。

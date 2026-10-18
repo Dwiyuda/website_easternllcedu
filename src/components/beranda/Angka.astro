@@ -1,0 +1,49 @@
+---
+// Angka statistik menghitung naik saat terlihat. Angka akhir sudah ada di HTML, jadi tanpa JavaScript tetap benar.
+import LencanaContoh from '../LencanaContoh.astro';
+import type { Bahasa } from '../../lib/dua-bahasa';
+import { isiTempat } from '../../lib/teks';
+
+interface Props {
+  bahasa: Bahasa;
+  label: { berdiri: string; alumni: string; kampus: string; siswa: string };
+  nilai: { alumni: number; kampus: number; kota: number; siswa: string };
+  alumniContoh: boolean;
+}
+const { bahasa, label, nilai, alumniContoh } = Astro.props;
+---
+<section class="bagian angka">
+  <ul class="wadah kisi">
+    <li data-muncul style="--urut: 0"><span class="nilai" data-hitung="2006">2006</span><span class="ket">{label.berdiri}</span></li>
+    <li data-muncul style="--urut: 1"><span class="nilai" data-hitung={nilai.alumni}>{nilai.alumni}</span><span class="ket">{label.alumni}</span><LencanaContoh bahasa={bahasa} tampil={alumniContoh} /></li>
+    <li data-muncul style="--urut: 2"><span class="nilai" data-hitung={nilai.kampus}>{nilai.kampus}</span><span class="ket">{isiTempat(label.kampus, { kota: nilai.kota })}</span></li>
+    <li data-muncul style="--urut: 3"><span class="nilai">{nilai.siswa}</span><span class="ket">{label.siswa}</span></li>
+  </ul>
+  {/* Skrip di dalam section: elemen di antara dua .bagian memutus aturan jeda bagian sewarna (dasar.css). */}
+  <script>
+    const redup = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const pengamat = new IntersectionObserver((daftar, o) => daftar.forEach((d) => {
+      if (!d.isIntersecting) return;
+      o.unobserve(d.target);
+      const el = d.target as HTMLElement;
+      const akhir = Number(el.dataset.hitung);
+      const awal = akhir >= 1000 ? akhir - 20 : 0; // tahun 2006 naik dari 1986, bukan dari nol
+      const mulai = performance.now();
+      const langkah = (kini: number) => {
+        const t = Math.min((kini - mulai) / 900, 1);
+        el.textContent = String(Math.round(awal + (akhir - awal) * (1 - (1 - t) ** 3)));
+        if (t < 1) requestAnimationFrame(langkah);
+      };
+      requestAnimationFrame(langkah);
+    }), { rootMargin: '0px 0px -10% 0px' }); // ambang yang sama dengan data-muncul (Dasar.astro): hitung naik mulai bersamaan dengan munculnya angka
+    if (!redup) document.querySelectorAll('[data-hitung]').forEach((el) => pengamat.observe(el));
+  </script>
+</section>
+
+<style>
+  .kisi { display: grid; grid-template-columns: 1fr 1fr; gap: var(--ruang-4) var(--ruang-3); }
+  @media (min-width: 1024px) { .kisi { grid-template-columns: repeat(4, 1fr); } }
+  li { display: grid; align-content: start; justify-items: start; gap: var(--ruang-1); }
+  .nilai { min-width: 4ch; color: var(--marun-600); font: 500 var(--huruf-angka) / 1 var(--font-judul); font-variation-settings: "SOFT" 100; font-variant-numeric: tabular-nums; }
+  .ket { color: var(--teks-600); font-size: var(--huruf-kecil); line-height: 1.55; }
+</style>

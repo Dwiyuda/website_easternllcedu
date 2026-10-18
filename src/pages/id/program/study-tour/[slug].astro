@@ -1,0 +1,12 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import HalamanDetailStudyTour from '../../../../components/halaman/HalamanDetailStudyTour.astro';
+import { ambilTampil } from '../../../../lib/konten';
+
+// Satu halaman per program yang lengkap dua bahasa. Alamat = nama berkas (tahun-bulan dan nama tempat dalam pinyin), sama di dua bahasa (Rencana 3, Pertanyaan P7).
+export async function getStaticPaths() {
+  return (await ambilTampil('studyTour')).map((entri) => ({ params: { slug: entri.id }, props: { entri } }));
+}
+const { entri } = Astro.props as { entri: CollectionEntry<'studyTour'> };
+---
+<HalamanDetailStudyTour bahasa="id" entri={entri} />

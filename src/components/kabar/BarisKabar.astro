@@ -1,0 +1,48 @@
+---
+// Baris aliran kabar (MASTER.md, Aliran kabar): kotak tanggal, lencana jenis event atau kategori, judul, ringkasan dua baris (artikel)
+// atau tempat (event), sampul 4:3 di kanan untuk artikel (di HP di atas). Event di aliran ini sudah selesai: kotak krem dan lencana Selesai.
+import { Image } from 'astro:assets';
+import Ikon from '../Ikon.astro';
+import LencanaContoh from '../LencanaContoh.astro';
+import LencanaStatus from '../LencanaStatus.astro';
+import TeksCampur from '../TeksCampur.astro';
+import KotakTanggal from './KotakTanggal.astro';
+import { UI } from '../../i18n/ui';
+import type { Bahasa } from '../../lib/dua-bahasa';
+import type { BarisKabar } from '../../lib/konten';
+
+interface Props { bahasa: Bahasa; baris: BarisKabar }
+const { bahasa, baris: b } = Astro.props;
+const ui = UI[bahasa];
+---
+<a class:list={['kartu', 'baris-kabar', { 'tanpa-sampul': !b.sampul }]} href={b.url}>
+  <span class="kotak"><KotakTanggal bahasa={bahasa} tanggal={b.tanggal} satuan={b.jenis === 'artikel' ? 'bulan' : 'hari'} lewat /></span>
+  <span class="isi">
+    <span class="lencana-baris">
+      {b.jenis === 'event' && <LencanaStatus bahasa={bahasa} status="selesai" />}
+      <span class="lencana">{b.jenis === 'event' ? ui.jenisEvent[b.jenisEvent!] : ui.kategori[b.kategori!]}</span>
+      <LencanaContoh bahasa={bahasa} tampil={b.contoh} />
+    </span>
+    <span class="judul"><TeksCampur bahasa={bahasa} teks={b.judul} /></span>
+    {b.ringkasan && <span class="ringkasan"><TeksCampur bahasa={bahasa} teks={b.ringkasan} /></span>}
+    {b.tempat && <span class="tempat"><Ikon nama="location_on" ukuran={20} /><TeksCampur bahasa={bahasa} teks={b.tempat} /></span>}
+  </span>
+  {b.sampul && <span class="sampul"><Image src={b.sampul} alt="" widths={[176, 352, 720]} sizes="(min-width: 768px) 176px, 100vw" data-warna="hangat" /></span>}
+</a>
+
+<style>
+  .baris-kabar { display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-areas: 'sampul sampul' 'kotak isi'; gap: var(--ruang-2); align-items: start; height: 100%; padding: var(--ruang-2); }
+  .tanpa-sampul { grid-template-areas: 'kotak isi'; }
+  @media (min-width: 768px) {
+    .baris-kabar { grid-template-columns: auto minmax(0, 1fr) 176px; grid-template-areas: 'kotak isi sampul'; gap: var(--ruang-3); align-items: center; }
+    .tanpa-sampul { grid-template-columns: auto minmax(0, 1fr); grid-template-areas: 'kotak isi'; }
+  }
+  .kotak { grid-area: kotak; }
+  .isi { grid-area: isi; display: grid; align-content: start; gap: var(--ruang-1); min-width: 0; }
+  .sampul { grid-area: sampul; }
+  .sampul :global(img) { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius-kecil); }
+  .judul { color: var(--marun-600); font: 500 var(--huruf-judul-4) / 1.3 var(--font-judul); font-variation-settings: "SOFT" 100; }
+  :lang(zh) .judul { font-family: var(--font-judul-han); font-weight: 400; }
+  .ringkasan { color: var(--teks-600); font-size: var(--huruf-kecil); line-height: 1.55; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .tempat { display: flex; align-items: center; gap: var(--ruang-1); color: var(--teks-600); font-size: var(--huruf-kecil); }
+</style>

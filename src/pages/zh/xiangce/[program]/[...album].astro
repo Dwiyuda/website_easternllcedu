@@ -1,0 +1,19 @@
+---
+import '../../../../styles/font-han.css';
+import type { CollectionEntry } from 'astro:content';
+import HalamanAlbum from '../../../../components/halaman/HalamanAlbum.astro';
+import { bagiHalaman, segmenProgram } from '../../../../lib/galeri';
+import { albumTampil } from '../../../../lib/konten';
+import { slugZh } from '../../../../lib/slug';
+import { hariIniJakarta } from '../../../../lib/tanggal';
+
+// Alamat 中文 = slug pinyin (isian atau otomatis dari judul 中文, Model Konten aturan 3), halaman lanjutan …/<slug>/2.
+export async function getStaticPaths() {
+  return (await albumTampil(hariIniJakarta())).flatMap((entri) => bagiHalaman(entri.data.id.foto).map((_, i) => ({
+    params: { program: segmenProgram(entri.data.id.program, 'zh'), album: i === 0 ? slugZh(entri.data) : `${slugZh(entri.data)}/${i + 1}` },
+    props: { entri, halaman: i + 1 },
+  })));
+}
+const { entri, halaman } = Astro.props as { entri: CollectionEntry<'album'>; halaman: number };
+---
+<HalamanAlbum bahasa="zh" entri={entri} halaman={halaman} />

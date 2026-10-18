@@ -1,0 +1,10 @@
+id:
+  nama: "Xi'an"
+  provinsi: Shaanxi
+  lon: 108.94
+  lat: 34.34
+  label: kanan
+  contoh: false
+zh:
+  nama: 西安
+  provinsi: 陕西省

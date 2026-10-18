@@ -1,0 +1,30 @@
+---
+// Remah tautan di pembuka (MASTER.md, Pembuka halaman program dan Pembuka ringkas) dan jejak navigasi untuk Google.
+// Daftar biasa, bukan landmark nav: tidak butuh label baru di luar naskah.
+// Nama butir (judul halaman, nama kota, nama kampus) bisa diubah staf: lewat TeksCampur supaya Han di halaman Indonesia ber-lang zh.
+// Butir terakhir dibungkus <span>: li inline-flex ber-gap, jadi teks dan <span lang> lepas akan berjarak.
+import Ikon from '../Ikon.astro';
+import TeksCampur from '../TeksCampur.astro';
+import { jejak, jsonAman } from '../../lib/data-terstruktur';
+import type { Bahasa } from '../../lib/dua-bahasa';
+import type { ButirRemah } from '../../lib/navigasi';
+
+interface Props { bahasa: Bahasa; butir: ButirRemah[]; terang?: boolean }
+const { bahasa, butir, terang = false } = Astro.props;
+---
+<ol class:list={['remah', { terang }]}>
+  {butir.map((b, i) => (i < butir.length - 1
+    ? <li><a href={b.url}><TeksCampur bahasa={bahasa} teks={b.nama} /></a><Ikon nama="chevron_right" ukuran={20} /></li>
+    : <li aria-current="page"><span><TeksCampur bahasa={bahasa} teks={b.nama} /></span></li>))}
+</ol>
+<script is:inline type="application/ld+json" set:html={jsonAman(jejak(Astro.site!.href, butir))} />
+
+<style>
+  .remah { display: flex; flex-wrap: wrap; align-items: center; gap: var(--ruang-1); font-size: var(--huruf-kecil); line-height: 1.55; }
+  li { display: inline-flex; align-items: center; gap: var(--ruang-1); }
+  li[aria-current] { color: var(--teks-900); }
+  .terang a { color: var(--peach-100); }
+  .terang a:hover { color: var(--kartu-100); }
+  .terang a:focus-visible { outline-color: var(--peach-100); }
+  .terang li[aria-current] { color: var(--kartu-100); }
+</style>

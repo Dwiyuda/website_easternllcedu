@@ -1,0 +1,1123 @@
+# Panel admin Eastern LLC, Sveltia CMS 0.233.1. Label dan petunjuk berbahasa Indonesia (Model Konten aturan 8).
+# Isian bertanda "wajib untuk tampil" sengaja tidak dikunci: entri boleh disimpan walau satu bahasa belum lengkap,
+# lalu tertahan sampai lengkap (aturan 1). Nomor WhatsApp dan legalitas tidak ada di sini, hanya di kode.
+backend:
+  name: github
+  repo: Dwiyuda/website_easternllcedu
+  branch: main
+site_url: https://contoh.example
+# Tidak dipakai isian gambar mana pun: setiap koleksi bergambar punya media_folder dan public_folder sendiri (tes cms).
+media_folder: src/assets/media
+public_folder: /src/assets/media
+# Isian opsional yang kosong tidak ditulis ke berkas (mis. situs, selesai, tahun). Kuncinya harus di bawah output:
+# di tingkat atas Sveltia 0.233.1 mengabaikannya dan tetap menulis ''. Skema (content.config.ts) tetap menerima '' dan null.
+output:
+  omit_empty_optional_fields: true
+media_libraries:
+  # Foto stok (Lorem Picsum, Pexels, Pixabay, Unsplash) dimatikan: hanya foto asli Eastern yang boleh dipasang.
+  stock_assets:
+    providers: []
+  default:
+    config:
+      transformations:
+        raster_image:
+          format: webp
+          quality: 85
+          width: 2400
+          height: 2400
+i18n:
+  structure: single_file
+  locales: [id, zh]
+  default_locale: id
+
+collections:
+  - name: halaman
+    label: Halaman
+    i18n: true
+    files:
+      - name: beranda
+        label: Beranda
+        file: src/content/halaman/beranda.yaml
+        i18n: true
+        fields:
+          - { name: siswa, label: Jumlah siswa, widget: string, hint: 'Contoh: 200+' }
+          - name: seo
+            label: Judul dan deskripsi untuk Google
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul, widget: string, i18n: true }
+              - { name: deskripsi, label: Deskripsi, widget: text, i18n: true }
+          - name: pembuka
+            label: Pembuka
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul, widget: string, i18n: true }
+              - { name: kalimat, label: Kalimat, widget: text, i18n: true }
+              - { name: tombol, label: Tombol, widget: string, i18n: true }
+          - name: angka
+            label: Label angka
+            widget: object
+            i18n: true
+            hint: '{kota} diganti jumlah kota secara otomatis.'
+            fields:
+              - { name: berdiri, label: Tahun berdiri, widget: string, i18n: true }
+              - { name: alumni, label: Alumni, widget: string, i18n: true }
+              - { name: kampus, label: Kampus, widget: string, i18n: true }
+              - { name: siswa, label: Siswa, widget: string, i18n: true }
+          - name: program
+            label: Program
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul bagian, widget: string, i18n: true }
+              - name: kartu
+                label: Kartu program (Kursus Bahasa, Kelas Kerja Sama, Study Tour, Kuliah ke Tiongkok)
+                widget: list
+                i18n: true
+                allow_add: false
+                min: 4
+                max: 4
+                fields:
+                  - { name: judul, label: Judul, widget: string, i18n: true }
+                  - { name: kalimat, label: Kalimat, widget: text, i18n: true }
+          - name: kenapa
+            label: Kenapa Eastern LLC
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul bagian, widget: string, i18n: true }
+              - { name: kalimat, label: Kalimat, widget: text, i18n: true }
+              - name: alasan
+                label: Delapan alasan
+                widget: list
+                i18n: true
+                allow_add: false
+                min: 8
+                max: 8
+                fields:
+                  - { name: judul, label: Alasan, widget: string, i18n: true }
+                  - { name: bukti, label: Bukti, widget: text, i18n: true }
+          - name: kampus
+            label: Kampus mitra
+            widget: object
+            i18n: true
+            hint: '{kampus} dan {kota} diganti jumlahnya secara otomatis.'
+            fields:
+              - { name: judul, label: Judul bagian, widget: string, i18n: true }
+              - { name: kalimat, label: Kalimat, widget: text, i18n: true }
+              - { name: tautan, label: Teks tautan, widget: string, i18n: true }
+          - name: alumni
+            label: Alumni dan beasiswa
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul bagian, widget: string, i18n: true }
+              - { name: kalimat, label: Kalimat, widget: text, i18n: true }
+              - { name: tautan, label: Teks tautan, widget: string, i18n: true }
+          - name: kabar
+            label: Kabar dan event
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul bagian, widget: string, i18n: true }
+              - { name: tautan, label: Teks tautan, widget: string, i18n: true }
+          - name: sekolah
+            label: Kelas di sekolah dan perusahaan
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul bagian, widget: string, i18n: true }
+              - { name: kalimat, label: Kalimat, widget: text, i18n: true }
+          - name: legalitas
+            label: Legalitas
+            widget: object
+            i18n: true
+            hint: Nomor NIB dan izin diatur pengembang, tidak di sini.
+            fields:
+              - { name: judul, label: Judul bagian, widget: string, i18n: true }
+              - { name: tautan, label: Teks tautan, widget: string, i18n: true }
+          - name: penutup
+            label: Penutup
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul, widget: string, i18n: true }
+              - { name: kalimat, label: Kalimat, widget: text, i18n: true }
+      - name: halamanKursus
+        label: Kursus Bahasa
+        file: src/content/halaman/kursus.yaml
+        i18n: true
+        fields:
+          - name: seo
+            label: Judul dan deskripsi untuk Google
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul, widget: string, i18n: true }
+              - { name: deskripsi, label: Deskripsi, widget: text, i18n: true }
+          - name: pembuka
+            label: Pembuka
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul, widget: string, i18n: true }
+              - { name: kalimat, label: Kalimat, widget: text, i18n: true }
+              - { name: foto, label: Keterangan foto, widget: string, i18n: true, required: false, hint: 'Apa yang terlihat di foto. Tampil hanya kalau Indonesia dan 中文 terisi.' }
+          - name: navigasi
+            label: Navigasi bagian (enam judul pendek, urut)
+            widget: list
+            i18n: true
+            allow_add: false
+            min: 6
+            max: 6
+            field: { name: teks, label: Label, widget: string, i18n: true }
+          - name: belajar
+            label: Offline dan online
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul bagian, widget: string, i18n: true }
+              - name: kartu
+                label: Dua kartu (Offline, Online)
+                widget: list
+                i18n: true
+                allow_add: false
+                min: 2
+                max: 2
+                fields:
+                  - { name: judul, label: Judul, widget: string, i18n: true }
+                  - { name: bukti, label: Kalimat, widget: text, i18n: true }
+          - name: jenjang
+            label: Jenjang
+            widget: object
+            i18n: true
+            hint: Isi keempat jenjang diatur di Jenjang Kursus.
+            fields:
+              - { name: judul, label: Judul bagian, widget: string, i18n: true }
+              - { name: hsk, label: Penjelasan HSK, widget: text, i18n: true }
+              - { name: kalimat, label: Kalimat, widget: text, i18n: true }
+          - name: jadwal
+            label: Kelas reguler dan weekend
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul bagian, widget: string, i18n: true }
+              - { name: kalimat, label: Kalimat, widget: text, i18n: true }
+          - name: inggris
+            label: Kursus Bahasa Inggris
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul bagian, widget: string, i18n: true }
+              - { name: kalimat, label: Kalimat, widget: text, i18n: true }
+          - name: karya
+            label: Karya siswa
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul, widget: string, i18n: true }
+              - { name: kalimat, label: Kalimat, widget: text, i18n: true }
+              - { name: tautan, label: Teks tautan, widget: string, i18n: true }
+          - name: tanya
+            label: Tanya jawab
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul bagian, widget: string, i18n: true }
+              - name: daftar
+                label: Tujuh pertanyaan
+                widget: list
+                i18n: true
+                allow_add: false
+                min: 7
+                max: 7
+                fields:
+                  - { name: tanya, label: Pertanyaan, widget: string, i18n: true }
+                  - { name: jawab, label: Jawaban, widget: text, i18n: true }
+          - name: penutup
+            label: Penutup
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul, widget: string, i18n: true }
+              - { name: kalimat, label: Kalimat, widget: text, i18n: true }
+      - name: halamanKerjaSama
+        label: Kelas Kerja Sama
+        file: src/content/halaman/kerja-sama.yaml
+        i18n: true
+        fields:
+          - name: seo
+            label: Judul dan deskripsi untuk Google
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul, widget: string, i18n: true }
+              - { name: deskripsi, label: Deskripsi, widget: text, i18n: true }
+          - name: pembuka
+            label: Pembuka
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul, widget: string, i18n: true }
+              - { name: kalimat, label: Kalimat, widget: text, i18n: true }
+              - { name: foto, label: Keterangan foto, widget: string, i18n: true, required: false, hint: 'Apa yang terlihat di foto. Tampil hanya kalau Indonesia dan 中文 terisi.' }
+          - name: sekolah
+            label: Untuk sekolah
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul bagian, widget: string, i18n: true }
+              - { name: kalimat, label: Kalimat, widget: text, i18n: true }
+              - { name: butir, label: Tiga butir layanan, widget: list, i18n: true, allow_add: false, min: 3, max: 3, field: { name: teks, label: Butir, widget: string, i18n: true } }
+              - { name: foto, label: Keterangan foto, widget: string, i18n: true }
+          - name: perusahaan
+            label: Untuk perusahaan
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul bagian, widget: string, i18n: true }
+              - { name: kalimat, label: Kalimat, widget: text, i18n: true }
+              - { name: klien, label: Kalimat perusahaan, widget: text, i18n: true, hint: 'Ditulis sebagai pernah mengadakan kelas, bukan kerja sama.' }
+              - { name: foto, label: Keterangan foto, widget: string, i18n: true }
+          - name: penutup
+            label: Penutup
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul, widget: string, i18n: true }
+              - { name: kalimat, label: Kalimat, widget: text, i18n: true }
+      - name: halamanStudyTour
+        label: Study Tour
+        file: src/content/halaman/study-tour.yaml
+        i18n: true
+        fields:
+          - name: seo
+            label: Judul dan deskripsi untuk Google
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul, widget: string, i18n: true }
+              - { name: deskripsi, label: Deskripsi, widget: text, i18n: true }
+          - name: pembuka
+            label: Pembuka
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul, widget: string, i18n: true }
+              - { name: kalimat, label: Kalimat, widget: text, i18n: true }
+              - { name: foto, label: Keterangan foto, widget: string, i18n: true, required: false, hint: 'Apa yang terlihat di foto. Tampil hanya kalau Indonesia dan 中文 terisi.' }
+          - name: navigasi
+            label: Navigasi bagian (lima judul pendek, urut)
+            widget: list
+            i18n: true
+            allow_add: false
+            min: 5
+            max: 5
+            field: { name: teks, label: Label, widget: string, i18n: true }
+          - name: jenis
+            label: Jenis program
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul bagian, widget: string, i18n: true }
+              - name: kartu
+                label: Tiga kartu (Summer dan Winter Camp, Campus Tour, Culture Experience Tour)
+                widget: list
+                i18n: true
+                allow_add: false
+                min: 3
+                max: 3
+                fields:
+                  - { name: judul, label: Jenis, widget: string, i18n: true }
+                  - { name: bukti, label: Kalimat, widget: text, i18n: true }
+          - name: program
+            label: Daftar program
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul bagian, widget: string, i18n: true }
+          - name: detail
+            label: Label di halaman detail program
+            widget: object
+            i18n: true
+            fields:
+              - { name: termasuk, label: Yang termasuk, widget: string, i18n: true }
+              - { name: jadwal, label: Jadwal per hari, widget: string, i18n: true }
+              - { name: biaya, label: Biaya, widget: string, i18n: true }
+          - name: penutup
+            label: Penutup
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul, widget: string, i18n: true }
+              - { name: kalimat, label: Kalimat, widget: text, i18n: true }
+      - name: halamanKuliah
+        label: Kuliah ke Tiongkok
+        file: src/content/halaman/kuliah.yaml
+        i18n: true
+        fields:
+          - name: seo
+            label: Judul dan deskripsi untuk Google
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul, widget: string, i18n: true }
+              - { name: deskripsi, label: Deskripsi, widget: text, i18n: true }
+          - name: pembuka
+            label: Pembuka
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul, widget: string, i18n: true }
+              - { name: kalimat, label: Kalimat, widget: text, i18n: true }
+              - { name: foto, label: Keterangan foto, widget: string, i18n: true, required: false, hint: 'Apa yang terlihat di foto. Tampil hanya kalau Indonesia dan 中文 terisi.' }
+              - { name: angka, label: Baris angka, widget: string, i18n: true, hint: '{alumni}, {kampus}, dan {kota} diganti jumlahnya secara otomatis. Tulis persis seperti ini: salah ketik membuat website gagal diperbarui.' }
+          - name: navigasi
+            label: Navigasi bagian (delapan judul pendek, urut)
+            widget: list
+            i18n: true
+            allow_add: false
+            min: 8
+            max: 8
+            field: { name: teks, label: Label, widget: string, i18n: true }
+          - name: tiongkok
+            label: Kenapa kuliah di Tiongkok
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul bagian, widget: string, i18n: true }
+              - { name: kalimat, label: Kalimat, widget: text, i18n: true }
+              - name: alasan
+                label: Empat alasan
+                widget: list
+                i18n: true
+                allow_add: false
+                min: 4
+                max: 4
+                fields:
+                  - { name: judul, label: Alasan, widget: string, i18n: true }
+                  - { name: bukti, label: Bukti, widget: text, i18n: true, hint: 'Kalau teks memuat {inggris}, tanda itu diganti jumlah kampus yang membuka jurusan berbahasa Inggris. Tulis persis seperti ini: salah ketik membuat website gagal diperbarui.' }
+          - name: layanan
+            label: Layanan
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul bagian, widget: string, i18n: true }
+              - { name: kalimat, label: Kalimat, widget: text, i18n: true }
+              - name: langkah
+                label: Lima tahap
+                widget: list
+                i18n: true
+                allow_add: false
+                min: 5
+                max: 5
+                fields:
+                  - { name: judul, label: Tahap, widget: string, i18n: true }
+                  - { name: kalimat, label: Penjelasan, widget: text, i18n: true }
+              - { name: tautan, label: Teks tautan ke Cara Mendaftar, widget: string, i18n: true }
+          - name: jenjang
+            label: Jenjang kuliah
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul bagian, widget: string, i18n: true }
+              - name: kartu
+                label: Lima jenjang (SMA, Bahasa, Diploma, S1, S2)
+                widget: list
+                i18n: true
+                allow_add: false
+                min: 5
+                max: 5
+                fields:
+                  - { name: judul, label: Jenjang, widget: string, i18n: true }
+                  - { name: bukti, label: Kalimat, widget: text, i18n: true }
+          - name: alumni
+            label: Alumni
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul bagian, widget: string, i18n: true }
+              - { name: kalimat, label: Kalimat tambahan, widget: text, i18n: true, hint: 'Tampil di belakang kalimat alumni Beranda, yang diubah di form Beranda. Ganti tiap tahun, misalnya bulan berangkat rombongan berikutnya.' }
+              - { name: tautan, label: Teks tautan, widget: string, i18n: true }
+          - name: info
+            label: Info session
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul bagian, widget: string, i18n: true }
+              - { name: kalimat, label: Kalimat, widget: text, i18n: true }
+          - name: penutup
+            label: Penutup
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul, widget: string, i18n: true }
+              - { name: kalimat, label: Kalimat, widget: text, i18n: true }
+              - { name: tautan, label: Teks tautan ke Cara Mendaftar, widget: string, i18n: true }
+      - name: halamanCaraMendaftar
+        label: Cara Mendaftar
+        file: src/content/halaman/cara-mendaftar.yaml
+        i18n: true
+        fields:
+          - { name: cscaDiperbarui, label: Tanggal aturan CSCA dicek, widget: datetime, format: YYYY-MM-DD, time_format: false, hint: 'Isi tanggal setiap aturan CSCA dicek admin kuliah.' }
+          - name: seo
+            label: Judul dan deskripsi untuk Google
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul, widget: string, i18n: true }
+              - { name: deskripsi, label: Deskripsi, widget: text, i18n: true }
+          - name: pembuka
+            label: Pembuka
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul, widget: string, i18n: true }
+              - { name: kalimat, label: Kalimat, widget: text, i18n: true }
+              - { name: foto, label: Keterangan foto, widget: string, i18n: true, required: false, hint: 'Halaman ini tanpa foto pembuka; biarkan kosong.' }
+          - name: langkah
+            label: Enam langkah
+            widget: list
+            i18n: true
+            allow_add: false
+            min: 6
+            max: 6
+            fields:
+              - { name: judul, label: Langkah, widget: string, i18n: true }
+              - { name: kalimat, label: Kalimat, widget: text, i18n: true }
+          - name: dokumen
+            label: Dokumen umum
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul bagian, widget: string, i18n: true }
+              - { name: kalimat, label: Kalimat, widget: text, i18n: true }
+              - name: daftar
+                label: Empat belas dokumen
+                widget: list
+                i18n: true
+                allow_add: false
+                min: 14
+                max: 14
+                fields:
+                  - { name: nama, label: Dokumen, widget: string, i18n: true }
+                  - { name: bahasa, label: Bahasa dokumen, widget: string, i18n: true, required: false, hint: 'Contoh: Inggris atau Mandarin / 英文或中文. Kosongkan kalau tidak ada syarat bahasa.' }
+          - name: tambahan
+            label: Tambahan per kampus
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul bagian, widget: string, i18n: true }
+              - { name: kalimat, label: Kalimat, widget: text, i18n: true }
+              - { name: singkatan, label: Arti singkatan, widget: text, i18n: true }
+              - name: kampus
+                label: Tujuh kampus
+                widget: list
+                i18n: true
+                allow_add: false
+                min: 7
+                max: 7
+                fields:
+                  - { name: nama, label: Nama kampus, widget: string, i18n: true, hint: 'Nama Inggris dan 中文, contoh: Zhejiang University · 浙江大学' }
+                  - { name: dokumen, label: Dokumen tambahan, widget: list, i18n: true, min: 1 }
+          - name: csca
+            label: Catatan CSCA
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul, widget: string, i18n: true }
+              - { name: isi, label: Isi, widget: text, i18n: true }
+          - name: penutup
+            label: Penutup
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul, widget: string, i18n: true }
+              - { name: kalimat, label: Kalimat, widget: text, i18n: true }
+      - name: halamanTanyaJawab
+        label: Tanya Jawab
+        file: src/content/halaman/tanya-jawab.yaml
+        i18n: true
+        fields:
+          - name: seo
+            label: Judul dan deskripsi untuk Google
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul, widget: string, i18n: true }
+              - { name: deskripsi, label: Deskripsi, widget: text, i18n: true }
+          - name: pembuka
+            label: Pembuka
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul, widget: string, i18n: true }
+              - { name: kalimat, label: Kalimat, widget: text, i18n: true }
+          - name: tanya
+            label: Sepuluh pertanyaan
+            widget: list
+            i18n: true
+            allow_add: false
+            min: 10
+            max: 10
+            fields:
+              - { name: tanya, label: Pertanyaan, widget: string, i18n: true }
+              - { name: jawab, label: Jawaban, widget: text, i18n: true }
+          - name: penutup
+            label: Penutup
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul, widget: string, i18n: true }
+              - { name: kalimat, label: Kalimat, widget: text, i18n: true }
+      - name: halamanTestimoni
+        label: Testimoni
+        file: src/content/halaman/testimoni.yaml
+        i18n: true
+        fields:
+          - name: seo
+            label: Judul dan deskripsi untuk Google
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul, widget: string, i18n: true }
+              - { name: deskripsi, label: Deskripsi, widget: text, i18n: true }
+          - name: pembuka
+            label: Pembuka
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul, widget: string, i18n: true }
+              - { name: kalimat, label: Kalimat, widget: text, i18n: true }
+          - name: video
+            label: Video testimoni
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul bagian, widget: string, i18n: true }
+          - name: kutipan
+            label: Kutipan
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul bagian, widget: string, i18n: true }
+          - name: alumni
+            label: Alumni dan beasiswa
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul bagian, widget: string, i18n: true }
+              - { name: kalimat, label: Kalimat, widget: text, i18n: true, hint: '{alumni} dan {kampus} terisi otomatis dari koleksi Alumni & Beasiswa. Tahun angkatan ditulis sendiri, misalnya 2024–2025, dan diperbarui saat angkatan baru masuk.' }
+          - name: karya
+            label: Karya siswa
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul, widget: string, i18n: true }
+              - { name: kalimat, label: Kalimat, widget: text, i18n: true }
+          - name: camp
+            label: Testimoni camp
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul bagian, widget: string, i18n: true }
+          - name: penutup
+            label: Penutup
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul, widget: string, i18n: true }
+              - { name: kalimat, label: Kalimat, widget: text, i18n: true }
+      - name: halamanTentang
+        label: Tentang Kami
+        file: src/content/halaman/tentang.yaml
+        i18n: true
+        fields:
+          - name: seo
+            label: Judul dan deskripsi untuk Google
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul, widget: string, i18n: true }
+              - { name: deskripsi, label: Deskripsi, widget: text, i18n: true }
+          - name: pembuka
+            label: Pembuka
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul, widget: string, i18n: true }
+              - { name: kalimat, label: Kalimat, widget: text, i18n: true }
+              - { name: foto, label: Keterangan foto, widget: string, i18n: true, required: false, hint: 'Apa yang terlihat di foto. Tampil hanya kalau Indonesia dan 中文 terisi.' }
+          - name: legalitas
+            label: Legalitas
+            widget: object
+            i18n: true
+            hint: 'Nomor NIB, izin, masa berlaku, badan usaha, dan layanan hanya bisa diubah pengembang.'
+            fields:
+              - { name: judul, label: Judul kartu, widget: string, i18n: true }
+          - name: profil
+            label: Profil
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul bagian, widget: string, i18n: true }
+              - { name: paragraf, label: Dua paragraf, widget: list, i18n: true, allow_add: false, min: 2, max: 2, field: { name: teks, label: Paragraf, widget: text, i18n: true } }
+              - { name: nama, label: Penjelasan nama, widget: string, i18n: true }
+          - name: pendiri
+            label: Pesan pendiri
+            widget: object
+            i18n: true
+            hint: 'Tersembunyi sampai nama dan pesan terisi dua bahasa. Foto pendiri dipasang pengembang.'
+            fields:
+              - { name: judul, label: Judul bagian, widget: string, i18n: true }
+              - { name: nama, label: Nama, widget: string, required: false }
+              - { name: sebutan, label: Sebutan, widget: string, i18n: true, required: false, hint: 'Misalnya Pendiri dan kepala lembaga.' }
+              - { name: pesan, label: Pesan (2–4 kalimat), widget: text, i18n: true, required: false, hint: 'Ditulis cece sendiri. 中文 diterjemahkan lalu diperiksa laoshi.' }
+          - name: sejarah
+            label: Sejarah (linimasa)
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul bagian, widget: string, i18n: true }
+              - name: butir
+                label: Enam butir, urut tahun
+                widget: list
+                i18n: true
+                allow_add: false
+                min: 6
+                max: 6
+                fields:
+                  - { name: tahun, label: Tahun, widget: string, hint: 'Contoh 2006 atau 2023–2026.' }
+                  - { name: judul, label: Judul, widget: string, i18n: true }
+                  - { name: teks, label: Teks, widget: text, i18n: true }
+          - name: visi
+            label: Visi dan misi
+            widget: object
+            i18n: true
+            hint: 'Tersembunyi kalau visi kosong di salah satu bahasa.'
+            fields:
+              - { name: judul, label: Judul bagian, widget: string, i18n: true }
+              - { name: visi, label: Visi, widget: text, i18n: true, required: false }
+              - { name: misi, label: Misi, widget: list, i18n: true, required: false, field: { name: teks, label: Butir misi, widget: text, i18n: true } }
+          - { name: visiContoh, label: Visi dan misi masih contoh, widget: boolean, default: false, required: false, hint: 'Matikan setelah rumusan resmi Eastern dipasang. Website tidak bisa tayang di domain final selama masih menyala.' }
+          - name: tim
+            label: Tim
+            widget: object
+            i18n: true
+            hint: 'Anggota tim diisi di koleksi Tim.'
+            fields:
+              - { name: judul, label: Judul bagian, widget: string, i18n: true }
+              - name: daftar
+                label: Empat tim
+                widget: list
+                i18n: true
+                allow_add: false
+                min: 4
+                max: 4
+                fields:
+                  - { name: tim, label: Tim, widget: select, options: [{ label: Learning Advisor, value: learning-advisor }, { label: Guru Pengajar, value: guru }, { label: Pengembangan Kurikulum, value: kurikulum }, { label: IT dan Media, value: it-media }] }
+                  - { name: nama, label: Nama tim, widget: string, i18n: true }
+                  - { name: penjelasan, label: Penjelasan, widget: text, i18n: true }
+          - name: fasilitas
+            label: Kantor dan ruang belajar
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul bagian, widget: string, i18n: true }
+              - name: foto
+                label: Keterangan dua foto (rak buku, ruang kelas)
+                widget: list
+                i18n: true
+                allow_add: false
+                min: 2
+                max: 2
+                fields:
+                  - { name: apa, label: Apa, widget: string, i18n: true }
+                  - { name: kapan, label: Di mana · kapan, widget: string, i18n: true }
+          - name: penutup
+            label: Penutup
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul, widget: string, i18n: true }
+      - name: halamanKontak
+        label: Kontak
+        file: src/content/halaman/kontak.yaml
+        i18n: true
+        fields:
+          - name: seo
+            label: Judul dan deskripsi untuk Google
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul, widget: string, i18n: true }
+              - { name: deskripsi, label: Deskripsi, widget: text, i18n: true }
+          - name: pembuka
+            label: Pembuka
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul, widget: string, i18n: true }
+              - { name: kalimat, label: Kalimat, widget: text, i18n: true }
+          - name: kantor
+            label: Kantor
+            widget: object
+            i18n: true
+            hint: 'Alamat, jam buka, dan titik peta hanya bisa diubah pengembang.'
+            fields:
+              - { name: judul, label: Judul kolom, widget: string, i18n: true }
+              - { name: foto, label: Keterangan foto gedung, widget: string, i18n: true }
+              - { name: peta, label: Teks tautan peta, widget: string, i18n: true }
+          - name: admin
+            label: Admin WhatsApp
+            widget: object
+            i18n: true
+            hint: 'Nomor dan nama layanan admin hanya bisa diubah pengembang.'
+            fields:
+              - { name: judul, label: Judul kolom, widget: string, i18n: true }
+              - { name: kalimat, label: Kalimat, widget: text, i18n: true }
+              - { name: salin, label: Teks tombol salin nomor, widget: string, i18n: true }
+              - { name: email, label: Kalimat di bawah email, widget: string, i18n: true }
+          - name: sosial
+            label: Media sosial
+            widget: object
+            i18n: true
+            fields:
+              - { name: judul, label: Judul, widget: string, i18n: true }
+          - name: legalitas
+            label: Legalitas ringkas
+            widget: object
+            i18n: true
+            fields:
+              - { name: tautan, label: Teks tautan ke legalitas lengkap, widget: string, i18n: true }
+
+  - name: jenjang
+    label: Jenjang Kursus
+    i18n: true
+    files:
+      - name: jenjang
+        label: Empat jenjang kursus
+        file: src/content/halaman/jenjang.yaml
+        i18n: true
+        fields:
+          - { name: tampilkanHarga, label: Tampilkan harga di website, widget: boolean, default: false, required: false, hint: 'Bawaan mati. Satu sakelar untuk keempat jenjang.' }
+          - { name: contoh, label: Isi contoh, widget: boolean, default: false, required: false, hint: 'Centang kalau isi ini hanya contoh untuk prototipe. Website tidak bisa tayang di domain final selama masih ada isi contoh.' }
+          - name: daftar
+            label: Jenjang (Basic, Intermediate, Upper Intermediate, Advanced)
+            widget: list
+            i18n: true
+            allow_add: false
+            min: 4
+            max: 4
+            fields:
+              - { name: nama, label: Nama jenjang, widget: string, i18n: true, hint: 'Contoh: Basic / 初级' }
+              - { name: target, label: Target HSK, widget: string, hint: 'Contoh: HSK 1–3' }
+              - { name: pertemuan, label: Pertemuan, widget: string, i18n: true, hint: 'Contoh: 16 kali per bulan' }
+              - { name: lama, label: Lama belajar, widget: string, i18n: true, hint: 'Contoh: 4 bulan' }
+              - { name: isi, label: Isi, widget: string, i18n: true }
+              - { name: hargaReguler, label: Harga kelas reguler (Rp), widget: number, value_type: int, required: false }
+              - { name: hargaWeekend, label: Harga kelas weekend (Rp), widget: number, value_type: int, required: false }
+
+  - name: studyTour
+    label: Program Study Tour
+    label_singular: Program
+    description: 'Entri yang salah satu bahasanya belum lengkap tersimpan, tapi belum tampil di website. Daftarnya di halaman /entri-tertahan.'
+    folder: src/content/study-tour
+    extension: yaml
+    format: yaml
+    create: true
+    i18n: true
+    identifier_field: judul
+    slug: "{{mulai | date('YYYY-MM')}}-{{slug}}"
+    summary: '{{mulai}} · {{judul}}'
+    media_folder: media
+    public_folder: ./media
+    fields:
+      - { name: judul, label: Judul (wajib untuk tampil), widget: string, i18n: true, required: false, hint: 'Tanpa tahun atau tanggal. Saat program pertama kali disimpan, alamat halamannya dibentuk dari tahun-bulan tanggal mulai dan judul ini (misalnya 2027-06-guangxi-summer-camp), jadi pakai judul pendek berisi nama tempat. Tab Indonesia tanpa aksara Han; entri dengan aksara Han di sini tertahan (lihat /entri-tertahan).' }
+      - { name: ringkasan, label: Ringkasan, widget: text, i18n: true, required: false, hint: 'Satu kalimat isi program.' }
+      - { name: jenis, label: Jenis program, widget: select, options: [{ label: Summer Camp, value: summer-camp }, { label: Winter Camp, value: winter-camp }, { label: Campus Tour, value: campus-tour }, { label: Culture Experience Tour, value: culture-experience }] }
+      - { name: mulai, label: Tanggal mulai, widget: datetime, format: YYYY-MM-DD, time_format: false }
+      - { name: selesai, label: Tanggal selesai, widget: datetime, format: YYYY-MM-DD, time_format: false }
+      - { name: kota, label: Rute kota, widget: relation, collection: kota, value_field: '{{slug}}', search_fields: [nama], display_fields: [nama], multiple: true, required: false, hint: 'Urut sesuai perjalanan.' }
+      - { name: termasuk, label: Yang termasuk, widget: list, i18n: true, required: false, hint: 'Satu butir per baris, misalnya Visa.' }
+      - name: itinerary
+        label: Jadwal per hari
+        widget: list
+        i18n: true
+        required: false
+        hint: 'Satu butir per hari, urut dari hari pertama. Tanggal tiap hari dihitung otomatis dari tanggal mulai.'
+        fields:
+          - { name: judul, label: Kegiatan, widget: string, i18n: true }
+          - { name: isi, label: Keterangan, widget: text, i18n: true, required: false }
+      - { name: harga, label: Harga (Rp), widget: number, value_type: int, required: false, hint: 'Disimpan untuk admin. Tampil hanya kalau sakelar di bawah dinyalakan.' }
+      - { name: tampilkanHarga, label: Tampilkan harga di website, widget: boolean, default: false, required: false }
+      - { name: sampul, label: Foto sampul, widget: image, choose_url: false, hint: 'Foto mendatar dari program ini.' }
+      - { name: contoh, label: Isi contoh, widget: boolean, default: false, required: false, hint: 'Centang kalau isi ini hanya contoh untuk prototipe. Website tidak bisa tayang di domain final selama masih ada isi contoh.' }
+
+  - name: kota
+    label: Kota
+    label_singular: Kota
+    description: 'Entri yang salah satu bahasanya belum lengkap tersimpan, tapi belum tampil di website. Daftarnya di halaman /entri-tertahan.'
+    folder: src/content/kota
+    extension: yaml
+    format: yaml
+    create: true
+    i18n: true
+    identifier_field: nama
+    slug: '{{slug}}'
+    summary: '{{nama}}'
+    fields:
+      - { name: nama, label: Nama kota (wajib untuk tampil), widget: string, i18n: true, required: false, hint: 'Contoh: Hangzhou / 杭州. Tab Indonesia tanpa aksara Han; entri dengan aksara Han di sini tertahan (lihat /entri-tertahan).' }
+      - { name: provinsi, label: Provinsi (wajib untuk tampil), widget: string, i18n: true, required: false, hint: 'Contoh: Zhejiang / 浙江省. Tab Indonesia tanpa aksara Han; entri dengan aksara Han di sini tertahan (lihat /entri-tertahan).' }
+      - { name: lon, label: Bujur, widget: number, value_type: float, hint: 'Dari Google Maps, contoh 120.16' }
+      - { name: lat, label: Lintang, widget: number, value_type: float, hint: 'Dari Google Maps, contoh 30.27' }
+      - { name: label, label: Letak nama kota di peta, widget: select, default: kanan, required: false, options: [{ label: Kanan titik, value: kanan }, { label: Kiri titik, value: kiri }, { label: Bawah titik, value: bawah }] }
+      - { name: contoh, label: Isi contoh, widget: boolean, default: false, required: false, hint: 'Centang kalau isi ini hanya contoh untuk prototipe. Website tidak bisa tayang di domain final selama masih ada isi contoh.' }
+
+  - name: kampus
+    label: Kampus
+    label_singular: Kampus
+    description: 'Entri yang salah satu bahasanya belum lengkap tersimpan, tapi belum tampil di website. Daftarnya di halaman /entri-tertahan.'
+    folder: src/content/kampus
+    extension: yaml
+    format: yaml
+    create: true
+    i18n: true
+    identifier_field: nama
+    slug: '{{slug}}'
+    summary: '{{nama}}'
+    media_folder: media
+    public_folder: ./media
+    fields:
+      - { name: nama, label: Nama kampus (wajib untuk tampil), widget: string, i18n: true, required: false, hint: 'Nama resmi berbahasa Inggris dan nama 中文, contoh: Zhejiang University / 浙江大学. Tab Indonesia tanpa aksara Han; entri dengan aksara Han di sini tertahan (lihat /entri-tertahan).' }
+      - { name: deskripsi, label: Deskripsi singkat (wajib untuk tampil), widget: text, i18n: true, required: false, hint: '2–4 kalimat, tanpa biaya dan tanpa klaim seperti "terbaik".' }
+      - { name: kota, label: Kota, widget: relation, collection: kota, value_field: '{{slug}}', search_fields: [nama], display_fields: [nama] }
+      - { name: slugPinyin, label: Slug pinyin (alamat 中文), widget: string, required: false, hint: 'Kosongkan: dibuat otomatis dari nama 中文, misalnya 浙江大学 menjadi zhejiang-daxue. Isi hanya untuk mengganti, dengan huruf kecil, angka, dan tanda hubung.', pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', 'Huruf kecil, angka, dan tanda hubung, contoh zhejiang-daxue'] }
+      - { name: jenjang, label: Jenjang tersedia, widget: select, multiple: true, required: false, options: [SMA, Bahasa, Diploma, S1, S2, S3] }
+      - { name: logo, label: Logo resmi kampus, widget: image, required: false, choose_url: false, hint: 'Dari situs resmi kampus, PNG atau SVG berlatar transparan. Logo selalu tampil asli. Kosong: ubin singkatan berlabel Contoh.' }
+      - { name: situs, label: Situs resmi, widget: string, required: false, hint: 'Alamat lengkap, diawali https://', pattern: ['^https://', 'Alamat harus diawali https://'] }
+      - name: jurusanInggris
+        label: Jurusan berbahasa Inggris
+        widget: list
+        required: false
+        hint: 'Nama asli berbahasa Inggris, tidak diterjemahkan. Satu butir per jurusan.'
+        fields:
+          - { name: nama, label: Nama jurusan, widget: string }
+          - { name: jenjang, label: Jenjang, widget: select, options: [SMA, Bahasa, Diploma, S1, S2, S3] }
+      - { name: jurusanUnggulan, label: Jurusan unggulan, widget: list, i18n: true, required: false, hint: 'Dipilih Eastern. Tampil hanya kalau Indonesia dan 中文 terisi, dengan urutan yang sama.' }
+      - { name: beasiswa, label: Beasiswa, widget: list, i18n: true, required: false, hint: 'Satu beasiswa per butir. Tampil hanya kalau Indonesia dan 中文 terisi, dengan urutan yang sama.' }
+      - { name: biayaKuliah, label: 'Biaya kuliah per tahun, mulai dari (RMB)', widget: number, value_type: int, min: 1, required: false, hint: 'Disimpan untuk admin. Tampil hanya kalau sakelar biaya kampus di Pengaturan Situs dinyalakan.' }
+      - { name: biayaKuliahSampai, label: 'Biaya kuliah per tahun, sampai (RMB)', widget: number, value_type: int, min: 1, required: false, hint: 'Isi kalau biayanya rentang.' }
+      - { name: biayaAsrama, label: 'Biaya asrama per tahun, mulai dari (RMB)', widget: number, value_type: int, min: 1, required: false }
+      - { name: biayaAsramaSampai, label: 'Biaya asrama per tahun, sampai (RMB)', widget: number, value_type: int, min: 1, required: false }
+      - { name: tahunBiaya, label: Tahun estimasi biaya, widget: number, value_type: int, default: 2026, required: false }
+      - { name: tujuanAlumni, label: Kampus tujuan alumni (bukan mitra), widget: boolean, default: false, required: false, hint: 'Centang untuk kampus top yang hanya tujuan alumni Eastern, bukan mitra agensi. Kosong: ditampilkan sebagai kampus mitra.' }
+      - { name: contoh, label: Isi contoh, widget: boolean, default: false, required: false, hint: 'Centang kalau isi ini hanya contoh untuk prototipe. Website tidak bisa tayang di domain final selama masih ada isi contoh.' }
+
+  - name: alumni
+    label: Alumni & Beasiswa
+    label_singular: Alumni
+    description: 'Entri yang salah satu bahasanya belum lengkap tersimpan, tapi belum tampil di website. Daftarnya di halaman /entri-tertahan.'
+    folder: src/content/alumni
+    extension: yaml
+    format: yaml
+    create: true
+    i18n: true
+    identifier_field: nama
+    slug: '{{slug}}'
+    summary: '{{nama}} · {{tahun}}'
+    fields:
+      - { name: nama, label: Nama (boleh disingkat), widget: string, hint: 'Contoh: R. S.' }
+      - { name: kampus, label: Kampus, widget: relation, collection: kampus, value_field: '{{slug}}', search_fields: [nama], display_fields: [nama] }
+      - { name: tahun, label: Tahun berangkat, widget: number, value_type: int, required: false }
+      - { name: jenjang, label: Jenjang, widget: select, required: false, options: [SMA, Bahasa, Diploma, S1, S2, S3] }
+      - { name: beasiswa, label: Beasiswa, widget: select, required: false, options: [{ label: Pemerintah Tiongkok (CSC), value: csc }, { label: Pemerintah provinsi, value: provinsi }, { label: President Scholarship, value: president }, { label: Guru bahasa Mandarin, value: guru-mandarin }, { label: Beasiswa kampus, value: kampus }, { label: Mandiri, value: mandiri }] }
+      - { name: keterangan, label: Keterangan, widget: text, i18n: true, required: false }
+      - { name: contoh, label: Isi contoh, widget: boolean, default: false, required: false, hint: 'Centang kalau isi ini hanya contoh untuk prototipe. Website tidak bisa tayang di domain final selama masih ada isi contoh.' }
+
+  - name: event
+    label: Event
+    label_singular: Event
+    description: 'Entri yang salah satu bahasanya belum lengkap tersimpan, tapi belum tampil di website. Daftarnya di halaman /entri-tertahan.'
+    folder: src/content/event
+    extension: yaml
+    format: yaml
+    create: true
+    i18n: true
+    identifier_field: judul
+    slug: '{{slug}}'
+    summary: '{{mulai}} · {{judul}}'
+    media_folder: media
+    public_folder: ./media
+    fields:
+      - { name: judul, label: Judul (wajib untuk tampil), widget: string, i18n: true, required: false, hint: 'Tanpa tanggal, karena tanggal sudah tampil di kartu. Tab Indonesia tanpa aksara Han; entri dengan aksara Han di sini tertahan (lihat /entri-tertahan).' }
+      - { name: slugPinyin, label: Slug pinyin (alamat 中文), widget: string, required: false, hint: 'Kosongkan: dibuat otomatis dari judul 中文. Isi hanya untuk mengganti, dengan huruf kecil, angka, dan tanda hubung.', pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', 'Huruf kecil, angka, dan tanda hubung, contoh zhejiang-daxue'] }
+      - { name: jenis, label: Jenis event, widget: select, options: [{ label: Info Session, value: info-session }, { label: Pembukaan Kelas, value: pembukaan-kelas }, { label: Ujian HSK, value: ujian-hsk }, { label: Kegiatan Budaya, value: kegiatan-budaya }, { label: Lainnya, value: lainnya }] }
+      - { name: program, label: Program terkait, widget: select, required: false, options: [{ label: Kursus Bahasa, value: kursus }, { label: Kelas Kerja Sama, value: kerja-sama }, { label: Study Tour, value: study-tour }, { label: Kuliah ke Tiongkok, value: kuliah }] }
+      - { name: studyTour, label: Program study tour terkait, widget: relation, collection: studyTour, value_field: '{{slug}}', search_fields: [judul], display_fields: [judul], required: false, hint: 'Isi kalau event ini satu program study tour: halaman event menautkan jadwal per harinya.' }
+      - { name: mulai, label: Tanggal mulai, widget: datetime, format: YYYY-MM-DD, time_format: false }
+      - { name: selesai, label: Tanggal selesai, widget: datetime, format: YYYY-MM-DD, time_format: false, required: false, hint: 'Kosongkan untuk event sehari.' }
+      - { name: tempat, label: Tempat, widget: string, i18n: true, required: false, hint: 'Kosongkan kalau event online.' }
+      - { name: online, label: Tautan online, widget: string, required: false, hint: 'Isi kalau event lewat Zoom atau platform lain, diawali https://', pattern: ['^https://', 'Alamat harus diawali https://'] }
+      - { name: admin, label: Admin WhatsApp tujuan, widget: select, required: false, hint: 'Kosongkan: mengikuti program terkait (Kursus Bahasa ke Kursus Offline, Kuliah ke Tiongkok ke admin kuliah, lainnya ke Kantor).', options: [{ label: Kursus Offline, value: kursusOffline }, { label: Kursus Online, value: kursusOnline }, { label: Kuliah ke Tiongkok, value: kuliah1 }, { label: Kantor, value: kantor }] }
+      - { name: tayang, label: Tanggal tayang, widget: datetime, format: YYYY-MM-DD, time_format: false, required: false, hint: 'Kosongkan supaya langsung tayang.' }
+      - { name: poster, label: Poster, widget: image, required: false, choose_url: false, hint: 'Poster tampil asli. Pakai poster yang aksaranya benar dan tanpa gambar buatan AI.' }
+      - { name: isi, label: Isi (wajib untuk tampil), widget: markdown, i18n: true, required: false, editor_components: [], modes: [rich_text], hint: 'Tulis juga jam dan cara ikut, misalnya "Sabtu, 19.00 WIB, lewat Zoom" / "周六19:00（印尼西部时间），通过Zoom参加".' }
+      - { name: contoh, label: Isi contoh, widget: boolean, default: false, required: false, hint: 'Centang kalau isi ini hanya contoh untuk prototipe. Website tidak bisa tayang di domain final selama masih ada isi contoh.' }
+
+  - name: artikel
+    label: Artikel
+    label_singular: Artikel
+    description: 'Entri yang salah satu bahasanya belum lengkap tersimpan, tapi belum tampil di website. Daftarnya di halaman /entri-tertahan.'
+    folder: src/content/artikel
+    extension: yaml
+    format: yaml
+    create: true
+    i18n: true
+    identifier_field: judul
+    slug: '{{slug}}'
+    summary: '{{terbit}} · {{judul}}'
+    media_folder: media
+    public_folder: ./media
+    fields:
+      - { name: judul, label: Judul (wajib untuk tampil), widget: string, i18n: true, required: false }
+      - { name: slugPinyin, label: Slug pinyin (alamat 中文), widget: string, required: false, hint: 'Kosongkan: dibuat otomatis dari judul 中文. Isi hanya untuk mengganti, dengan huruf kecil, angka, dan tanda hubung.', pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', 'Huruf kecil, angka, dan tanda hubung, contoh zhejiang-daxue'] }
+      - { name: terbit, label: Tanggal terbit, widget: datetime, format: YYYY-MM-DD, time_format: false, hint: 'Artikel tampil mulai tanggal ini.' }
+      - { name: kategori, label: Kategori, widget: select, options: [{ label: Kuliah di Tiongkok, value: kuliah }, { label: Belajar Mandarin, value: belajar-mandarin }, { label: Kegiatan, value: kegiatan }, { label: Pengumuman, value: pengumuman }] }
+      - { name: sampul, label: Gambar sampul, widget: image, choose_url: false, hint: 'Foto mendatar.' }
+      - { name: ringkasan, label: Ringkasan (wajib untuk tampil), widget: text, i18n: true, required: false }
+      - { name: isi, label: Isi (wajib untuk tampil), widget: markdown, i18n: true, required: false, editor_components: [], modes: [rich_text] }
+      - { name: terkait, label: Artikel terkait, widget: relation, collection: artikel, value_field: '{{slug}}', search_fields: [judul], display_fields: [judul], multiple: true, required: false }
+      - { name: contoh, label: Isi contoh, widget: boolean, default: false, required: false, hint: 'Centang kalau isi ini hanya contoh untuk prototipe. Website tidak bisa tayang di domain final selama masih ada isi contoh.' }
+
+  - name: album
+    label: Album Galeri
+    label_singular: Album
+    description: 'Entri yang salah satu bahasanya belum lengkap tersimpan, tapi belum tampil di website. Daftarnya di halaman /entri-tertahan.'
+    folder: src/content/album
+    extension: yaml
+    format: yaml
+    create: true
+    i18n: true
+    identifier_field: judul
+    slug: '{{slug}}'
+    summary: '{{tanggal}} · {{judul}}'
+    media_folder: media
+    public_folder: ./media
+    fields:
+      - { name: judul, label: Judul (wajib untuk tampil), widget: string, i18n: true, required: false, hint: 'Apa dan di mana, tanpa tanggal. Contoh: Summer camp di Nanning / 南宁夏令营. Tab Indonesia tanpa aksara Han; entri dengan aksara Han di sini tertahan (lihat /entri-tertahan).' }
+      - { name: slugPinyin, label: Slug pinyin (alamat 中文), widget: string, required: false, hint: 'Kosongkan: dibuat otomatis dari judul 中文. Isi hanya untuk mengganti, dengan huruf kecil, angka, dan tanda hubung.', pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', 'Huruf kecil, angka, dan tanda hubung, contoh zhejiang-daxue'] }
+      - { name: program, label: Program, widget: select, options: [{ label: Kursus Bahasa, value: kursus }, { label: Kelas Kerja Sama, value: kerja-sama }, { label: Study Tour, value: study-tour }, { label: Kuliah ke Tiongkok, value: kuliah }] }
+      - { name: tanggal, label: Tanggal kegiatan, widget: datetime, format: YYYY-MM-DD, time_format: false }
+      - { name: tayang, label: Tanggal tayang, widget: datetime, format: YYYY-MM-DD, time_format: false, required: false, hint: 'Kosongkan supaya langsung tayang.' }
+      - { name: deskripsi, label: Deskripsi singkat, widget: text, i18n: true, required: false, hint: 'Satu kalimat: apa, di mana, kapan. Contoh: Kelas Mandarin untuk karyawan PT Contoh 1, 2019.' }
+      - { name: sampul, label: Foto sampul, widget: image, choose_url: false, hint: 'Foto mendatar. Di halaman Galeri dipotong 4:3.' }
+      - name: foto
+        label: Foto
+        widget: list
+        required: false
+        hint: 'Urut sesuai tampil. Album di atas 60 foto dibagi beberapa halaman. Foto tersimpan di repo sampai penyimpanan foto (Cloudflare R2) siap, jadi pilih foto terbaik saja.'
+        fields:
+          - { name: gambar, label: Foto, widget: image, choose_url: false }
+          - { name: warna, label: Warna foto, widget: select, default: hangat, required: false, options: [{ label: Hangat ringan, value: hangat }, { label: Asli, value: asli }], hint: 'Asli untuk foto yang warnanya sudah hangat atau berubah terlalu jauh dengan filter.' }
+          - { name: keterangan, label: Keterangan (Indonesia), widget: string, required: false, pattern: ['^[^\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff]*$', 'Aksara Han ditulis di Keterangan 中文'] }
+          - { name: keteranganZh, label: Keterangan (中文), widget: string, required: false, hint: 'Tampil di lightbox hanya kalau keterangan Indonesia dan 中文 terisi.' }
+      - name: video
+        label: Video YouTube
+        widget: list
+        required: false
+        hint: 'Video MP4 menyusul setelah Cloudflare R2 siap.'
+        fields:
+          - { name: youtube, label: Tautan YouTube, widget: string, hint: 'Contoh: https://www.youtube.com/watch?v=xxxxxxxxxxx', pattern: ['^https:\/\/(www\.youtube\.com\/(watch\?v=|shorts\/)|youtu\.be\/)([\w-]{11})', 'Tautan YouTube diawali https://www.youtube.com/watch?v= atau https://youtu.be/'] }
+          - { name: sampul, label: Gambar sampul, widget: image, choose_url: false, hint: 'Gambar mendatar dari video ini. Tampil asli tanpa filter.' }
+      - { name: event, label: Event terkait, widget: relation, collection: event, value_field: '{{slug}}', search_fields: [judul], display_fields: [judul], required: false, hint: 'Isi kalau album ini dokumentasi satu event: halaman event menautkannya setelah event selesai.' }
+      - { name: studyTour, label: Program study tour terkait, widget: relation, collection: studyTour, value_field: '{{slug}}', search_fields: [judul], display_fields: [judul], required: false, hint: 'Isi kalau album ini dari satu program study tour: halaman programnya menampilkan album ini.' }
+      - { name: contoh, label: Isi contoh, widget: boolean, default: false, required: false, hint: 'Centang kalau isi ini hanya contoh untuk prototipe. Website tidak bisa tayang di domain final selama masih ada isi contoh.' }
+
+  - name: mitra
+    label: Mitra & Klien
+    label_singular: Mitra
+    description: 'Entri yang salah satu bahasanya belum lengkap tersimpan, tapi belum tampil di website. Daftarnya di halaman /entri-tertahan.'
+    folder: src/content/mitra
+    extension: yaml
+    format: yaml
+    create: true
+    i18n: true
+    identifier_field: nama
+    slug: '{{slug}}'
+    summary: '{{nama}}'
+    fields:
+      - { name: nama, label: Nama, widget: string, hint: 'Ditulis sesuai aslinya. Perusahaan ditulis sebagai pernah mengadakan kelas, bukan kerja sama.' }
+      - { name: jenis, label: Jenis, widget: select, options: [{ label: Sekolah, value: sekolah }, { label: Perusahaan, value: perusahaan }] }
+      - { name: keterangan, label: Keterangan, widget: text, i18n: true, required: false }
+      - { name: tampilDiBeranda, label: Tampil di Beranda, widget: boolean, default: true }
+      - { name: contoh, label: Isi contoh, widget: boolean, default: false, required: false, hint: 'Centang kalau isi ini hanya contoh untuk prototipe. Website tidak bisa tayang di domain final selama masih ada isi contoh.' }
+
+  - name: testimoni
+    label: Testimoni
+    label_singular: Testimoni
+    description: 'Entri yang salah satu bahasanya belum lengkap tersimpan, tapi belum tampil di website. Daftarnya di halaman /entri-tertahan.'
+    folder: src/content/testimoni
+    extension: yaml
+    format: yaml
+    create: true
+    i18n: true
+    identifier_field: nama
+    slug: '{{slug}}'
+    summary: '{{nama}} · {{peran}}'
+    media_folder: media
+    public_folder: ./media
+    fields:
+      - { name: nama, label: Nama, widget: string, hint: 'Boleh disingkat. Kutipan berasal dari orangnya sendiri.' }
+      - { name: peran, label: Peran, widget: select, options: [{ label: Siswa, value: siswa }, { label: Orang tua, value: orang-tua }, { label: Alumni, value: alumni }, { label: Peserta camp, value: peserta-camp }] }
+      - { name: program, label: Program, widget: select, options: [{ label: Kursus Bahasa, value: kursus }, { label: Kelas Kerja Sama, value: kerja-sama }, { label: Study Tour, value: study-tour }, { label: Kuliah ke Tiongkok, value: kuliah }] }
+      - { name: kampus, label: Kampus, widget: relation, collection: kampus, value_field: '{{slug}}', search_fields: [nama], display_fields: [nama], required: false }
+      - { name: tahun, label: Tahun, widget: number, value_type: int, required: false }
+      - { name: kutipan, label: Kutipan, widget: text, i18n: true, required: false, hint: 'Isi kutipan atau video, minimal salah satu. Kutipan diisi bahasa Indonesia dan 中文 (terjemahan diperiksa laoshi); tanpa kutipan dan tanpa video testimoni tidak tampil.' }
+      - name: video
+        label: Video
+        widget: object
+        required: false
+        hint: 'Video YouTube dengan sampul sendiri, karena halaman 中文 tidak memuat gambar dari YouTube.'
+        fields:
+          - { name: youtube, label: Tautan YouTube, widget: string, hint: 'Contoh: https://www.youtube.com/watch?v=xxxxxxxxxxx', pattern: ['^https:\/\/(www\.youtube\.com\/(watch\?v=|shorts\/)|youtu\.be\/)([\w-]{11})', 'Tautan YouTube diawali https://www.youtube.com/watch?v= atau https://youtu.be/'] }
+          - { name: sampul, label: Gambar sampul, widget: image, choose_url: false, hint: 'Gambar mendatar dari video ini. Tampil asli tanpa filter.' }
+      - { name: tampilDiBeranda, label: Tampil di Beranda, widget: boolean, default: false, required: false }
+      - { name: contoh, label: Isi contoh, widget: boolean, default: false, required: false, hint: 'Centang kalau isi ini hanya contoh untuk prototipe. Website tidak bisa tayang di domain final selama masih ada isi contoh.' }
+
+  - name: tim
+    label: Tim
+    label_singular: Anggota tim
+    description: 'Entri yang salah satu bahasanya belum lengkap tersimpan, tapi belum tampil di website. Daftarnya di halaman /entri-tertahan.'
+    folder: src/content/tim
+    extension: yaml
+    format: yaml
+    create: true
+    i18n: true
+    identifier_field: nama
+    slug: '{{slug}}'
+    summary: '{{nama}} · {{tim}}'
+    media_folder: media
+    public_folder: ./media
+    fields:
+      - { name: nama, label: Nama, widget: string, hint: 'Nama yang ditampilkan, dengan izin orangnya.' }
+      - { name: tim, label: Tim, widget: select, options: [{ label: Learning Advisor, value: learning-advisor }, { label: Guru Pengajar, value: guru }, { label: Pengembangan Kurikulum, value: kurikulum }, { label: IT dan Media, value: it-media }] }
+      - { name: jabatan, label: Jabatan, widget: string, i18n: true, required: false, hint: 'Tampil hanya kalau Indonesia dan 中文 terisi.' }
+      - { name: foto, label: Foto, widget: image, choose_url: false, required: false, hint: 'Foto wajah, persegi atau tegak, maksimal 500 KB. Tanpa foto tampil inisial nama.' }
+      - { name: warna, label: Warna foto, widget: select, default: hangat, required: false, options: [{ label: Hangat ringan, value: hangat }, { label: Asli, value: asli }] }
+      - { name: deskripsi, label: Deskripsi singkat, widget: text, i18n: true, required: false, hint: 'Satu kalimat. Tampil hanya kalau Indonesia dan 中文 terisi.' }
+      - { name: urutan, label: Urutan, widget: number, value_type: int, default: 0, required: false, hint: 'Angka kecil tampil lebih dulu di timnya.' }
+      - { name: contoh, label: Isi contoh, widget: boolean, default: false, required: false, hint: 'Centang kalau isi ini hanya contoh untuk prototipe. Website tidak bisa tayang di domain final selama masih ada isi contoh.' }
+
+  - name: pengaturan
+    label: Pengaturan Situs
+    i18n: true
+    files:
+      - name: pengaturan
+        label: Pengaturan Situs
+        file: src/content/halaman/pengaturan.yaml
+        i18n: true
+        fields:
+          - { name: tampilkanBiayaKampus, label: Tampilkan biaya kampus di website, widget: boolean, default: false, required: false, i18n: duplicate, hint: 'Bawaan mati. Satu sakelar untuk semua kampus. Selama mati, biaya kampus dan saringan biaya tidak tampil.' }

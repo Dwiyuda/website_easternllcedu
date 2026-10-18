@@ -1,0 +1,82 @@
+---
+// Detail artikel (Naskah Kabar Dan Event, Pola detail artikel; Blueprint): pembuka ringkas tanpa hanzi (P18) dengan remah
+// Kabar & Event › kategori, lencana kategori, baris tanggal terbit dan diperbarui (Git), sampul hangat, isi, Konsultasi ke admin
+// sesuai kategori, kembali ke Kabar & Event, lalu artikel terkait (tersembunyi kalau kosong).
+import { getImage, Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import IsiTeks from '../IsiTeks.astro';
+import LencanaContoh from '../LencanaContoh.astro';
+import TeksCampur from '../TeksCampur.astro';
+import PembukaRingkas from '../bagian/PembukaRingkas.astro';
+import Dasar from '../../layouts/Dasar.astro';
+import { ADMIN, type KunciAdmin } from '../../data/kontak';
+import { UI, tandaTabBaru } from '../../i18n/ui';
+import { RUTE } from '../../i18n/rute';
+import { artikelLd, jsonAman } from '../../lib/data-terstruktur';
+import { ambil, type Bahasa } from '../../lib/dua-bahasa';
+import { tanggalUbah } from '../../lib/git';
+import { alamatKabar, artikelTampil } from '../../lib/konten';
+import { butirRemah } from '../../lib/navigasi';
+import { formatTanggal, hariIniJakarta } from '../../lib/tanggal';
+import { isiTempat } from '../../lib/teks';
+import { tautanWa } from '../../lib/wa';
+
+interface Props { bahasa: Bahasa; entri: CollectionEntry<'artikel'> }
+const { bahasa, entri } = Astro.props;
+const ui = UI[bahasa];
+const d = entri.data;
+const judul = ambil<string>(d, 'judul', bahasa);
+const pasanganBahasa = { id: alamatKabar('artikel', entri, 'id'), zh: alamatKabar('artikel', entri, 'zh') };
+const kategori = ui.kategori[d.id.kategori];
+// Beranda › Kabar & Event › [kategori] › [judul]; butir kategori membuka Kabar terbaru yang tersaring kategori itu.
+const remah = butirRemah(bahasa, ['kabar'], judul, pasanganBahasa[bahasa]);
+remah.splice(-1, 0, { nama: kategori, url: `${RUTE.kabar[bahasa]}?saring=${d.id.kategori}` });
+// Diperbarui hanya kalau berkasnya diubah sesudah tanggal terbit (Model Konten aturan 4).
+const ubah = entri.filePath ? tanggalUbah(entri.filePath) : undefined;
+const diperbarui = ubah && ubah > d.id.terbit ? ubah : undefined;
+const baris = [
+  isiTempat(ui.kabar.diterbitkan, { tanggal: formatTanggal(d.id.terbit, bahasa) }),
+  diperbarui && isiTempat(ui.diperbarui, { tanggal: formatTanggal(diperbarui, bahasa) }),
+].filter(Boolean).join(' · ');
+const tampil = new Map((await artikelTampil(hariIniJakarta())).map((a) => [a.id, a]));
+const terkait = d.id.terkait.map((r) => tampil.get(r.id)).filter((a) => a !== undefined)
+  .map((a) => ({ url: alamatKabar('artikel', a, bahasa), judul: ambil<string>(a.data, 'judul', bahasa) }));
+// Konsultasi: Kuliah di Tiongkok ke admin kuliah, Belajar Mandarin ke admin kursus, lainnya pilihan admin (tombol melayang).
+const admin: KunciAdmin | undefined = d.id.kategori === 'kuliah' ? 'kuliah1' : d.id.kategori === 'belajar-mandarin' ? 'kursusOffline' : undefined;
+const og = await getImage({ src: d.id.sampul, width: 1200, height: 630, format: 'jpg' });
+const data = artikelLd(Astro.site!.href, { judul, url: pasanganBahasa[bahasa], terbit: d.id.terbit, diperbarui, gambar: og.src, bahasa });
+---
+<Dasar bahasa={bahasa} judul={`${judul}${ui.akhiranTab}`} deskripsi={ambil<string>(d, 'ringkasan', bahasa)} judulWa={judul}
+  pasanganBahasa={pasanganBahasa} gambarOg={d.id.sampul}>
+  <script is:inline type="application/ld+json" slot="kepala" set:html={jsonAman(data)} />
+  <PembukaRingkas bahasa={bahasa} judul={judul} remah={remah}>
+    <span class="lencana-baris"><span class="lencana">{kategori}</span><LencanaContoh bahasa={bahasa} tampil={d.id.contoh} /></span>
+    <p class="kecil">{baris}</p>
+  </PembukaRingkas>
+  <article class="wadah artikel">
+    <Image src={d.id.sampul} alt="" widths={[480, 768, 1088]} sizes="(min-width: 1136px) 1088px, 100vw" class="sampul" data-warna="hangat" loading="eager" />
+    <IsiTeks isi={ambil<string>(d, 'isi', bahasa)} bahasa={bahasa} />
+    <div class="akhir">
+      {admin
+        ? <a class="tombol tombol-utama" href={tautanWa(ADMIN[admin].nomor, judul, bahasa)} target="_blank" rel="noopener" aria-label={`${ui.konsultasi}${ui.titikDua}${ui.konsultasiLabel}${tandaTabBaru(bahasa)}`}>{ui.konsultasi}</a>
+        : <button class="tombol tombol-utama" type="button" popovertarget="panel-wa">{ui.konsultasi}</button>}
+      <a href={RUTE.kabar[bahasa]}>{ui.kabar.kembali}</a>
+    </div>
+  </article>
+  {terkait.length > 0 && (
+    <section class="bagian bagian-peach" aria-labelledby="judul-terkait">
+      <div class="wadah">
+        <div class="judul-bagian"><h2 id="judul-terkait">{ui.kabar.terkait}</h2></div>
+        <ul class="terkait">{terkait.map((t) => <li><a href={t.url}><TeksCampur bahasa={bahasa} teks={t.judul} /></a></li>)}</ul>
+      </div>
+    </section>
+  )}
+</Dasar>
+
+<style>
+  .artikel { display: grid; gap: var(--ruang-5); padding-bottom: var(--ruang-bagian); }
+  /* Kelas di <Image> dirender komponen anak, jadi dipilih lewat :global (pola .panah di Kabar.astro). */
+  .artikel :global(.sampul) { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: var(--radius-besar); }
+  .akhir { display: flex; flex-wrap: wrap; align-items: center; gap: var(--ruang-3); }
+  .terkait { display: grid; gap: var(--ruang-1); }
+</style>

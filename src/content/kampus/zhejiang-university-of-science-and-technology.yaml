@@ -1,0 +1,48 @@
+id:
+  slugPinyin: zhejiang-keji-daxue
+  nama: Zhejiang University of Science and Technology
+  deskripsi: 'Zhejiang University of Science and Technology (ZUST) berada di Hangzhou, Provinsi Zhejiang, Tiongkok (China). Jurusan S1 berbahasa Inggris antara lain Robotics Engineering, Computer Science and Technology, Data Science and Big Data Technology, dan International Business. Jurusan berbahasa Mandarin mencakup arsitektur, desain, teknik sipil, dan Business Chinese, dan S2 tersedia dalam dua bahasa pengantar. Beasiswa yang tercatat: Beasiswa Pemerintah Tiongkok, Beasiswa Pemerintah Provinsi Zhejiang untuk mahasiswa baru, dan beasiswa prestasi berupa potongan uang kuliah.'
+  kota: hangzhou
+  logo: ../../assets/logo-kampus/zhejiang-university-of-science-and-technology.png
+  jenjang:
+    - S1
+    - S2
+  jurusanInggris:
+    - nama: International Business
+      jenjang: S1
+    - nama: Robotics Engineering
+      jenjang: S1
+    - nama: Civil Engineering
+      jenjang: S1
+    - nama: International Economics and Trade
+      jenjang: S1
+    - nama: Digital Media Technology
+      jenjang: S1
+    - nama: Computer Science and Technology
+      jenjang: S1
+    - nama: Food Science and Engineering
+      jenjang: S1
+    - nama: Data Science and Big Data Technology
+      jenjang: S1
+    - nama: Visual Communication Design
+      jenjang: S1
+    - nama: Chemical Engineering and Technology
+      jenjang: S2
+    - nama: Mechanical Engineering
+      jenjang: S2
+    - nama: Physics
+      jenjang: S2
+    - nama: Civil Engineering
+      jenjang: S2
+    - nama: Advanced Manufacturing and Informatization
+      jenjang: S2
+    - nama: Resource and Environment
+      jenjang: S2
+    - nama: Applied Statistics
+      jenjang: S2
+    - nama: Intelligent Manufacturing and Control Engineering
+      jenjang: S2
+  contoh: false
+zh:
+  nama: 浙江科技大学
+  deskripsi: 浙江科技大学位于浙江省杭州市。英文授课本科专业包括机器人工程、计算机科学与技术、数据科学与大数据技术和国际商务等；中文授课专业涵盖建筑学、设计、土木工程和商务汉语等，硕士项目设有中英文授课。可申请中国政府奖学金、浙江省政府新生奖学金和减免学费的优秀学生奖学金。

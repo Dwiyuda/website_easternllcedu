@@ -1,0 +1,21 @@
+---
+// Logo resmi kampus di ubin (MASTER.md, Kartu kampus: 40–48 px), selalu asli tanpa filter hangat. Selama logo belum ada, ubin
+// berisi singkatan nama, bukan logo; kartu memberi lencana Contoh dan kampus itu menahan build final (P10). Dekoratif: nama tertulis di sebelahnya.
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { singkatan } from '../../lib/kampus';
+
+interface Props { logo?: ImageMetadata; nama: string; besar?: boolean }
+const { logo, nama, besar = false } = Astro.props;
+---
+<span class:list={['logo', { besar, tanpa: !logo }]} aria-hidden="true">
+  {logo ? <Image src={logo} alt="" width={besar ? 64 : 48} densities={[1, 2]} /> : singkatan(nama)}
+</span>
+
+<style>
+  .logo { display: grid; place-items: center; flex: none; width: var(--ruang-6); height: var(--ruang-6); overflow: hidden;
+    border-radius: var(--radius-kecil); background: var(--kartu-50); }
+  .besar { width: var(--ruang-8); height: var(--ruang-8); }
+  .logo :global(img) { width: 100%; height: 100%; object-fit: contain; }
+  .tanpa { background: var(--krem-200); color: var(--teks-600); font: 600 var(--huruf-mini) / 1 var(--font-isi); }
+</style>

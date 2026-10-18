@@ -1,0 +1,62 @@
+---
+// Video YouTube (MASTER.md, Video lain; Desain Teknis bagian 3; PRD F12): sampul milik Eastern dengan tombol putar kartu-100 di bingkai
+// dokumentasi, tampil asli tanpa filter. Halaman Indonesia: sampul menautkan YouTube di tab yang sama (tanpa "tab baru", karena dengan
+// JavaScript klik mengganti sampul dengan pemutar tanpa cookie youtube-nocookie.com yang langsung berputar di tempat), jadi YouTube baru
+// dimuat setelah diklik. Halaman 中文: tanpa layanan Google, sampul dan tautan ke YouTube (tab baru) dengan pesan cadangan. Judul
+// pemutar dibaca dari atribut, skrip tanpa teks 中文.
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Ikon from './Ikon.astro';
+import TeksCampur from './TeksCampur.astro';
+import { UI } from '../i18n/ui';
+import type { Bahasa } from '../lib/dua-bahasa';
+import { videoYoutube } from '../lib/video';
+
+// segera: video pertama halaman album ada di atas lipatan HP dan sampulnya gambar LCP, jadi dimuat segera berprioritas tinggi (Task 11).
+interface Props { bahasa: Bahasa; youtube: string; sampul: ImageMetadata; judul: string; keterangan?: string; segera?: boolean }
+const { bahasa, youtube, sampul, judul, keterangan, segera = false } = Astro.props;
+const ui = UI[bahasa];
+const v = videoYoutube(youtube);
+if (!v) throw new Error(`Bukan tautan video YouTube: ${youtube}`);
+const zh = bahasa === 'zh';
+---
+<figure class="bingkai video">
+  <a class="sampul" href={v.tonton} target={zh ? '_blank' : undefined} rel={zh ? 'noopener' : undefined} data-sematan={zh ? undefined : v.sematan} data-judul={judul}>
+    <Image src={sampul} alt="" widths={[480, 768, 1088]} sizes="(min-width: 1024px) 540px, 100vw" loading={segera ? 'eager' : 'lazy'} fetchpriority={segera ? 'high' : undefined} />
+    <span class="putar" aria-hidden="true"><Ikon nama="play_arrow" ukuran={32} /></span>
+    <span class="sr">{ui.video.putar}{ui.titikDua}<TeksCampur bahasa={bahasa} teks={judul} />{zh && ui.tabBaru}</span>
+  </a>
+  {(keterangan || bahasa === 'zh') && (
+    <figcaption>
+      {keterangan && <span class="apa"><TeksCampur bahasa={bahasa} teks={keterangan} /></span>}
+      {bahasa === 'zh' && <span class="kapan">{ui.video.cadangan}<a href={v.tonton} target="_blank" rel="noopener">{ui.video.tonton}</a></span>}
+    </figcaption>
+  )}
+</figure>
+
+<style>
+  .video { display: grid; gap: var(--ruang-1); width: 100%; }
+  .sampul { position: relative; display: block; border-radius: var(--radius-kecil); }
+  .sampul :global(img) { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+  .putar { position: absolute; inset: 0; margin: auto; display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; background: var(--kartu-100); color: var(--marun-600); transition: background-color var(--durasi-kursor) var(--kurva); }
+  .sampul:hover .putar, .sampul:focus-visible .putar { background: var(--peach-100); }
+  .video :global(.pemutar) { width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: var(--radius-kecil); }
+</style>
+
+<script>
+  // Klik sampul di halaman Indonesia: sampul diganti pemutar tanpa cookie yang langsung berputar (YouTube baru dimuat sekarang).
+  for (const a of document.querySelectorAll<HTMLAnchorElement>('a[data-sematan]')) {
+    a.addEventListener('click', (e) => {
+      if (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return; // klik bermodifier tetap membuka YouTube di tab atau jendela baru
+      e.preventDefault();
+      const pemutar = document.createElement('iframe');
+      pemutar.src = `${a.dataset.sematan}?autoplay=1`;
+      pemutar.title = a.dataset.judul ?? '';
+      pemutar.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+      pemutar.allowFullscreen = true;
+      pemutar.className = 'pemutar';
+      a.replaceWith(pemutar);
+      pemutar.focus();
+    });
+  }
+</script>

@@ -1,0 +1,14 @@
+id:
+  slugPinyin: nanjing-caijing-daxue
+  nama: Nanjing University of Finance and Economics
+  deskripsi: Nanjing University of Finance and Economics (NUFE) berada di kawasan pendidikan Xianlin, Nanjing, Provinsi Jiangsu, Tiongkok (China). Bidang utamanya ekonomi, keuangan, akuntansi, bisnis, dan hukum. Program bahasa Mandarin, S1, dan S2 tersedia.
+  kota: nanjing
+  jenjang:
+    - Bahasa
+    - S1
+    - S2
+  situs: https://english.nufe.edu.cn/
+  contoh: false
+zh:
+  nama: 南京财经大学
+  deskripsi: 南京财经大学位于江苏省南京市仙林大学城，以经济、金融、会计、工商管理和法学等学科为特色，设有汉语进修、本科和硕士项目。

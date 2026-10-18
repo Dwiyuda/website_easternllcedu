@@ -1,0 +1,25 @@
+---
+// Kutipan testimoni (MASTER.md, Halaman Testimoni): kartu, kalimat Fraunces 400 tanpa hiasan tanda kutip, lalu nama · peran · program ·
+// tahun huruf mini. Kutipan berasal dari orangnya sendiri; kutipan contoh untuk prototipe berlabel (Naskah Testimoni, pengantar).
+import LencanaContoh from '../LencanaContoh.astro';
+import TeksCampur from '../TeksCampur.astro';
+import type { Bahasa } from '../../lib/dua-bahasa';
+import { keteranganTestimoni, type Kutipan } from '../../lib/konten';
+
+interface Props { bahasa: Bahasa; kutipan: Kutipan }
+const { bahasa, kutipan: k } = Astro.props;
+---
+<figure class="kartu kutipan">
+  <LencanaContoh bahasa={bahasa} tampil={k.contoh} />
+  <blockquote><p><TeksCampur bahasa={bahasa} teks={k.teks} /></p></blockquote>
+  <figcaption>{keteranganTestimoni(k, bahasa)}</figcaption>
+</figure>
+
+<style>
+  /* Selebar kolom kisi walau kalimatnya pendek (kisi testimoni memakai justify-items: start untuk video dan lencana). */
+  .kutipan { display: grid; justify-items: start; align-content: start; justify-self: stretch; gap: var(--ruang-2); height: 100%; margin: 0; }
+  blockquote { margin: 0; }
+  blockquote p { color: var(--teks-900); font: 400 1.125rem / 1.5 var(--font-judul); font-variation-settings: "SOFT" 100; }
+  :lang(zh) blockquote p { font-family: var(--font-judul-han); }
+  figcaption { color: var(--teks-600); font-size: var(--huruf-mini); font-weight: 600; }
+</style>

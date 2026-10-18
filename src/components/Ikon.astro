@@ -1,0 +1,16 @@
+---
+import { siapkanSvg } from '../lib/ikon';
+
+const BERKAS = import.meta.glob<string>('../assets/ikon/*.svg', { query: '?raw', import: 'default', eager: true });
+
+interface Props { nama: string; ukuran?: number; label?: string; class?: string }
+const { nama, ukuran = 24, label, class: kelas } = Astro.props;
+const mentah = BERKAS[`../assets/ikon/${nama}.svg`];
+if (!mentah) throw new Error(`Ikon tidak ada: ${nama}. Tambahkan ke scripts/salin-aset.mjs`);
+const svg = siapkanSvg(mentah, ukuran, label);
+---
+<span class:list={['ikon', kelas]}><Fragment set:html={svg} /></span>
+
+<style>
+  .ikon { display: inline-flex; flex: none; }
+</style>

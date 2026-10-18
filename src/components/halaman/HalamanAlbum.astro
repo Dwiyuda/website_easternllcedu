@@ -1,0 +1,106 @@
+---
+// Halaman album (Naskah Galeri, Pola halaman album; MASTER.md Halaman album dan Lightbox; Panduan Visual 9e2 B): pembuka ringkas tanpa
+// hanzi (P18) dengan remah Galeri › program › album, lencana program, baris tanggal · jumlah foto · jumlah video, deskripsi (kalau bahasa
+// halaman terisi). Foto dalam baris rata: setiap baris setinggi 168 px (104 px di HP), lebar tiap foto mengikuti rasio aslinya, celah
+// --ruang-1, foto tidak dipotong, baris terakhir tidak ditarik; dimuat bertahap (loading="lazy"), kecuali foto pertama di halaman tanpa
+// video yang menjadi LCP (segera, fetchpriority high); lightbox <dialog>. Album di atas 60 foto dibagi beberapa halaman
+// (…/<album>/2). Video YouTube di atas foto (halaman pertama saja); sampul video pertama yang dimuat segera.
+import { getImage, Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import LencanaContoh from '../LencanaContoh.astro';
+import Lightbox from '../Lightbox.astro';
+import Video from '../Video.astro';
+import PembukaRingkas from '../bagian/PembukaRingkas.astro';
+import Dasar from '../../layouts/Dasar.astro';
+import { UI } from '../../i18n/ui';
+import { HALAMAN_PROGRAM, RUTE } from '../../i18n/rute';
+import { ambil, bilaLengkap, type Bahasa } from '../../lib/dua-bahasa';
+import { alamatGaleriProgram, bagiHalaman, FOTO_PER_HALAMAN } from '../../lib/galeri';
+import { urlAlbum } from '../../lib/konten';
+import { butirRemah } from '../../lib/navigasi';
+import { formatTanggal } from '../../lib/tanggal';
+import { isiTempat } from '../../lib/teks';
+
+interface Props { bahasa: Bahasa; entri: CollectionEntry<'album'>; halaman: number }
+const { bahasa, entri, halaman } = Astro.props;
+const ui = UI[bahasa];
+const t = ui.galeri;
+const d = entri.data.id;
+const judul = ambil<string>(entri.data, 'judul', bahasa);
+// Deskripsi opsional: tampil kalau bahasa halaman ini terisi, tanpa jatuh ke blok id.
+const deskripsi = (bahasa === 'zh' ? entri.data.zh : d)?.deskripsi;
+const nama = t.program[d.program];
+const halamanFoto = bagiHalaman(d.foto);
+const total = halamanFoto.length;
+const awal = (halaman - 1) * FOTO_PER_HALAMAN;
+const foto = await Promise.all(halamanFoto[halaman - 1].map(async (f, i) => ({
+  ...f, r: f.gambar.width / f.gambar.height,
+  besar: (await getImage({ src: f.gambar, width: Math.min(f.gambar.width, 1600) })).src,
+  // Keterangan per foto tampil kalau dua bahasa terisi (bilaLengkap). Teks alternatif tanpa keterangan: nomor foto (Naskah Galeri, Lightbox).
+  keterangan: bilaLengkap(f.keterangan, f.keteranganZh, bahasa),
+  nomor: isiTempat(ui.lightbox.nomor, { n: awal + i + 1, total: d.foto.length }),
+})));
+const pasanganBahasa = { id: urlAlbum(entri, 'id', halaman), zh: urlAlbum(entri, 'zh', halaman) };
+const remah = butirRemah(bahasa, ['galeri'], judul, pasanganBahasa[bahasa]);
+remah.splice(-1, 0, { nama, url: alamatGaleriProgram(d.program, bahasa) });
+const info = [
+  formatTanggal(d.tanggal, bahasa), d.foto.length > 0 && isiTempat(t.jumlahFoto, { n: d.foto.length }),
+  d.video.length > 0 && isiTempat(t.jumlahVideo, { n: d.video.length }),
+].filter(Boolean).join(' · ');
+const nomorHalaman = total > 1 ? isiTempat(t.halaman, { n: halaman, total }) : undefined;
+const program = HALAMAN_PROGRAM[d.program];
+const videoTampil = halaman === 1 && d.video.length > 0;
+---
+<Dasar bahasa={bahasa} judul={`${[judul, nomorHalaman].filter(Boolean).join(' · ')}${ui.akhiranTab}`}
+  deskripsi={deskripsi ?? isiTempat(t.perProgram.kalimat, { program: nama })} judulWa={judul} pasanganBahasa={pasanganBahasa} gambarOg={d.sampul}>
+  <PembukaRingkas bahasa={bahasa} judul={judul} kalimat={deskripsi} remah={remah}>
+    <span class="lencana-baris"><span class="lencana">{nama}</span><LencanaContoh bahasa={bahasa} tampil={d.contoh} /></span>
+    <p class="kecil">{info}</p>
+  </PembukaRingkas>
+  <div class="bagian bagian-peach">
+    <div class="wadah susun">
+      {videoTampil && (
+        <ul class="daftar-video">{d.video.map((v, i) => <li><Video bahasa={bahasa} youtube={v.youtube} sampul={v.sampul} judul={judul} segera={i === 0} /></li>)}</ul>
+      )}
+      {foto.length > 0 && (
+        <ul class="rata" data-lightbox-daftar data-awal={awal} data-total={d.foto.length}>
+          {foto.map((f, i) => (
+            <li style={`--r: ${f.r}`}>
+              <a href={f.besar} data-lightbox={i} data-warna={f.warna} data-keterangan={f.keterangan}>
+                <Image src={f.gambar} alt={f.keterangan ?? f.nomor} widths={[240, 480]} sizes="(min-width: 768px) 320px, 160px" data-warna={f.warna}
+                  loading={!videoTampil && i === 0 ? 'eager' : 'lazy'} fetchpriority={!videoTampil && i === 0 ? 'high' : undefined} />
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+      {nomorHalaman && (
+        <div class="halaman">
+          <p>{nomorHalaman}</p>
+          {halaman > 1 && <a href={urlAlbum(entri, bahasa, halaman - 1)} rel="prev">{t.sebelumnya}</a>}
+          {halaman < total && <a href={urlAlbum(entri, bahasa, halaman + 1)} rel="next">{t.berikutnya}</a>}
+        </div>
+      )}
+      <a href={RUTE[program][bahasa]}>{isiTempat(t.lihatProgram, { program: nama })}</a>
+    </div>
+  </div>
+  {foto.length > 0 && <Lightbox bahasa={bahasa} judul={judul} />}
+</Dasar>
+
+<style>
+  .susun { display: grid; justify-items: start; gap: var(--ruang-5); }
+  /* Baris rata (MASTER.md, Halaman album): setiap foto tumbuh sebanding rasionya, jadi foto sebaris setinggi sama tanpa dipotong;
+     ::after menyerap sisa ruang baris terakhir supaya baris itu tidak ditarik. */
+  .rata { --tinggi: 104px; display: flex; flex-wrap: wrap; gap: var(--ruang-1); width: 100%; }
+  @media (min-width: 768px) { .rata { --tinggi: 168px; } }
+  .rata li { flex: var(--r) 1 calc(var(--r) * var(--tinggi)); min-width: 0; }
+  /* HP: hanya foto pertama (baris pertama) dibatasi 1,5 × tinggi baris supaya tidak melar penuh di 375 px; baris lain ikut MASTER
+     (ditarik rata kanan, kecuali baris terakhir yang diserap ::after). */
+  @media (max-width: 767px) { .rata li:first-child { max-width: calc(var(--r) * var(--tinggi) * 1.5); } }
+  .rata::after { content: ''; flex: 999999 1 0; }
+  .rata a { display: block; border-radius: var(--radius-kecil); }
+  .rata :global(img) { width: 100%; height: auto; aspect-ratio: var(--r); border-radius: var(--radius-kecil); }
+  .halaman { display: flex; flex-wrap: wrap; align-items: center; gap: var(--ruang-3); }
+  .daftar-video { display: grid; gap: var(--ruang-3); width: 100%; }
+  @media (min-width: 1024px) { .daftar-video { grid-template-columns: 1fr 1fr; } }
+</style>

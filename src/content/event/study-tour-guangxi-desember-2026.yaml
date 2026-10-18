@@ -1,0 +1,16 @@
+id:
+  slugPinyin: guangxi-wenhua-jiaoyu-youxue
+  judul: Study Tour Budaya dan Pendidikan di Guangxi
+  jenis: kegiatan-budaya
+  program: study-tour
+  studyTour: 2026-12-guangxi
+  mulai: '2026-12-14'
+  selesai: '2026-12-25'
+  tempat: Guangxi Vocational and Technical College of Industry and Commerce, Nanning
+  admin: kantor
+  isi: "Dua belas hari belajar Mandarin dan budaya Tiongkok (China) di Guangxi: kelas Mandarin dasar, kaligrafi, gunting kertas, upacara teh, workshop keramik dan livestreaming, serta wisata budaya. Jadwal per hari ada di halaman program."
+  contoh: false
+zh:
+  judul: 广西文化教育游学
+  tempat: 广西工商职业技术学院，南宁
+  isi: 在广西度过十二天，学习中文和中华文化：初级汉语课、书法、剪纸、茶艺、陶艺和直播工作坊，以及文化游览。每日行程详见项目页面。

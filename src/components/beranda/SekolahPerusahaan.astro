@@ -1,0 +1,22 @@
+---
+import LencanaContoh from '../LencanaContoh.astro';
+import type { Bahasa } from '../../lib/dua-bahasa';
+
+interface Props { bahasa: Bahasa; teks: { judul: string; kalimat: string }; sekolah: { nama: string; contoh: boolean }[] }
+const { bahasa, teks, sekolah } = Astro.props;
+---
+<section class="bagian" aria-labelledby="judul-sekolah">
+  <div class="wadah">
+    <div class="judul-bagian"><h2 id="judul-sekolah">{teks.judul}</h2><p>{teks.kalimat}</p></div>
+    {sekolah.length > 0 && (
+      <ul class="nama">
+        {sekolah.map((s) => <li class="kartu">{s.nama} <LencanaContoh bahasa={bahasa} tampil={s.contoh} /></li>)}
+      </ul>
+    )}
+  </div>
+</section>
+
+<style>
+  .nama { display: flex; flex-wrap: wrap; gap: var(--ruang-2); }
+  .kartu { display: inline-flex; align-items: center; gap: var(--ruang-1); padding: var(--ruang-2) var(--ruang-3); font-weight: 600; }
+</style>

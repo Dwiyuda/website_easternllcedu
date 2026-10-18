@@ -1,0 +1,138 @@
+id:
+  seo:
+    judul: Agen Kuliah ke China di Pekanbaru · Beasiswa dan Pendampingan · Eastern LLC
+    deskripsi: "Eastern LLC mendampingi kuliah ke China sejak 2016: pilihan jurusan, pendaftaran kampus, beasiswa, visa, dan keberangkatan. Alumni 2024–2025 kuliah di Peking University, Zhejiang University, dan kampus lain."
+  pembuka:
+    judul: Kuliah ke Tiongkok
+    kalimat: Sejak 2016 Eastern LLC mendampingi siswa kuliah di Tiongkok (China), dari pilihan jurusan, pendaftaran, beasiswa, dan visa sampai berangkat bersama rombongan.
+    foto: Rombongan mahasiswa Eastern LLC di bandara
+    angka: Sejak 2016 · {alumni} alumni 2024–2025 · {kampus} kampus di {kota} kota
+  navigasi:
+    - Kenapa Tiongkok
+    - Layanan
+    - Kenapa Eastern LLC
+    - Jenjang
+    - Kampus
+    - Alumni
+    - Info session
+    - Daftar
+  tiongkok:
+    judul: Kenapa kuliah di Tiongkok
+    kalimat: Empat alasan yang paling sering ditanyakan orang tua dan calon mahasiswa, dengan contoh dari data Eastern LLC.
+    alasan:
+      - judul: Beasiswa dari banyak pihak
+        bukti: Pemerintah Tiongkok, pemerintah provinsi, dan kampus menyediakan beasiswa. Alumni Eastern LLC 2024–2025 menerima beasiswa Pemerintah Tiongkok, Pemerintah Provinsi Zhejiang, President Scholarship, dan beasiswa guru bahasa Mandarin
+      - judul: Kuliah berbahasa Mandarin atau Inggris
+        bukti: "{inggris} kampus di Daftar Kampus membuka jurusan berbahasa Inggris, dari teknik dan komputer sampai bisnis dan kedokteran (MBBS)"
+      - judul: Mandarin dipakai setiap hari
+        bukti: Kampus seperti Zhejiang University dan Tongji University membuka program bahasa Mandarin sebelum kuliah S1, dan Eastern LLC menyiapkan HSK 1–6 sejak di Pekanbaru
+      - judul: Mandarin dibutuhkan di dunia kerja
+        bukti: Perusahaan di Riau, seperti PT Contoh 1 dan PT Contoh 2, pernah mengadakan kelas Mandarin untuk karyawan bersama Eastern LLC
+  layanan:
+    judul: Pendampingan dari awal sampai berangkat
+    kalimat: Lima tahap yang didampingi admin kuliah Eastern LLC. Langkah yang perlu disiapkan calon mahasiswa ada di halaman Cara Mendaftar.
+    langkah:
+      - judul: Konsultasi jurusan
+        kalimat: Memilih jurusan, jenjang, dan bahasa pengantar yang sesuai dengan minat, nilai, dan rencana biaya.
+      - judul: Pendaftaran kampus
+        kalimat: Menyusun berkas, mengisi formulir kampus, dan mengikuti jadwal pendaftaran.
+      - judul: Beasiswa
+        kalimat: Mencari beasiswa yang tersedia untuk jurusan itu dan menyiapkan berkas pengajuannya.
+      - judul: Visa
+        kalimat: Membantu pengurusan visa pelajar setelah surat penerimaan terbit.
+      - judul: Keberangkatan
+        kalimat: Persiapan sebelum berangkat dan keberangkatan bersama rombongan Eastern LLC.
+    tautan: Cara Mendaftar
+  jenjang:
+    judul: Jenjang kuliah
+    kartu:
+      - judul: SMA
+        bukti: Jimei High School di Xiamen, untuk lulusan SMP.
+      - judul: Bahasa
+        bukti: Program bahasa Mandarin di kampus, sebagai persiapan sebelum S1 atau untuk belajar bahasa saja.
+      - judul: Diploma
+        bukti: Program vokasi terapan, misalnya di Shanghai Donghai Vocational and Technical College.
+      - judul: S1
+        bukti: Jurusan berbahasa Mandarin atau Inggris, dengan beasiswa pemerintah, provinsi, atau kampus. Sebagian kampus meminta ujian CSCA.
+      - judul: S2
+        bukti: Jurusan berbahasa Mandarin atau Inggris, termasuk Pendidikan Bahasa Mandarin dengan beasiswa penuh.
+  alumni:
+    judul: Alumni Eastern LLC
+    kalimat: Rombongan berikutnya berangkat September 2026.
+    tautan: Lihat semua alumni
+  info:
+    judul: Info session
+    kalimat: Penjelasan langsung tentang kampus, jurusan, dan beasiswa bersama admin kuliah Eastern LLC.
+  penutup:
+    judul: Konsultasi kuliah ke Tiongkok
+    kalimat: Konsultasikan jurusan, kampus, dan beasiswa bersama admin kuliah Eastern LLC.
+    tautan: Cara Mendaftar
+zh:
+  seo:
+    judul: 中国留学申请服务 · 东方语言学院
+    deskripsi: 东方语言学院自2016年起协助印尼学生赴中国留学，提供选专业、院校申请、奖学金、签证和行前准备等全程服务。2024–2025年校友就读于北京大学、浙江大学等院校。
+  pembuka:
+    judul: 留学中国
+    kalimat: 东方语言学院自2016年起协助学生赴中国留学，从选择专业、递交申请、申请奖学金、办理签证，到集体出发，全程陪同。
+    foto: 东方留学生集体出发 · 机场
+    angka: 2016年起 · {alumni}名校友（2024–2025） · {kampus}所院校，分布在{kota}座城市
+  navigasi:
+    - 为什么去中国
+    - 服务内容
+    - 为什么选择东方
+    - 留学层次
+    - 院校
+    - 校友
+    - 说明会
+    - 咨询
+  tiongkok:
+    judul: 为什么去中国留学
+    kalimat: 家长和学生最关心的四个问题，以东方的实际数据为例。
+    alasan:
+      - judul: 奖学金来源多样
+        bukti: 中国政府、省政府和高校均设有奖学金。2024–2025年东方校友获得中国政府奖学金、浙江省政府奖学金、校长奖学金和国际中文教师奖学金
+      - judul: 中文或英文授课
+        bukti: 院校名单中有{inggris}所院校开设英文授课专业，涵盖工程、计算机、商科和临床医学（MBBS）等
+      - judul: 每天浸润在中文环境中
+        bukti: 浙江大学、同济大学等院校开设本科前的汉语进修项目，东方在北干巴鲁即可提供HSK一至六级备考课程
+      - judul: 职场需要中文人才
+        bukti: 廖内省的企业，如PT Contoh 1和PT Contoh 2，曾邀请东方为员工开设中文培训班
+  layanan:
+    judul: 从咨询到出发，全程陪同
+    kalimat: 东方留学顾问全程协助以下五个环节。学生需要准备的事项请见“申请流程”页面。
+    langkah:
+      - judul: 专业咨询
+        kalimat: 根据兴趣、成绩和预算，选择合适的专业、层次和授课语言。
+      - judul: 院校申请
+        kalimat: 整理申请材料，填写院校申请表，跟进申请进度。
+      - judul: 奖学金申请
+        kalimat: 查找适合该专业的奖学金，准备申请材料。
+      - judul: 签证办理
+        kalimat: 收到录取通知书后，协助办理学习签证。
+      - judul: 行前准备与出发
+        kalimat: 行前说明，与东方留学团集体出发。
+    tautan: 申请流程
+  jenjang:
+    judul: 留学层次
+    kartu:
+      - judul: 高中
+        bukti: 厦门集美中学，面向初中毕业生。
+      - judul: 语言进修
+        bukti: 在中国院校学习汉语，可作为本科预备，也可单独进修。
+      - judul: 专科
+        bukti: 应用型高职专科项目，例如上海东海职业技术学院。
+      - judul: 本科
+        bukti: 中文或英文授课，可申请政府、省级或高校奖学金。部分院校要求参加CSCA考试。
+      - judul: 硕士
+        bukti: 中文或英文授课，包括可申请全额奖学金的国际中文教育专业。
+  alumni:
+    judul: 东方校友
+    kalimat: 新一批学生于2026年9月出发。
+    tautan: 查看全部校友
+  info:
+    judul: 留学说明会
+    kalimat: 东方留学顾问现场介绍院校、专业和奖学金。
+  penutup:
+    judul: 留学咨询
+    kalimat: 请向东方留学顾问咨询专业、院校和奖学金。
+    tautan: 申请流程

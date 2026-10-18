@@ -1,0 +1,32 @@
+id:
+  slugPinyin: jinan-daxue
+  nama: Jinan University
+  deskripsi: 'Jinan University berdiri pada 1906, dengan kampus utama di Guangzhou, Provinsi Guangdong, Tiongkok (China), serta kampus di Zhuhai dan Shenzhen. Sejak awal kampus ini menerima perantau Tionghoa, dan biaya kuliah untuk mahasiswa keturunan Tionghoa berbeda dari mahasiswa asing lain. Jurusan S1 berbahasa Inggris antara lain Accounting (CPA Canada), Clinical Medicine (MBBS), Computer Science and Technology, Finance, International Journalism, dan Pharmacy. Beasiswa yang tercatat: Pemerintah Tiongkok, pemerintah daerah, Confucius Institute, dan Silk Road.'
+  kota: guangzhou
+  logo: ../../assets/logo-kampus/jinan-university.png
+  jenjang:
+    - S1
+  situs: https://english.jnu.edu.cn/
+  jurusanInggris:
+    - nama: Accounting (CPA-Canada)
+      jenjang: S1
+    - nama: Clinical Medicine (CM)
+      jenjang: S1
+    - nama: Clinical Medicine (M.B.B.S.)
+      jenjang: S1
+    - nama: Computer Science and Technology
+      jenjang: S1
+    - nama: Finance
+      jenjang: S1
+    - nama: Food Quality and Safety
+      jenjang: S1
+    - nama: International Economics and Trade
+      jenjang: S1
+    - nama: International Journalism
+      jenjang: S1
+    - nama: Pharmacy
+      jenjang: S1
+  contoh: false
+zh:
+  nama: 暨南大学
+  deskripsi: 暨南大学创办于1906年，主校区位于广东省广州市，另有珠海和深圳校区，历来面向海外华侨华人招生，华裔学生与其他国际学生的学费标准不同。英文授课本科专业有会计学（CPA加拿大方向）、临床医学（MBBS）、计算机科学与技术、金融学、国际新闻和药学等。可申请中国政府奖学金、地方政府奖学金、孔子学院奖学金和丝绸之路奖学金。

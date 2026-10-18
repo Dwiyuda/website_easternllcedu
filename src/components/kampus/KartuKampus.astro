@@ -1,0 +1,40 @@
+---
+// Kartu kampus (MASTER.md; Panduan Visual 9c): logo di ubin, nama Indonesia (Fraunces marun) dan nama 中文, lencana jenjang,
+// lencana sukses alumni otomatis dari koleksi Alumni. Biaya hanya kalau sakelar biaya kampus menyala (9c2). Seluruh kartu satu tautan.
+import LencanaContoh from '../LencanaContoh.astro';
+import LogoKampus from './LogoKampus.astro';
+import { UI } from '../../i18n/ui';
+import type { Bahasa } from '../../lib/dua-bahasa';
+import { formatRmb } from '../../lib/harga';
+import type { DataKartuKampus } from '../../lib/kampus';
+import { isiTempat } from '../../lib/teks';
+
+interface Props { bahasa: Bahasa; kampus: DataKartuKampus }
+const { bahasa, kampus: k } = Astro.props;
+const ui = UI[bahasa];
+---
+<a class="kartu kartu-kampus" href={k.url}>
+  <LogoKampus logo={k.logo} nama={k.nama} />
+  <span class="isi">
+    <span class="nama">{k.nama}</span>
+    <span class="nama-zh" lang="zh-Hans">{k.namaZh}</span>
+    <span class="lencana-baris">
+      <span class:list={['lencana', { 'lencana-selesai': !k.tujuanAlumni }]}>{k.tujuanAlumni ? ui.kampus.kelas.tujuanAlumni : ui.kampus.kelas.mitra}</span>
+      {k.jenjang.map((j) => <span class="lencana">{ui.jenjang[j]}</span>)}
+      {k.alumni && <span class="lencana lencana-sukses">{ui.kampus.alumniAda}</span>}
+      <LencanaContoh bahasa={bahasa} tampil={k.contoh || !k.logo} />
+    </span>
+    {k.biaya && (
+      <span class="biaya">{ui.kampus.biaya.kuliah} {formatRmb(k.biaya.min, k.biaya.sampai, bahasa)}
+        <span class="lencana lencana-peringatan">{isiTempat(ui.kampus.biaya.lencana, { tahun: k.biaya.tahun })}</span></span>
+    )}
+  </span>
+</a>
+
+<style>
+  .kartu-kampus { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--ruang-2); align-items: start; height: 100%; padding: var(--ruang-2); }
+  .isi { display: grid; justify-items: start; gap: var(--ruang-1); }
+  .nama { color: var(--marun-600); font: 500 var(--huruf-isi) / 1.3 var(--font-judul); font-variation-settings: "SOFT" 100; }
+  .nama-zh { color: var(--teks-600); font: 400 var(--huruf-isi) / 1.3 var(--font-judul-han); }
+  .biaya { display: flex; flex-wrap: wrap; align-items: center; gap: var(--ruang-1); color: var(--teks-600); font-size: var(--huruf-kecil); }
+</style>

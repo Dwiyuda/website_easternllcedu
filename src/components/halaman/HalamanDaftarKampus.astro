@@ -1,0 +1,107 @@
+---
+// Halaman Daftar Kampus (Naskah Daftar Kampus; Panduan Visual 9c dan 9c2): pembuka ringkas 校 dengan angka otomatis, lalu di bagian
+// peach pita "Biaya dan pendaftaran" di atas daftar, peta dan daftar kota di kiri yang menempel kalau muat di layar (HP: di atas),
+// saringan dan kampus per kota di kanan, penutup dua nomor admin kuliah.
+import { getEntry } from 'astro:content';
+import Penutup from '../beranda/Penutup.astro';
+import PembukaRingkas from '../bagian/PembukaRingkas.astro';
+import BlokBiaya from '../kampus/BlokBiaya.astro';
+import KartuKampus from '../kampus/KartuKampus.astro';
+import Peta from '../kampus/Peta.astro';
+import SaringKampus from '../kampus/SaringKampus.astro';
+import Dasar from '../../layouts/Dasar.astro';
+import { UI } from '../../i18n/ui';
+import { RUTE } from '../../i18n/rute';
+import { ambil, type Bahasa } from '../../lib/dua-bahasa';
+import { kelompokBiaya, templatLokasi } from '../../lib/kampus';
+import { alamatKampus, ambilTampil, kampusTampil, petaKampus } from '../../lib/konten';
+import { butirRemah } from '../../lib/navigasi';
+import { isiTempat } from '../../lib/teks';
+
+interface Props { bahasa: Bahasa }
+const { bahasa } = Astro.props;
+const ui = UI[bahasa];
+const t = ui.kampus;
+const [{ kampus, kota }, { kota: titik, jumlahKampus }, alumni, pengaturan] = await Promise.all([
+  kampusTampil(), petaKampus(bahasa), ambilTampil('alumni'), getEntry('pengaturan', 'pengaturan'),
+]);
+const tampilkanBiaya = pengaturan?.data.id.tampilkanBiayaKampus ?? false;
+const adaAlumni = new Set(alumni.map((a) => a.data.id.kampus.id));
+const urutNama = (a: string, b: string) => a.localeCompare(b, bahasa === 'zh' ? 'zh-Hans' : 'id');
+// Kota dengan kampus terbanyak lebih dulu, lalu nama kota; kartu urut nama kampus di bahasa halaman.
+// ponytail: kelompok mengikuti titik peta, jadi kota yang hanya punya sekolah SMA tidak berkelompok (belum ada kota seperti itu;
+// tes build "setiap kampus tampil punya satu kartu" gagal kalau kota seperti itu muncul).
+const kelompok = [...titik].sort((a, b) => b.jumlah - a.jumlah || urutNama(a.nama, b.nama)).map((k) => ({
+  slug: k.slug,
+  nama: k.nama,
+  judul: isiTempat(templatLokasi(t.grup, kota.get(k.slug)!.data.id), {
+    kota: k.nama, provinsi: ambil<string>(kota.get(k.slug)!.data, 'provinsi', bahasa), n: k.jumlah,
+  }),
+  kampus: kampus.filter((x) => x.data.id.kota.id === k.slug).map((x) => ({
+    url: alamatKampus(x, bahasa), nama: x.data.id.nama!, namaZh: x.data.zh!.nama!, logo: x.data.id.logo, jenjang: x.data.id.jenjang,
+    alumni: adaAlumni.has(x.id), contoh: x.data.id.contoh, kota: k.slug, inggris: x.data.id.jurusanInggris.length > 0,
+    tujuanAlumni: x.data.id.tujuanAlumni,
+    biaya: tampilkanBiaya && x.data.id.biayaKuliah
+      ? { min: x.data.id.biayaKuliah, sampai: x.data.id.biayaKuliahSampai, tahun: x.data.id.tahunBiaya } : undefined,
+  })).sort((a, b) => urutNama(bahasa === 'zh' ? a.namaZh : a.nama, bahasa === 'zh' ? b.namaZh : b.nama)),
+}));
+---
+<Dasar bahasa={bahasa} judul={t.seo.judul} deskripsi={t.seo.deskripsi} judulWa={t.judul}>
+  <PembukaRingkas bahasa={bahasa} hanzi="校" judul={t.judul} kalimat={isiTempat(t.kalimat, { kampus: jumlahKampus, kota: titik.length })}
+    remah={butirRemah(bahasa, ['program'], ui.programButir.kampus!.judul, RUTE.kampus[bahasa])} />
+  <div class="bagian bagian-peach">
+    <div class="wadah susun">
+      <section aria-labelledby="judul-biaya"><BlokBiaya bahasa={bahasa} idJudul="judul-biaya" judulWa={t.judul} mendatar /></section>
+      <div class="dua">
+        <div class="kolom-peta">
+          <div class="peta"><Peta bahasa={bahasa} kota={titik} pilih /></div>
+          <SaringKampus bahasa={bahasa} bagian="kota" kota={kelompok} />
+          <p class="kecil">{ui.peta.keterangan}</p>
+        </div>
+        <div class="kolom-daftar" data-daftar-kampus>
+          <SaringKampus bahasa={bahasa} bagian="lain" biaya={tampilkanBiaya && kampus.some((x) => x.data.id.biayaKuliah)} />
+          {kelompok.map((g) => (
+            <section class="kelompok" aria-labelledby={`kota-${g.slug}`} data-kelompok>
+              <h2 id={`kota-${g.slug}`}>{g.judul}</h2>
+              <ul class="kisi">
+                {g.kampus.map((k) => (
+                  <li data-kota={k.kota} data-jenjang={k.jenjang.join(' ')} data-inggris={k.inggris ? '' : undefined}
+                    data-biaya={k.biaya ? String(kelompokBiaya(k.biaya.min)) : undefined}>
+                    <KartuKampus bahasa={bahasa} kampus={k} />
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+  <Penutup bahasa={bahasa} teks={t.penutup} judulHalaman={t.judul} tombol={[{ admin: 'kuliah1' }, { admin: 'kuliah2' }]} />
+</Dasar>
+
+<style>
+  .susun { display: grid; gap: var(--ruang-5); }
+  .dua { display: grid; gap: var(--ruang-5); align-items: start; }
+  @media (min-width: 1024px) {
+    .dua { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+  }
+  /* Kolom peta (peta, daftar kota, keterangan) hanya menempel kalau seluruhnya muat di layar, supaya tombol kota terakhir dan
+     cincin fokusnya tidak terpotong (K14; diukur Task 9: kolom id berakhir di 861 px, di 1366×768 tombol Harbin tertutup).
+     Tinggi dalam em (56.25em = 900 px pada huruf bawaan 16 px) supaya ambang ikut ukuran huruf bawaan browser, karena tinggi kolom
+     ikut membesar; lebar tetap 1024px seperti kisi dua kolom, supaya kolom tidak menempel saat kisi masih satu kolom.
+     ponytail: ambang tetap, dinaikkan kalau kota baru menambah baris tombol kota. */
+  @media (min-width: 1024px) and (min-height: 56.25em) {
+    .kolom-peta { position: sticky; top: calc(var(--tinggi-bilah) + var(--ruang-3)); }
+  }
+  .kolom-peta { display: grid; gap: var(--ruang-2); }
+  .peta { padding: var(--ruang-2); border-radius: var(--radius-besar); background: var(--kartu-100); }
+  .kolom-daftar { display: grid; gap: var(--ruang-5); }
+  /* Jangkar #kota-<slug> (remah detail kampus) cukup memakai scroll-padding-top html di dasar.css. */
+  .kelompok h2 { margin-bottom: var(--ruang-2); font-size: var(--huruf-judul-4); line-height: 1.3; }
+  :lang(zh) .kelompok h2 { font-size: calc(var(--huruf-judul-4) * 0.9); }
+  .kisi { display: grid; gap: var(--ruang-2); }
+  @media (min-width: 768px) { .kisi { grid-template-columns: 1fr 1fr; } }
+  .kisi li { display: grid; }
+  .kisi li[hidden] { display: none; }
+</style>

@@ -1,0 +1,129 @@
+id:
+  siswa: 200+
+  seo:
+    judul: Eastern LLC Pekanbaru · Kursus Mandarin dan Kuliah ke China
+    deskripsi: Kursus Mandarin sejak 2006 di Jl. Contoh No. 1, Pekanbaru. Kelas di sekolah dan perusahaan, study tour, dan agen kuliah ke China dengan pendampingan beasiswa.
+  pembuka:
+    judul: Mandarin di Pekanbaru sejak 2006
+    kalimat: Eastern LLC mengajar Mandarin untuk anak, remaja, dan dewasa, membuka kelas di sekolah dan perusahaan, dan sejak 2016 mendampingi siswa kuliah ke Tiongkok (China).
+    tombol: Lihat program
+  angka:
+    berdiri: Berdiri di Pekanbaru
+    alumni: Alumni berangkat kuliah 2024–2025
+    kampus: Kampus di {kota} kota di Tiongkok (China)
+    siswa: Siswa belajar di Eastern LLC
+  program:
+    judul: Empat program
+    kartu:
+      - judul: Kursus Bahasa
+        kalimat: Mandarin dari dasar sampai HSK 6 untuk anak, remaja, dan dewasa, offline dan online. Juga kursus Inggris.
+      - judul: Kelas Kerja Sama
+        kalimat: Kelas Mandarin di sekolah sejak 2007 dan di perusahaan, lengkap dengan kurikulum dan pelatihan guru.
+      - judul: Study Tour
+        kalimat: Summer camp, winter camp, dan campus tour ke Tiongkok setiap tahun sejak 2023.
+      - judul: Kuliah ke Tiongkok
+        kalimat: Pendampingan dari pilihan jurusan, pendaftaran, beasiswa, visa, sampai keberangkatan.
+  kenapa:
+    judul: Kenapa Eastern LLC
+    kalimat: Delapan alasan, masing-masing dengan buktinya.
+    alasan:
+      - judul: Mengajar Mandarin sejak 2006
+        bukti: Berdiri 1 September 2006, layanan kuliah ke Tiongkok sejak 2016
+      - judul: Lembaga resmi dan terdaftar
+        bukti: NIB dan Izin Operasional LKP, berlaku sampai 2028
+      - judul: Belajar Mandarin sebelum berangkat
+        bukti: Kelas persiapan HSK 1–6 milik Eastern LLC sendiri
+      - judul: Alumni nyata dengan beasiswa
+        bukti: 40+ alumni 2024–2025 di 13 kampus, termasuk Peking University dan Zhejiang University
+      - judul: Didampingi sampai berangkat
+        bukti: Pilihan jurusan, pendaftaran, beasiswa, visa, dan keberangkatan bersama rombongan
+      - judul: Kantor di Pekanbaru
+        bukti: Jl. Contoh No. 1, bisa konsultasi tatap muka
+      - judul: Mengenal kampusnya langsung
+        bukti: Campus tour dan summer camp ke Tiongkok setiap tahun sejak 2023
+      - judul: Karangan siswa dimuat di koran
+        bukti: 23 karangan Mandarin siswa Eastern LLC dimuat di kolom koran 硕河橋
+  kampus:
+    judul: Kampus di Tiongkok (China)
+    kalimat: "{kampus} kampus di {kota} kota, dari Beijing sampai Guangzhou. Titik yang lebih besar berarti lebih banyak kampus."
+    tautan: Lihat Daftar Kampus
+  alumni:
+    judul: Alumni dan beasiswa
+    kalimat: Alumni Eastern LLC 2024–2025 kuliah di Peking University, Zhejiang University, Xi'an Jiaotong University, Harbin Institute of Technology, dan kampus lain, dengan beasiswa Pemerintah Tiongkok, Pemerintah Provinsi Zhejiang, President Scholarship, dan beasiswa guru bahasa Mandarin.
+    tautan: Lihat Testimoni
+  kabar:
+    judul: Kabar dan event
+    tautan: Semua kabar
+  sekolah:
+    judul: Kelas di sekolah dan perusahaan
+    kalimat: Eastern LLC mengajar Mandarin di sekolah mitra sejak 2007, dan pernah mengadakan kelas Mandarin untuk karyawan PT Contoh 1 dan PT Contoh 2.
+  legalitas:
+    judul: Legalitas
+    tautan: Legalitas lengkap
+  penutup:
+    judul: Konsultasi lewat WhatsApp
+    kalimat: Pilih admin sesuai keperluan.
+zh:
+  seo:
+    judul: 东方语言学院 · 北干巴鲁中文课程与中国留学
+    deskripsi: 东方语言学院自2006年起在印尼北干巴鲁教授中文，开设学校与企业中文班，组织中国游学，并协助学生申请中国大学和奖学金。
+  pembuka:
+    judul: 北干巴鲁中文教学，始于2006年
+    kalimat: 东方语言学院为儿童、青少年和成人开设中文课程，走进学校和企业开班授课，并自2016年起协助学生赴中国留学。
+    tombol: 查看项目
+  angka:
+    berdiri: 在北干巴鲁成立
+    alumni: 名学生2024–2025年赴华留学
+    kampus: 所院校，分布在中国{kota}座城市
+    siswa: 名学员在东方学习
+  program:
+    judul: 四大项目
+    kartu:
+      - judul: 语言课程
+        kalimat: 面向儿童、青少年和成人的中文课程，从零基础到HSK六级，线下线上均可，另设英语课程。
+      - judul: 合作课程
+        kalimat: 自2007年起在学校开设中文课，也为企业开班，并提供课程设计和教师培训。
+      - judul: 游学
+        kalimat: 自2023年起，每年组织中国冬夏令营和院校参访。
+      - judul: 留学中国
+        kalimat: 从选专业、递交申请、申请奖学金、办理签证到出发，全程协助。
+  kenapa:
+    judul: 为什么选择东方
+    kalimat: 八个理由，每一条都有据可查。
+    alasan:
+      - judul: 2006年起教授中文
+        bukti: 2006年9月1日成立，2016年起提供留学服务
+      - judul: 正式注册的培训机构
+        bukti: 持有营业登记号（NIB）和培训机构运营许可，有效期至2028年
+      - judul: 出国前先学中文
+        bukti: 自设HSK一至六级备考课程
+      - judul: 真实的校友和奖学金
+        bukti: 2024–2025年40余名学生就读13所院校，包括北京大学和浙江大学
+      - judul: 全程协助直至出发
+        bukti: 选专业、申请、奖学金、签证，集体出发
+      - judul: 北干巴鲁实体办公室
+        bukti: Jl. Contoh No. 1，可当面咨询
+      - judul: 实地了解中国院校
+        bukti: 自2023年起每年组织院校参访和夏令营
+      - judul: 学生作文登报
+        bukti: 23篇东方学生的中文作文刊登于报纸专栏《硕河橋》
+  kampus:
+    judul: 中国院校
+    kalimat: "{kampus}所院校，分布在北京到广州等{kota}座城市。圆点越大，院校越多。"
+    tautan: 查看院校名单
+  alumni:
+    judul: 校友与奖学金
+    kalimat: 2024–2025年，东方校友就读于北京大学、浙江大学、西安交通大学、哈尔滨工业大学等院校，获得中国政府奖学金、浙江省政府奖学金、校长奖学金和国际中文教师奖学金等。
+    tautan: 查看学员评价
+  kabar:
+    judul: 最新动态
+    tautan: 全部动态
+  sekolah:
+    judul: 学校与企业中文课
+    kalimat: 东方自2007年起在合作学校开展中文教学，并曾为PT Contoh 1和PT Contoh 2员工开设中文培训。
+  legalitas:
+    judul: 办学资质
+    tautan: 查看完整资质
+  penutup:
+    judul: 通过WhatsApp咨询
+    kalimat: 请选择对应的咨询顾问。

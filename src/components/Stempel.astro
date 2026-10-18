@@ -1,0 +1,29 @@
+---
+// Stempel 印章 hanya di tanda resmi. Menempel sekali saat terlihat (--durasi-stempel), langsung tampil untuk "kurangi gerakan".
+import { Image } from 'astro:assets';
+import stempel from '../assets/merek/stempel.png';
+
+interface Props { ukuran?: 'besar' | 'kecil'; animasi?: boolean }
+const { ukuran = 'besar', animasi = true } = Astro.props;
+---
+<span class:list={['stempel', `stempel-${ukuran}`]} data-stempel={animasi ? '' : undefined}>
+  <Image src={stempel} alt="" widths={[64, 96, 192]} sizes="(min-width: 1024px) 96px, 64px" />
+</span>
+
+<style>
+  .stempel { display: block; flex: none; }
+  .stempel :global(img) { width: 100%; height: 100%; border-radius: var(--radius-kecil); }
+  .stempel-besar { width: 64px; height: 64px; }
+  .stempel-kecil { width: 56px; height: 56px; }
+  @media (min-width: 1024px) { .stempel-besar { width: 96px; height: 96px; } }
+  :global(.js) [data-stempel] { opacity: 0; transform: scale(1.06) rotate(-2deg); }
+  :global(.js) [data-stempel].tempel { opacity: 1; transform: none; transition: opacity var(--durasi-stempel) var(--kurva), transform var(--durasi-stempel) var(--kurva); }
+  @media (prefers-reduced-motion: reduce) { :global(.js) [data-stempel] { opacity: 1; transform: none; } }
+</style>
+
+<script>
+  const pengamat = new IntersectionObserver((daftar, o) => daftar.forEach((d) => {
+    if (d.isIntersecting) { d.target.classList.add('tempel'); o.unobserve(d.target); }
+  }), { threshold: 0.6 });
+  document.querySelectorAll('[data-stempel]').forEach((el) => pengamat.observe(el));
+</script>

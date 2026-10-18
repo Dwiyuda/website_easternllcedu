@@ -1,0 +1,99 @@
+---
+import { Image } from 'astro:assets';
+import Ikon from '../Ikon.astro';
+import Stempel from '../Stempel.astro';
+import logo from '../../assets/merek/logo-terang-lengkap.png';
+import { ADMIN, ALAMAT_RINGKAS, EMAIL, LEGALITAS, SOSIAL } from '../../data/kontak';
+import { UI, tandaTabBaru } from '../../i18n/ui';
+import { RUTE, type KunciRute } from '../../i18n/rute';
+import type { Bahasa } from '../../lib/dua-bahasa';
+import { formatTanggal } from '../../lib/tanggal';
+
+interface Props { bahasa: Bahasa }
+const { bahasa } = Astro.props;
+const ui = UI[bahasa];
+const MENU: [KunciRute, string][] = [
+  ['tentang', ui.menu.tentang], ['program', ui.menu.program], ['kampus', ui.programButir.kampus!.judul],
+  ['kabar', ui.kegiatanButir.kabar!.judul], ['galeri', ui.kegiatanButir.galeri!.judul],
+  ['testimoni', ui.menu.testimoni], ['tanyaJawab', ui.tanyaJawab], ['kontak', ui.menu.kontak],
+];
+const NOMOR = [ADMIN.kursusOffline, ADMIN.kursusOnline, ADMIN.kuliah1, ADMIN.kantor];
+const tahun = new Date().getFullYear();
+---
+<footer class="kaki">
+  <div class="wadah kolom">
+    <div class="profil">
+      {/* Halaman Indonesia: alt Latin saja, karena aksara Han di halaman id harus ber-lang zh (WCAG 3.1.2, C9). */}
+      <Image src={logo} alt={bahasa === 'zh' ? 'Eastern Language Learning Center 东方语言学院' : 'Eastern Language Learning Center'} height={112} />
+      <p>{ui.kaki.profil}</p>
+    </div>
+    <nav aria-label={ui.kaki.menu}>
+      <h2 class="judul-kolom">{ui.kaki.menu}</h2>
+      <ul>{MENU.map(([k, label]) => <li><a href={RUTE[k][bahasa]}>{label}</a></li>)}</ul>
+    </nav>
+    <div class="kontak">
+      <h2 class="judul-kolom">{ui.kaki.kontak}</h2>
+      <p>{ALAMAT_RINGKAS[bahasa]}</p>
+      <p class="baris"><Ikon nama="mail" ukuran={20} /><a href={`mailto:${EMAIL}`}>{EMAIL}</a></p>
+      <ul>{NOMOR.map((a) => <li class="baris"><Ikon nama="call" ukuran={20} /><span>{a.layanan[bahasa]} <span class="nomor">{a.nomor}</span></span></li>)}</ul>
+    </div>
+    <div class="sosial">
+      <h2 class="judul-kolom">{ui.kaki.sosial}</h2>
+      <ul>
+        {SOSIAL.map((s) => (
+          <li>
+            <a class="pil-sosial" href={s.url} target="_blank" rel="noopener" aria-label={`${s.nama} ${s.akun}${tandaTabBaru(bahasa)}`}>
+              <span class="lingkaran"><Ikon nama={s.ikon} ukuran={20} /></span>
+              <span><span class="platform">{s.nama}</span><span class="akun">{s.akun}</span></span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+  <div class="wadah pita">
+    <Stempel ukuran="kecil" animasi={false} />
+    <dl>
+      <div><dt>{ui.legalitas.nib}</dt><dd>{LEGALITAS.nib}</dd></div>
+      <div><dt>{ui.legalitas.izin}</dt><dd>{LEGALITAS.izin}</dd></div>
+      <div><dt>{ui.kaki.berlakuSampai}</dt><dd>{formatTanggal(LEGALITAS.sampai, bahasa)}</dd></div>
+    </dl>
+    <a href={RUTE.tentang[bahasa]}>{ui.kaki.legalitasLengkap}</a>
+  </div>
+  <p class="wadah akhir">{LEGALITAS.badan[bahasa]}{bahasa === 'id' && ' '}Eastern Language Learning Center · © 2006–{tahun} {ui.kaki.hakCipta}</p>
+</footer>
+
+<style>
+  .kaki { padding-block: var(--ruang-5) var(--ruang-4); background: var(--marun-700); color: var(--peach-100); }
+  .kaki p { color: var(--peach-100); font-size: var(--huruf-kecil); }
+  .kaki :focus-visible { outline-color: var(--peach-100); }
+  .kolom { display: grid; grid-template-columns: 1fr 1fr; gap: var(--ruang-4) var(--ruang-3); }
+  .profil, .kontak, .sosial { grid-column: 1 / -1; }
+  @media (min-width: 1024px) {
+    .kolom { grid-template-columns: 1.3fr 0.9fr 1.3fr 1.1fr; }
+    .profil, .kontak, .sosial { grid-column: auto; }
+  }
+  .profil { display: grid; gap: var(--ruang-2); align-content: start; }
+  .profil :global(img) { width: auto; height: 56px; }
+  .judul-kolom { margin-bottom: var(--ruang-2); color: var(--kartu-100); font: 600 var(--huruf-mini) / 1.2 var(--font-isi); letter-spacing: 0.08em; text-transform: uppercase; }
+  :lang(zh) .judul-kolom { letter-spacing: 0; text-transform: none; font-family: var(--font-isi-han); }
+  ul { display: grid; gap: var(--ruang-1); margin: 0; padding: 0; list-style: none; }
+  nav a { color: var(--peach-100); text-decoration: none; }
+  nav a:hover { color: var(--kartu-100); text-decoration: underline; }
+  .kontak { display: grid; gap: var(--ruang-1); align-content: start; }
+  .kontak a { color: var(--kartu-100); }
+  .baris { display: flex; gap: var(--ruang-1); align-items: flex-start; font-size: var(--huruf-kecil); }
+  .nomor { color: var(--kartu-100); font-variant-numeric: tabular-nums; }
+  .pil-sosial { display: flex; align-items: center; gap: var(--ruang-2); padding: var(--ruang-1); padding-right: var(--ruang-2); border-radius: var(--radius-pil); background: var(--marun-600); color: var(--kartu-100); text-decoration: none; transition: transform var(--durasi-kursor) var(--kurva), background-color var(--durasi-kursor) var(--kurva); }
+  .pil-sosial:hover { transform: translateY(calc(-1 * var(--jarak-angkat))); background: var(--marun-500); color: var(--kartu-100); }
+  .lingkaran { display: grid; place-items: center; flex: none; width: 40px; height: 40px; border-radius: 50%; background: var(--marun-700); color: var(--putih-logo); }
+  .platform { display: block; font-weight: 600; }
+  .akun { display: block; color: var(--peach-100); font-size: var(--huruf-kecil); }
+  .pita { display: flex; flex-wrap: wrap; align-items: center; gap: var(--ruang-3); margin-top: var(--ruang-5); padding: var(--ruang-3); border-radius: var(--radius-besar); background: var(--kartu-100); color: var(--teks-900); }
+  .pita :focus-visible { outline-color: var(--marun-600); }
+  dl { display: flex; flex-wrap: wrap; gap: var(--ruang-2) var(--ruang-4); flex: 1; margin: 0; }
+  dt { color: var(--teks-600); font-size: var(--huruf-mini); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+  :lang(zh) dt { letter-spacing: 0; text-transform: none; }
+  dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .akhir { margin-top: var(--ruang-3); font-size: var(--huruf-mini); }
+</style>

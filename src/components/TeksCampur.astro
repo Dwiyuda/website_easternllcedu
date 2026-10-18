@@ -1,0 +1,10 @@
+---
+// Aksara Han di dalam teks Indonesia (nama kampus, 硕河橋, 陈慧珠) diberi lang="zh-Hans", supaya pembaca layar dan browser
+// memakai bahasa yang benar (WCAG 3.1.2, temuan C9). Di halaman 中文 teks tampil apa adanya karena halamannya sudah zh-Hans.
+import type { Bahasa } from '../lib/dua-bahasa';
+import { potongHan } from '../lib/teks';
+
+interface Props { teks: string; bahasa: Bahasa }
+const { teks, bahasa } = Astro.props;
+---
+{bahasa === 'zh' ? teks : potongHan(teks).map((p) => (p.han ? <span lang="zh-Hans">{p.teks}</span> : p.teks))}

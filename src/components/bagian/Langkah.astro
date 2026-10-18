@@ -1,0 +1,29 @@
+---
+// Langkah bernomor (MASTER.md, Halaman Cara Mendaftar): lingkaran marun-600 40 px berisi angka Fraunces kartu-100,
+// judul --huruf-judul-4, satu kalimat teks-600. Dipakai juga untuk Layanan Kuliah ke Tiongkok dan jadwal per hari study tour.
+// tingkat 2 untuk bagian langkah tanpa judul bagian (Cara Mendaftar), supaya urutan judul tidak melompat dari h1 ke h3.
+interface Props { langkah: { judul: string; kalimat: string }[]; tingkat?: 2 | 3 }
+const { langkah, tingkat = 3 } = Astro.props;
+const Judul = `h${tingkat}` as const;
+---
+<ol class="langkah" role="list">
+  {langkah.map((l, i) => (
+    <li data-muncul style={`--urut: ${i % 6}`}>
+      <span class="nomor" aria-hidden="true">{i + 1}</span>
+      <div><Judul>{l.judul}</Judul><p>{l.kalimat}</p></div>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .langkah { display: grid; gap: var(--ruang-3); }
+  @media (min-width: 768px) { .langkah { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1024px) { .langkah { grid-template-columns: repeat(3, 1fr); } }
+  /* Lingkaran 40 px = --ruang-5. */
+  li { display: grid; grid-template-columns: var(--ruang-5) 1fr; gap: var(--ruang-2); align-items: start; }
+  .nomor { display: grid; place-items: center; width: var(--ruang-5); height: var(--ruang-5); border-radius: 50%; background: var(--marun-600); color: var(--kartu-100); font: 500 var(--huruf-judul-4) / 1 var(--font-judul); font-variant-numeric: tabular-nums; }
+  div { display: grid; gap: var(--ruang-1); }
+  :is(h2, h3) { font-size: var(--huruf-judul-4); line-height: 1.3; }
+  :lang(zh) :is(h2, h3) { font-size: calc(var(--huruf-judul-4) * 0.9); }
+  p { color: var(--teks-600); font-size: var(--huruf-kecil); line-height: 1.55; }
+</style>

@@ -1,0 +1,60 @@
+---
+import { getEntry } from 'astro:content';
+import Alumni from '../beranda/Alumni.astro';
+import Angka from '../beranda/Angka.astro';
+import Kabar from '../beranda/Kabar.astro';
+import Kenapa from '../beranda/Kenapa.astro';
+import Legalitas from '../beranda/Legalitas.astro';
+import Pembuka from '../beranda/Pembuka.astro';
+import Penutup from '../beranda/Penutup.astro';
+import PetaMini from '../beranda/PetaMini.astro';
+import Program from '../beranda/Program.astro';
+import SekolahPerusahaan from '../beranda/SekolahPerusahaan.astro';
+import Dasar from '../../layouts/Dasar.astro';
+import { UI } from '../../i18n/ui';
+import { jsonAman, organisasi } from '../../lib/data-terstruktur';
+import { ambil, type Bahasa } from '../../lib/dua-bahasa';
+import { alamatKabar, ambilTampil, artikelTampil, eventMendatang, kutipanTestimoni, petaKampus } from '../../lib/konten';
+import { hariIniJakarta } from '../../lib/tanggal';
+
+interface Props { bahasa: Bahasa }
+const { bahasa } = Astro.props;
+const halaman = await getEntry('beranda', 'beranda');
+if (!halaman) throw new Error('src/content/halaman/beranda.yaml tidak ditemukan');
+const teks = halaman.data[bahasa];
+const hariIni = hariIniJakarta();
+const judulWa = UI[bahasa].judulWaBeranda;
+
+const { kota, jumlahKampus } = await petaKampus(bahasa);
+const alumni = await ambilTampil('alumni');
+
+const event = (await eventMendatang(bahasa, hariIni)).slice(0, 2);
+const artikel = (await artikelTampil(hariIni)).slice(0, 3).map((a) => ({
+  url: alamatKabar('artikel', a, bahasa), judul: ambil<string>(a.data, 'judul', bahasa), ringkasan: ambil<string>(a.data, 'ringkasan', bahasa),
+  terbit: a.data.id.terbit, kategori: a.data.id.kategori, contoh: a.data.id.contoh,
+}));
+const sekolah = (await ambilTampil('mitra'))
+  .filter((m) => m.data.id.jenis === 'sekolah' && m.data.id.tampilDiBeranda)
+  .map((m) => ({ nama: m.data.id.nama, contoh: m.data.id.contoh }));
+const t = (await ambilTampil('testimoni')).find((x) => x.data.id.tampilDiBeranda && x.data.id.kutipan);
+const kutipan = t && kutipanTestimoni(t, bahasa);
+---
+<Dasar bahasa={bahasa} judul={teks.seo.judul} deskripsi={teks.seo.deskripsi} judulWa={judulWa}>
+  <script is:inline type="application/ld+json" slot="kepala" set:html={jsonAman(organisasi(Astro.site!.href, bahasa))} />
+  {/* Isi pembuka rata bawah. Kalau Chrome melukis saat baru 东方 yang terurai (HP lambat), judul, kalimat, dan tombol
+       yang menyusul mendorongnya naik 352–376 px (CLS 0,33–0,35). Chrome membuka rel=expect begitu tag PEMBUKA elemen target
+       terurai, jadi targetnya id pertama sesudah pembuka ditutup, bukan #isi (font-cls-report.md). */}
+  <link rel="expect" href="#judul-program" blocking="render" slot="kepala" />
+  <Pembuka bahasa={bahasa} teks={teks.pembuka} />
+  <Angka bahasa={bahasa} label={teks.angka}
+    nilai={{ alumni: alumni.length, kampus: jumlahKampus, kota: kota.length, siswa: halaman.data.id.siswa }}
+    alumniContoh={alumni.some((a) => a.data.id.contoh)} />
+  <Program bahasa={bahasa} teks={teks.program} />
+  <Kenapa bahasa={bahasa} teks={teks.kenapa} />
+  <PetaMini bahasa={bahasa} teks={teks.kampus} kota={kota} jumlahKampus={jumlahKampus} />
+  <Alumni bahasa={bahasa} teks={teks.alumni} kutipan={kutipan} />
+  <Kabar bahasa={bahasa} teks={teks.kabar} event={event} artikel={artikel} />
+  <SekolahPerusahaan bahasa={bahasa} teks={teks.sekolah} sekolah={sekolah} />
+  <Legalitas bahasa={bahasa} teks={teks.legalitas} />
+  <Penutup bahasa={bahasa} teks={teks.penutup} judulHalaman={judulWa} />
+</Dasar>

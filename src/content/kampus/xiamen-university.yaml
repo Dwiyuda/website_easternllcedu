@@ -1,0 +1,34 @@
+id:
+  slugPinyin: xiamen-daxue
+  nama: Xiamen University
+  deskripsi: 'Xiamen University didirikan pada 1921 oleh Tan Kah Kee (Chen Jiageng), tokoh perantau Tionghoa, di kota pesisir Xiamen, Provinsi Fujian, Tiongkok (China). Jurusan berbahasa Mandarin sangat beragam, dari bahasa, jurnalistik, ekonomi, dan hukum sampai kimia dan teknik. Clinical Medicine (MBBS) diajarkan dalam bahasa Inggris, dan S2 tersedia dalam dua bahasa pengantar. Beasiswa yang tercatat: Beasiswa Pemerintah Provinsi Fujian, Xiamen Tan Kah Kee Scholarship, dan beasiswa kampus.'
+  kota: xiamen
+  jenjang:
+    - S1
+    - S2
+  situs: https://admissions.xmu.edu.cn/
+  jurusanInggris:
+    - nama: Clinical Medicine (MBBS)
+      jenjang: S1
+    - nama: Chemical Engineering
+      jenjang: S2
+    - nama: Biochemical Engineering
+      jenjang: S2
+    - nama: Inorganic Chemistry
+      jenjang: S2
+    - nama: Analytical Chemistry
+      jenjang: S2
+    - nama: Finance
+      jenjang: S2
+    - nama: Chemical Biology
+      jenjang: S2
+    - nama: Accounting
+      jenjang: S2
+    - nama: Statistics
+      jenjang: S2
+    - nama: Biology
+      jenjang: S2
+  contoh: false
+zh:
+  nama: 厦门大学
+  deskripsi: 厦门大学由著名华侨领袖陈嘉庚先生于1921年创办，位于福建省厦门市。中文授课专业门类齐全，涵盖语言、新闻、经济、法学、化学和工科等；临床医学（MBBS）为英文授课，硕士项目设有中英文授课。可申请福建省政府奖学金、厦门市陈嘉庚奖学金和厦门大学奖学金。

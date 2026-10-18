@@ -1,0 +1,67 @@
+---
+// Peta kampus mitra (MASTER.md): pesisir dan dua sungai di SVG, titik dan nama kota di lapisan HTML di atasnya, supaya nama kota
+// selalu --huruf-mini di layar mana pun (bawaan Rencana 1: label SVG ±11 px di 375 px). Potongan Tiongkok timur; Pekanbaru di luar
+// potongan, jadi panah di tepi bawah kiri menunjuk arahnya. Seluruh peta aria-hidden: pemakai memberi teks untuk pembaca layar.
+// pilih: titik bisa diklik tetikus dan sentuh (Daftar Kampus); papan ketik memakai daftar kota di bawah peta, jadi titik sengaja
+// tanpa tabindex (temuan K13, menyimpang dari "fokus: cincin marun" MASTER.md).
+import { HUANGHE, PESISIR, YANGTZE } from '../../data/peta-tiongkok';
+import { UI } from '../../i18n/ui';
+import type { Bahasa } from '../../lib/dua-bahasa';
+import type { KotaPeta } from '../../lib/konten';
+import { PEKANBARU, POTONG, jalurGaris, jalurSungai, jarakBulat, jariTitik, posisi } from '../../lib/peta';
+import { isiTempat } from '../../lib/teks';
+
+interface Props { bahasa: Bahasa; kota: KotaPeta[]; pilih?: boolean }
+const { bahasa, kota, pilih = false } = Astro.props;
+const ui = UI[bahasa].peta;
+const angka = new Intl.NumberFormat(bahasa === 'zh' ? 'zh-CN' : 'id-ID');
+const xPanah = POTONG.x + 16;
+// Panah sejajar tulisan Pekanbaru, bukan di atasnya: di 375 px panah yang lebih tinggi menggantung tepat di bawah huruf "Gu"
+// nama Guangzhou (letak-kiri), seolah keluar dari huruf itu (ruling tinjauan Task 7).
+const yPanah = POTONG.y + POTONG.tinggi - 21;
+const kiriPekanbaru = ((xPanah + 8 - POTONG.x) / POTONG.lebar) * 100;
+---
+<div class:list={['kanvas', { pilih }]} style={`aspect-ratio: ${POTONG.lebar} / ${POTONG.tinggi}`} data-peta aria-hidden="true">
+  <svg viewBox={`${POTONG.x} ${POTONG.y} ${POTONG.lebar} ${POTONG.tinggi}`} focusable="false">
+    <path class="pesisir" d={jalurGaris(PESISIR)} />
+    <path class="sungai" d={jalurSungai(YANGTZE, 1.5, 9)} />
+    <path class="sungai" d={jalurSungai(HUANGHE, 1.5, 8)} />
+    <path class="panah" d={`M${xPanah},${yPanah} v18 m-6,-7 l6,7 l6,-7`} />
+  </svg>
+  {kota.map((k) => {
+    const p = posisi(k.lon, k.lat);
+    return (
+      <span class:list={['titik', `letak-${k.label}`]} data-kota={k.slug} data-jumlah={k.jumlah}
+        style={`--kiri: ${p.kiri.toFixed(2)}%; --atas: ${p.atas.toFixed(2)}%; --r: ${jariTitik(k.jumlah).toFixed(1)}px`}
+        title={isiTempat(ui.titik, { kota: k.nama, jumlah: k.jumlah, jarak: angka.format(jarakBulat(PEKANBARU, [k.lon, k.lat])) })}>
+        <span class="inti"></span><span class="nama-kota">{k.nama}</span>
+      </span>
+    );
+  })}
+  <span class="pekanbaru" style={`--kiri: ${kiriPekanbaru.toFixed(2)}%`}>{ui.pekanbaru}</span>
+</div>
+
+<style>
+  /* Rasio kanvas = potongan peta (POTONG), ditulis di atribut style supaya satu sumber dengan viewBox. */
+  .kanvas { position: relative; }
+  svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .pesisir { fill: none; stroke: var(--krem-300); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+  .sungai { fill: var(--terakota-600); }
+  .panah { fill: none; stroke: var(--marun-600); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .titik { position: absolute; left: var(--kiri); top: var(--atas); }
+  .inti { position: absolute; width: calc(var(--r) * 2); height: calc(var(--r) * 2); border-radius: 50%; background: var(--marun-600);
+    outline: calc(var(--garis) * 2) solid var(--kartu-100); transform: translate(-50%, -50%);
+    transition: background-color var(--durasi-kursor) var(--kurva); }
+  .nama-kota, .pekanbaru { position: absolute; font: 600 var(--huruf-mini) / 1.2 var(--font-isi); white-space: nowrap;
+    paint-order: stroke fill; -webkit-text-stroke: calc(var(--garis) * 3) var(--kartu-100); }
+  .nama-kota { color: var(--teks-900); }
+  :lang(zh) .nama-kota, :lang(zh) .pekanbaru { font-family: var(--font-isi-han); }
+  .letak-kanan .nama-kota { left: calc(var(--r) + var(--ruang-1)); transform: translateY(-50%); }
+  .letak-kiri .nama-kota { right: calc(var(--r) + var(--ruang-1)); transform: translateY(-50%); }
+  .letak-bawah .nama-kota { left: 0; top: calc(var(--r) + var(--ruang-1)); }
+  .pekanbaru { left: var(--kiri); bottom: 0; color: var(--marun-600); }
+  /* Tanpa JavaScript klik titik tidak berbuat apa-apa, jadi kursor tangan hanya bila skrip aktif (kait .js di Dasar.astro). */
+  :global(.js) .pilih .titik { cursor: pointer; }
+  :global(.js) .pilih .titik:hover .inti { background: var(--terakota-600); }
+  .titik.dipilih .inti { background: var(--terakota-600); }
+</style>

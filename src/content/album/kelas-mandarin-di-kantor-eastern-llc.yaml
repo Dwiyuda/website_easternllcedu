@@ -1,0 +1,12 @@
+id:
+  slugPinyin: dongfang-zhongwen-ketang
+  judul: Kelas Mandarin di kantor Eastern LLC
+  program: kursus
+  tanggal: '2026-10-11'
+  sampul: ../../assets/foto/kelas-kantor.webp
+  foto:
+    - gambar: ../../assets/foto/kelas-kantor.webp
+    - gambar: ../../assets/foto/kelas-kantor-2.webp
+  contoh: true
+zh:
+  judul: 东方中文课堂

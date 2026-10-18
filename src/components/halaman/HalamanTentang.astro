@@ -1,0 +1,195 @@
+---
+// Halaman Tentang Kami (Naskah Tentang Kami; Panduan Visual 9d; Blueprint Tentang Kami): pembuka foto gedung 信 tanpa navigasi bagian,
+// kartu legalitas lengkap tepat di bawahnya, profil, pesan pendiri (tersembunyi sampai diisi), sejarah (linimasa: mendatar mulai 1024 px,
+// menurun di bawahnya), visi dan misi (berlabel contoh sampai rumusan resmi), empat tim dengan penjelasannya dan anggota dari koleksi Tim
+// (P22 A), fasilitas, penutup kantor. Eastern LLC orang ketiga; "Kami" hanya di nama halaman.
+import { getEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import LencanaContoh from '../LencanaContoh.astro';
+import TeksCampur from '../TeksCampur.astro';
+import Legalitas from '../beranda/Legalitas.astro';
+import Penutup from '../beranda/Penutup.astro';
+import PembukaProgram from '../bagian/PembukaProgram.astro';
+import Dasar from '../../layouts/Dasar.astro';
+import fotoGedung from '../../assets/foto/gedung.webp';
+import fotoRak from '../../assets/foto/rak-buku.webp';
+import fotoKelas from '../../assets/foto/kelas-kantor-2.webp';
+import { ADMIN, ALAMAT, EMAIL, JAM } from '../../data/kontak';
+import { UI } from '../../i18n/ui';
+import { RUTE } from '../../i18n/rute';
+import { bilaLengkap, type Bahasa } from '../../lib/dua-bahasa';
+import { ambilTampil } from '../../lib/konten';
+import { butirRemah } from '../../lib/navigasi';
+import { inisial } from '../../lib/teks';
+
+interface Props { bahasa: Bahasa }
+const { bahasa } = Astro.props;
+const halaman = await getEntry('halamanTentang', 'tentang');
+if (!halaman) throw new Error('src/content/halaman/tentang.yaml tidak ditemukan');
+const { id, zh } = halaman.data;
+const h = halaman.data[bahasa];
+
+// Foto pendiri dipasang pengembang bersama pesannya (keputusan rencana K3); tanpa berkas, kartu tampil tanpa foto.
+const fotoPendiri = Object.values(import.meta.glob<{ default: ImageMetadata }>('../../assets/foto/pendiri.webp', { eager: true }))[0]?.default;
+const pesanPendiri = bilaLengkap(id.pendiri.pesan, zh.pendiri.pesan, bahasa);
+const pendiri = id.pendiri.nama && pesanPendiri
+  ? { nama: id.pendiri.nama, pesan: pesanPendiri, sebutan: bilaLengkap(id.pendiri.sebutan, zh.pendiri.sebutan, bahasa) }
+  : undefined;
+const visi = bilaLengkap(id.visi.visi, zh.visi.visi, bahasa);
+// Misi opsional dua bahasa: tampil hanya kalau dua bahasa terisi.
+const misi = id.visi.misi.length > 0 && zh.visi.misi.length > 0 ? h.visi.misi : [];
+
+const anggota = (await ambilTampil('tim'))
+  .sort((a, b) => a.data.id.urutan - b.data.id.urutan || a.data.id.nama.localeCompare(b.data.id.nama))
+  .map((a) => ({
+    tim: a.data.id.tim, nama: a.data.id.nama, foto: a.data.id.foto, warna: a.data.id.warna, contoh: a.data.id.contoh,
+    jabatan: bilaLengkap(a.data.id.jabatan, a.data.zh?.jabatan, bahasa), deskripsi: bilaLengkap(a.data.id.deskripsi, a.data.zh?.deskripsi, bahasa),
+  }));
+const tim = h.tim.daftar.map((t, i) => ({ ...t, anggota: anggota.filter((a) => a.tim === id.tim.daftar[i].tim) }));
+const fasilitas = [fotoRak, fotoKelas].map((foto, i) => ({ foto, ...h.fasilitas.foto[i] }));
+---
+<Dasar bahasa={bahasa} judul={h.seo.judul} deskripsi={h.seo.deskripsi} judulWa={h.pembuka.judul}>
+  {/* Isi pembuka rata bawah: lukisan ditahan sampai id pertama sesudah pembuka terurai, seperti halaman program (font-cls-report.md). */}
+  <link rel="expect" href="#judul-legalitas" blocking="render" slot="kepala" />
+  <PembukaProgram bahasa={bahasa} foto={fotoGedung} hanzi="信" judul={h.pembuka.judul} kalimat={h.pembuka.kalimat} pendek
+    keterangan={bilaLengkap(id.pembuka.foto, zh.pembuka.foto, bahasa)}
+    remah={butirRemah(bahasa, [], h.pembuka.judul, RUTE.tentang[bahasa])} />
+  <Legalitas bahasa={bahasa} teks={{ judul: h.legalitas.judul }} lengkap />
+  <section class="bagian" aria-labelledby="judul-profil">
+    <div class="wadah profil">
+      <h2 id="judul-profil">{h.profil.judul}</h2>
+      {h.profil.paragraf.map((p) => <p>{p}</p>)}
+      <p class="kecil">{h.profil.nama}</p>
+    </div>
+  </section>
+  {pendiri && (
+    <section class="bagian" aria-labelledby="judul-pendiri">
+      <div class="wadah">
+        <h2 id="judul-pendiri" class="judul-bagian">{h.pendiri.judul}</h2>
+        <figure class:list={['kartu', 'pendiri', { berfoto: Boolean(fotoPendiri) }]}>
+          {fotoPendiri && <Image src={fotoPendiri} alt="" widths={[120, 240]} sizes="120px" data-warna="hangat" />}
+          <blockquote><p>{pendiri.pesan}</p></blockquote>
+          <figcaption><span class="nama"><TeksCampur bahasa={bahasa} teks={pendiri.nama} /></span>{pendiri.sebutan && <span class="sebutan">{pendiri.sebutan}</span>}</figcaption>
+        </figure>
+      </div>
+    </section>
+  )}
+  <section class="bagian bagian-peach" aria-labelledby="judul-sejarah">
+    <div class="wadah">
+      <h2 id="judul-sejarah" class="judul-bagian">{h.sejarah.judul}</h2>
+      <ol class="linimasa">
+        {h.sejarah.butir.map((b, i) => (
+          <li data-muncul style={`--urut: ${i}`}>
+            <span class="tahun">{id.sejarah.butir[i].tahun}</span>
+            <h3>{b.judul}</h3>
+            <p>{b.teks}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+  {visi && (
+    <section class="bagian visi" aria-labelledby="judul-visi">
+      <div class="wadah isi-visi">
+        <div class="judul-bagian"><h2 id="judul-visi">{h.visi.judul}</h2><LencanaContoh bahasa={bahasa} tampil={id.visiContoh} /></div>
+        <p class="pembuka-visi">{visi}</p>
+        {misi.length > 0 && <ol class="misi">{misi.map((m) => <li>{m}</li>)}</ol>}
+      </div>
+    </section>
+  )}
+  <section class="bagian bagian-peach" aria-labelledby="judul-tim">
+    <div class="wadah">
+      <h2 id="judul-tim" class="judul-bagian">{h.tim.judul}</h2>
+      <ul class="kisi-tim">
+        {tim.map((t, i) => (
+          <li class="kartu" data-muncul style={`--urut: ${i}`}>
+            <h3>{t.nama}</h3>
+            <p>{t.penjelasan}</p>
+            {t.anggota.length > 0 && (
+              <ul class="anggota">
+                {t.anggota.map((a) => (
+                  <li>
+                    {a.foto
+                      ? <Image src={a.foto} alt="" widths={[56, 112]} sizes="56px" class="wajah" data-warna={a.warna} />
+                      : <span class="wajah inisial" aria-hidden="true">{inisial(a.nama)}</span>}
+                    <span class="data">
+                      <strong><TeksCampur bahasa={bahasa} teks={a.nama} /></strong>
+                      {a.jabatan && <span class="kecil">{a.jabatan}</span>}
+                      {a.deskripsi && <span class="kecil">{a.deskripsi}</span>}
+                      <LencanaContoh bahasa={bahasa} tampil={a.contoh} />
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+  <section class="bagian fasilitas" aria-labelledby="judul-fasilitas">
+    <div class="wadah">
+      <h2 id="judul-fasilitas" class="judul-bagian">{h.fasilitas.judul}</h2>
+      <div class="dua-foto">
+        {fasilitas.map((f, i) => (
+          <figure class="bingkai" data-muncul style={`--urut: ${i}`}>
+            <Image src={f.foto} alt="" widths={[480, 800]} sizes="(min-width: 768px) 520px, 100vw" data-warna="hangat" />
+            <figcaption><span class="apa">{f.apa}</span><span class="kapan">{f.kapan}</span></figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+  <Penutup bahasa={bahasa} teks={{ judul: h.penutup.judul, kalimat: ALAMAT[bahasa] }} judulHalaman={h.pembuka.judul}
+    tombol={[{ admin: 'kantor', teks: UI[bahasa].konsultasi }]}>
+    <p>{JAM[bahasa]}</p>
+    <p>{ADMIN.kantor.layanan[bahasa]} {ADMIN.kantor.nomor} · <a href={`mailto:${EMAIL}`}>{EMAIL}</a></p>
+  </Penutup>
+</Dasar>
+
+<style>
+  .profil { display: grid; gap: var(--ruang-3); }
+  .pendiri { display: grid; gap: var(--ruang-3); margin: 0; padding: var(--ruang-4); }
+  .sebutan { color: var(--teks-600); font-size: var(--huruf-mini); font-weight: 600; line-height: 1.2; }
+  /* Dua kolom hanya kalau ada foto: tanpa foto (keadaan bawaan, K3) kutipan dan nama memakai lebar penuh. */
+  @media (min-width: 768px) { .berfoto { grid-template-columns: 120px 1fr; align-items: start; } .berfoto > :not(img) { grid-column: 2; } }
+  .pendiri :global(img) { width: 120px; aspect-ratio: 1; object-fit: cover; border-radius: var(--radius-kecil); }
+  .pendiri blockquote { margin: 0; }
+  .pendiri blockquote p { font: 400 1.125rem / 1.5 var(--font-judul); font-variation-settings: "SOFT" 100; }
+  :lang(zh) .pendiri blockquote p { font-family: var(--font-isi-han); }
+  .pendiri figcaption { display: grid; gap: var(--ruang-1); }
+  .pendiri .nama { color: var(--marun-600); font: 500 var(--huruf-judul-4) / 1.3 var(--font-judul); }
+  /* Linimasa (MASTER.md): menurun dengan garis di kiri di bawah 1024 px, mendatar enam butir di atas garis mulai 1024 px. */
+  .linimasa { display: grid; gap: var(--ruang-4); padding-left: var(--ruang-4); border-left: var(--garis) solid var(--krem-300); }
+  .linimasa li { position: relative; display: grid; align-content: start; gap: var(--ruang-1); }
+  .linimasa li::before { content: ''; position: absolute; top: var(--ruang-1); left: calc(-1 * var(--ruang-4) - var(--ruang-1) - var(--garis) / 2); width: var(--ruang-2); height: var(--ruang-2); border-radius: 50%; background: var(--marun-600); }
+  @media (min-width: 1024px) {
+    .linimasa { grid-template-columns: repeat(6, 1fr); gap: var(--ruang-3); padding: var(--ruang-4) 0 0; border-left: 0; border-top: var(--garis) solid var(--krem-300); }
+    .linimasa li::before { top: calc(-1 * var(--ruang-4) - var(--ruang-1) - var(--garis) / 2); left: 0; }
+  }
+  .tahun { color: var(--marun-600); font: 500 var(--huruf-judul-3) / 1.2 var(--font-judul); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  /* Kolom 1024–1279 px ±135 px: "2023–2026" ukuran judul-3 patah di tanda pisah, jadi tahun memakai judul-4 sampai kolomnya cukup lebar. */
+  @media (min-width: 1024px) and (max-width: 1279px) { .tahun { font-size: var(--huruf-judul-4); } }
+  .linimasa h3 { font-size: var(--huruf-judul-4); }
+  :lang(zh) .linimasa h3 { font-size: calc(var(--huruf-judul-4) * 0.9); }
+  .linimasa p { color: var(--teks-600); font-size: var(--huruf-kecil); }
+  .isi-visi { display: grid; gap: var(--ruang-3); }
+  .isi-visi .judul-bagian { margin-bottom: 0; justify-items: start; }
+  .pembuka-visi { font-size: var(--huruf-pembuka); line-height: 1.6; }
+  .misi { display: grid; gap: var(--ruang-1); padding-left: var(--ruang-3); list-style: decimal; }
+  .kisi-tim { display: grid; gap: var(--ruang-3); }
+  @media (min-width: 768px) { .kisi-tim { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1280px) { .kisi-tim { grid-template-columns: repeat(4, 1fr); } }
+  .kisi-tim > li { display: grid; align-content: start; gap: var(--ruang-2); }
+  .anggota { display: grid; gap: var(--ruang-2); }
+  .anggota li { display: flex; align-items: flex-start; gap: var(--ruang-2); }
+  /* Foto anggota adalah <img> komponen Image (tanpa atribut scope), jadi lewat :global di bawah .anggota. */
+  .anggota :global(.wajah) { flex: none; width: 56px; height: 56px; border-radius: 50%; object-fit: cover; }
+  .inisial { display: grid; place-items: center; background: var(--krem-200); color: var(--marun-600); font: 500 var(--huruf-judul-4) / 1 var(--font-judul); }
+  .data { display: grid; gap: var(--ruang-1); justify-items: start; }
+  .dua-foto { display: grid; gap: var(--ruang-3); }
+  @media (min-width: 768px) { .dua-foto { grid-template-columns: 1fr 1fr; } }
+  /* Foto tegak dipotong 4:5 dari atas: bagian bawah rak buku berisi sepatu dan helm (Inventaris Media). */
+  .dua-foto :global(img) { aspect-ratio: 4 / 5; object-fit: cover; object-position: top; }
+</style>

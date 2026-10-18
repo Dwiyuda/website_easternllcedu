@@ -1,0 +1,36 @@
+---
+// Event Sebelumnya (Naskah Kabar Dan Event, Halaman Event Sebelumnya): pembuka ringkas tanpa hanzi (P18), lalu semua event yang sudah
+// selesai dikelompokkan per tahun, tahun terbaru lebih dulu, judul kelompok "[tahun] · [n] event". Event pindah ke sini otomatis
+// sehari setelah tanggal selesainya (build harian). Selama arsip kosong halaman tidak diindeks, juga di build final.
+import PembukaRingkas from '../bagian/PembukaRingkas.astro';
+import BarisKabar from '../kabar/BarisKabar.astro';
+import Dasar from '../../layouts/Dasar.astro';
+import { UI } from '../../i18n/ui';
+import { RUTE } from '../../i18n/rute';
+import type { Bahasa } from '../../lib/dua-bahasa';
+import { eventSelesai } from '../../lib/konten';
+import { butirRemah } from '../../lib/navigasi';
+import { hariIniJakarta, kelompokPerTahun } from '../../lib/tanggal';
+import { isiTempat } from '../../lib/teks';
+
+interface Props { bahasa: Bahasa }
+const { bahasa } = Astro.props;
+const t = UI[bahasa].kabar.arsip;
+const grup = kelompokPerTahun(await eventSelesai(bahasa, hariIniJakarta()));
+---
+<Dasar bahasa={bahasa} judul={t.seo.judul} deskripsi={t.seo.deskripsi} judulWa={t.judul} indeks={grup.length > 0}>
+  <PembukaRingkas bahasa={bahasa} judul={t.judul} kalimat={t.kalimat} remah={butirRemah(bahasa, ['kabar'], t.judul, RUTE.eventSebelumnya[bahasa])} />
+  {grup.map((g, i) => (
+    <section class:list={['bagian', { 'bagian-peach': i % 2 === 0 }]} aria-labelledby={`tahun-${g.tahun}`} data-tahun={g.tahun}>
+      <div class="wadah">
+        <div class="judul-bagian"><h2 id={`tahun-${g.tahun}`}>{isiTempat(t.grup, { tahun: g.tahun, n: g.isi.length })}</h2></div>
+        <ul class="aliran">{g.isi.map((b) => <li><BarisKabar bahasa={bahasa} baris={b} /></li>)}</ul>
+      </div>
+    </section>
+  ))}
+</Dasar>
+
+<style>
+  .aliran { display: grid; gap: var(--ruang-2); }
+  .aliran li { display: grid; }
+</style>

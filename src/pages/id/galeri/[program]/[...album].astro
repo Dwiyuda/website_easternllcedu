@@ -1,0 +1,17 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import HalamanAlbum from '../../../../components/halaman/HalamanAlbum.astro';
+import { bagiHalaman, segmenProgram } from '../../../../lib/galeri';
+import { albumTampil } from '../../../../lib/konten';
+import { hariIniJakarta } from '../../../../lib/tanggal';
+
+// Satu halaman per album (nama berkas, Peta Halaman). Album di atas 60 foto berlanjut ke …/<album>/2 (MASTER.md, Halaman album).
+export async function getStaticPaths() {
+  return (await albumTampil(hariIniJakarta())).flatMap((entri) => bagiHalaman(entri.data.id.foto).map((_, i) => ({
+    params: { program: segmenProgram(entri.data.id.program, 'id'), album: i === 0 ? entri.id : `${entri.id}/${i + 1}` },
+    props: { entri, halaman: i + 1 },
+  })));
+}
+const { entri, halaman } = Astro.props as { entri: CollectionEntry<'album'>; halaman: number };
+---
+<HalamanAlbum bahasa="id" entri={entri} halaman={halaman} />

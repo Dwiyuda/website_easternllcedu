@@ -1,0 +1,15 @@
+---
+import '../../../../styles/font-han.css';
+import type { CollectionEntry } from 'astro:content';
+import HalamanDetailArtikel from '../../../../components/halaman/HalamanDetailArtikel.astro';
+import { artikelTampil } from '../../../../lib/konten';
+import { slugZh } from '../../../../lib/slug';
+import { hariIniJakarta } from '../../../../lib/tanggal';
+
+// Alamat 中文 = slug pinyin (isian atau otomatis dari judul 中文, Model Konten aturan 3).
+export async function getStaticPaths() {
+  return (await artikelTampil(hariIniJakarta())).map((entri) => ({ params: { slug: slugZh(entri.data) }, props: { entri } }));
+}
+const { entri } = Astro.props as { entri: CollectionEntry<'artikel'> };
+---
+<HalamanDetailArtikel bahasa="zh" entri={entri} />

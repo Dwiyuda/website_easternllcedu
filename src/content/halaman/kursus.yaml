@@ -1,0 +1,111 @@
+id:
+  seo:
+    judul: Kursus dan Les Mandarin di Pekanbaru · Offline dan Online · Eastern LLC
+    deskripsi: Les Mandarin untuk anak, remaja, dan dewasa di Pekanbaru, offline di Jl. Contoh No. 1 atau online lewat Zoom. Empat jenjang, dari dasar sampai HSK 6.
+  pembuka:
+    judul: Kursus Bahasa
+    kalimat: Kursus dan les Mandarin di Pekanbaru untuk anak, remaja, dan dewasa, offline di kantor Eastern LLC atau online lewat Zoom.
+    foto: Kelas Mandarin di kantor Eastern LLC
+  navigasi:
+    - Offline dan online
+    - Jenjang
+    - Reguler dan weekend
+    - Bahasa Inggris
+    - Tanya jawab
+    - Daftar
+  belajar:
+    judul: Offline dan online
+    kartu:
+      - judul: Offline
+        bukti: Belajar tatap muka di ruang kelas ber-AC di Jl. Contoh No. 1, bersama guru Eastern LLC.
+      - judul: Online
+        bukti: Belajar dari rumah lewat Zoom, dengan materi dan jenjang yang sama seperti kelas offline.
+  jenjang:
+    judul: Empat jenjang
+    hsk: HSK adalah ujian kemampuan bahasa Mandarin resmi yang dipakai kampus di Tiongkok.
+    kalimat: Berlaku untuk kelas offline dan online. Setiap pertemuan 75 menit.
+  jadwal:
+    judul: Reguler dan weekend
+    kalimat: Kelas offline berlangsung Senin–Jumat 09.00–17.00 dan Sabtu 09.00–16.00. Kelas reguler pada hari kerja, kelas weekend hari Sabtu. Jam yang sedang dibuka ditanyakan ke admin kursus.
+  inggris:
+    judul: Kursus Bahasa Inggris
+    kalimat: Selain Mandarin, Eastern LLC membuka kursus bahasa Inggris untuk anak, remaja, dan dewasa sejak 2006. Jenjang dan jadwalnya ditanyakan ke admin kursus offline.
+  karya:
+    judul: Karya siswa di koran 硕河橋
+    kalimat: 23 karangan siswa Eastern LLC dimuat, dibimbing guru 陈慧珠
+    tautan: Lihat kliping
+  tanya:
+    judul: Tanya jawab
+    daftar:
+      - tanya: Bisa mulai dari nol?
+        jawab: Bisa. Jenjang Basic dimulai dari dasar sampai lulus HSK 3.
+      - tanya: Apa bedanya kelas offline dan online?
+        jawab: Materi dan jenjangnya sama. Kelas offline di kantor Jl. Contoh No. 1, kelas online lewat Zoom.
+      - tanya: Berapa lama dari nol sampai HSK 4?
+        jawab: "Sekitar 13 bulan: Basic ±9 bulan, lalu Intermediate 4 bulan."
+      - tanya: Berapa biayanya?
+        jawab: Biaya tergantung jenjang dan jenis kelas. Admin kursus menjelaskan rinciannya.
+      - tanya: Kapan jadwal kelas offline?
+        jawab: Senin–Jumat 09.00–17.00 dan Sabtu 09.00–16.00. Jam yang sedang dibuka ditanyakan ke admin kursus offline.
+      - tanya: Bagaimana kelas offline berjalan?
+        jawab: Siswa belajar tatap muka sesuai jenjangnya di ruang kelas ber-AC di Jl. Contoh No. 1. Setiap pertemuan 75 menit, dua sampai empat kali seminggu tergantung jenjang.
+      - tanya: Kapan study tour berikutnya?
+        jawab: Program yang akan datang beserta tanggal, rute, dan jadwal per hari tampil di halaman Study Tour. Biayanya ditanyakan ke kantor.
+  penutup:
+    judul: Daftar kursus
+    kalimat: Tanyakan jadwal, jenjang yang cocok, dan biaya ke admin kursus.
+zh:
+  seo:
+    judul: 中文课程 · 线下与线上 · 东方语言学院
+    deskripsi: 面向儿童、青少年和成人的中文课程，可在北干巴鲁Jl. Contoh No. 1线下上课，也可通过Zoom在线学习。四个级别，从零基础到HSK六级。
+  pembuka:
+    judul: 语言课程
+    kalimat: 面向儿童、青少年和成人的中文课程：在北干巴鲁的东方教室上课，或通过Zoom在线学习。
+  navigasi:
+    - 线下与线上
+    - 课程级别
+    - 平日班与周末班
+    - 英语课程
+    - 常见问题
+    - 报名咨询
+  belajar:
+    judul: 线下与线上
+    kartu:
+      - judul: 线下课程
+        bukti: 在Jl. Contoh No. 1配有空调的教室里，与东方老师面对面学习。
+      - judul: 线上课程
+        bukti: 通过Zoom在家学习，课程内容和级别与线下相同。
+  jenjang:
+    judul: 四个级别
+    hsk: HSK（汉语水平考试）是中国院校认可的中文水平考试。
+    kalimat: 线下和线上课程通用，每节课75分钟。
+  jadwal:
+    judul: 平日班与周末班
+    kalimat: 线下课程上课时间为周一至周五09:00–17:00、周六09:00–16:00。平日班在工作日上课，周末班在周六上课。具体开班时间请咨询课程顾问。
+  inggris:
+    judul: 英语课程
+    kalimat: 除中文外，东方自2006年起开设面向儿童、青少年和成人的英语课程。级别和上课时间请咨询线下课程顾问。
+  karya:
+    judul: 学生作文登报
+    kalimat: 23篇东方学生作文刊登于《硕河橋》专栏，指导老师陈慧珠
+    tautan: 查看剪报
+  tanya:
+    judul: 常见问题
+    daftar:
+      - tanya: 零基础可以报名吗？
+        jawab: 可以。初级课程从零基础开始，直到通过HSK三级。
+      - tanya: 线下和线上有什么区别？
+        jawab: 课程内容和级别相同。线下在Jl. Contoh No. 1上课，线上通过Zoom上课。
+      - tanya: 从零基础到HSK四级需要多久？
+        jawab: 大约13个月：初级约9个月，中级4个月。
+      - tanya: 学费是多少？
+        jawab: 学费根据级别和班型而定，详情请咨询课程顾问。
+      - tanya: 线下课程什么时候上课？
+        jawab: 周一至周五09:00–17:00，周六09:00–16:00。具体开班时间请咨询线下课程顾问。
+      - tanya: 线下课程如何进行？
+        jawab: 学员按级别在Jl. Contoh No. 1配有空调的教室面对面上课，每节75分钟，每周两至四次，视级别而定。
+      - tanya: 下一期游学是什么时候？
+        jawab: 近期项目的日期、路线和每日行程请查看“游学”页面，费用请咨询办公室。
+  penutup:
+    judul: 报名咨询
+    kalimat: 请向课程顾问咨询开班时间、适合的级别和学费。

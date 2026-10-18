@@ -1,0 +1,13 @@
+---
+import '../../../styles/font-han.css';
+import type { CollectionEntry } from 'astro:content';
+import HalamanDetailKampus from '../../../components/halaman/HalamanDetailKampus.astro';
+import { kampusTampil, slugZhKampus } from '../../../lib/konten';
+
+// Alamat 中文 = slug pinyin (isian atau otomatis dari nama 中文, Model Konten aturan 3): /zh/yuanxiao/zhejiang-daxue.
+export async function getStaticPaths() {
+  return (await kampusTampil()).kampus.map((entri) => ({ params: { slug: slugZhKampus(entri) }, props: { entri } }));
+}
+const { entri } = Astro.props as { entri: CollectionEntry<'kampus'> };
+---
+<HalamanDetailKampus bahasa="zh" entri={entri} />

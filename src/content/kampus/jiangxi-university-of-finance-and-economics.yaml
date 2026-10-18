@@ -1,0 +1,48 @@
+id:
+  slugPinyin: jiangxi-caijing-daxue
+  nama: Jiangxi University of Finance and Economics
+  deskripsi: 'Jiangxi University of Finance and Economics (JXUFE) berdiri pada 1923 di Nanchang, Provinsi Jiangxi, Tiongkok (China), dengan bidang utama ekonomi, akuntansi, keuangan, dan manajemen. Jurusan berbahasa Inggris tersedia dari S1 sampai S3, antara lain Tourism Management, Computer Science and Technology, International Business, dan Marketing. Beasiswa yang tercatat: JXUFE Scholarship, Beasiswa Pemerintah Provinsi Jiangxi, dan Beasiswa Pemerintah Tiongkok.'
+  kota: nanchang
+  jenjang:
+    - S1
+    - S2
+    - S3
+  jurusanInggris:
+    - nama: Tourism Management
+      jenjang: S1
+    - nama: Computer Science and Technology
+      jenjang: S1
+    - nama: International Business
+      jenjang: S1
+    - nama: Economics
+      jenjang: S1
+    - nama: Marketing
+      jenjang: S1
+    - nama: Public Administration
+      jenjang: S2
+    - nama: Accounting
+      jenjang: S2
+    - nama: Finance
+      jenjang: S2
+    - nama: International Business
+      jenjang: S2
+    - nama: Economics
+      jenjang: S2
+    - nama: Tourism Management
+      jenjang: S2
+    - nama: International Trade
+      jenjang: S3
+    - nama: Statistics
+      jenjang: S3
+    - nama: Accounting
+      jenjang: S3
+    - nama: Finance
+      jenjang: S3
+    - nama: Public Economics and Management
+      jenjang: S3
+    - nama: Economics
+      jenjang: S3
+  contoh: false
+zh:
+  nama: 江西财经大学
+  deskripsi: 江西财经大学创建于1923年，位于江西省南昌市，以经济、会计、金融和管理学科为特色。本科至博士均设有英文授课项目，包括旅游管理、计算机科学与技术、国际商务和市场营销等。可申请江西财经大学奖学金、江西省政府奖学金和中国政府奖学金。

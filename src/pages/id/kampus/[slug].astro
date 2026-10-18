@@ -1,0 +1,12 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import HalamanDetailKampus from '../../../components/halaman/HalamanDetailKampus.astro';
+import { kampusTampil } from '../../../lib/konten';
+
+// Satu halaman per kampus yang tampil. Alamat Indonesia = nama berkas (Peta Halaman: /id/kampus/zhejiang-university).
+export async function getStaticPaths() {
+  return (await kampusTampil()).kampus.map((entri) => ({ params: { slug: entri.id }, props: { entri } }));
+}
+const { entri } = Astro.props as { entri: CollectionEntry<'kampus'> };
+---
+<HalamanDetailKampus bahasa="id" entri={entri} />

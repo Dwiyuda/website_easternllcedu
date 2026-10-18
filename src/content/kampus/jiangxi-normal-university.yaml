@@ -1,0 +1,24 @@
+id:
+  slugPinyin: jiangxi-shifan-daxue
+  nama: Jiangxi Normal University
+  deskripsi: 'Jiangxi Normal University (JXNU) adalah universitas keguruan di Nanchang, Provinsi Jiangxi, Tiongkok (China), berdiri pada 1940, dengan kampus Yaohu dan Qingshan Lake. Jurusan berbahasa Mandarin mencakup pendidikan, akuntansi, keuangan, perencanaan kota, arsitektur, dan psikologi. S1 berbahasa Inggris tersedia untuk Computer Science and Technology, International Economics and Trade, Business Administration, dan Electronic Information Engineering. Beasiswa yang tercatat: Pemerintah Tiongkok, Pemerintah Provinsi Jiangxi, dan kampus.'
+  kota: nanchang
+  jenjang:
+    - S1
+    - S2
+    - S3
+  jurusanInggris:
+    - nama: Computer Science and Technology
+      jenjang: S1
+    - nama: International Economics and Trade
+      jenjang: S1
+    - nama: Business Administration
+      jenjang: S1
+    - nama: Electronic Information Engineering
+      jenjang: S1
+    - nama: Cartography and Geography Information System
+      jenjang: S2
+  contoh: false
+zh:
+  nama: 江西师范大学
+  deskripsi: 江西师范大学创建于1940年，位于江西省南昌市，设瑶湖和青山湖两个校区。中文授课专业涵盖教育、会计、金融、城乡规划、建筑学和心理学等；计算机科学与技术、国际经济与贸易、工商管理和电子信息工程设有英文授课本科项目。可申请中国政府奖学金、江西省政府奖学金和江西师范大学奖学金。

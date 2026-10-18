@@ -1,0 +1,41 @@
+id:
+  slugPinyin: nanjing-shifan-daxue
+  nama: Nanjing Normal University
+  deskripsi: 'Nanjing Normal University (NNU) adalah universitas keguruan di Nanjing, Provinsi Jiangsu, Tiongkok (China), dengan sejarah sejak 1902. Selain pendidikan dan Pengajaran Bahasa Mandarin untuk Penutur Asing, tersedia jurusan bisnis, psikologi, jurnalistik, komputer, kecerdasan buatan, dan desain. S2 berbahasa Inggris tersedia di banyak bidang sains. Beasiswa yang tercatat: Pemerintah Tiongkok, Pemerintah Provinsi Jiangsu, dan kampus.'
+  kota: nanjing
+  jenjang:
+    - S1
+    - S2
+  jurusanInggris:
+    - nama: International Economics and Trade
+      jenjang: S1
+    - nama: Business Administration
+      jenjang: S2
+    - nama: Linguistics and Applied Linguistics in Foreign Languages
+      jenjang: S2
+    - nama: Chemistry
+      jenjang: S2
+    - nama: Biology
+      jenjang: S2
+    - nama: Ecology
+      jenjang: S2
+    - nama: Electrical Engineering
+      jenjang: S2
+    - nama: Computer Science and Technology
+      jenjang: S2
+    - nama: Cyberspace Security
+      jenjang: S2
+    - nama: Environmental Science
+      jenjang: S2
+    - nama: Environmental Engineering
+      jenjang: S2
+    - nama: Marine Sciences
+      jenjang: S2
+    - nama: Food Science and Technology
+      jenjang: S2
+    - nama: Pharmacy
+      jenjang: S2
+  contoh: false
+zh:
+  nama: 南京师范大学
+  deskripsi: 南京师范大学办学历史可追溯至1902年，位于江苏省南京市。除教育类和汉语国际教育专业外，还开设商科、心理学、新闻、计算机、人工智能和设计等专业，多个理科方向设有英文授课硕士项目。可申请中国政府奖学金、江苏省政府奖学金和学校奖学金。

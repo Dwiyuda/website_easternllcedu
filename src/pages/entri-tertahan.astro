@@ -1,0 +1,72 @@
+---
+// Halaman kerja staf (MASTER.md): entri tersimpan yang belum tampil karena ada isian yang belum lengkap di satu bahasa atau aksara
+// Han di kolom Indonesia, dan daftar isi contoh.
+// Build final berhenti di sini selama masih ada isi contoh (Model Konten aturan 10).
+import '@fontsource-variable/fraunces/soft.css';
+import '@fontsource-variable/figtree';
+import '../styles/tokens.css';
+import '../styles/dasar.css';
+import { Image } from 'astro:assets';
+import logo from '../assets/merek/logo-terang-ringkas.png';
+import TeksCampur from '../components/TeksCampur.astro';
+import { tolakIsiContoh } from '../lib/contoh';
+import { daftarContoh, daftarTertahan } from '../lib/konten';
+
+const tertahan = await daftarTertahan();
+const contoh = await daftarContoh();
+tolakIsiContoh(import.meta.env.MODE, contoh);
+const waktu = new Intl.DateTimeFormat('id-ID', { dateStyle: 'long', timeStyle: 'short', timeZone: 'Asia/Jakarta' }).format(new Date());
+const NAMA_BAHASA = { id: 'Indonesia', zh: '中文' } as const;
+const tautanAdmin = (koleksi: string, entri: string) => `/admin/index.html#/collections/${koleksi}/entries/${entri}`;
+---
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Entri Tertahan · Eastern LLC</title>
+  </head>
+  <body>
+    <header class="bilah-staf">
+      <div class="wadah dalam">
+        <Image src={logo} alt="Eastern LLC" height={76} />
+        <span class="lencana">Untuk staf · tidak diindeks</span>
+      </div>
+    </header>
+    <main class="wadah bagian isi">
+      <h1>Entri Tertahan</h1>
+      <p><span class="jumlah">{tertahan.length}</span> entri tertahan. Entri di bawah sudah tersimpan, tapi belum tampil di website karena ada isian yang belum lengkap di satu bahasa, atau ada aksara Han di kolom Indonesia. Perbaiki isian yang ditandai di panel admin. Website diperbarui 1–2 menit setelah disimpan.</p>
+      <p class="kecil">Daftar ini dibuat ulang setiap build, terakhir {waktu} WIB.</p>
+      {tertahan.length === 0 ? <span class="lencana lencana-sukses">Semua entri lengkap dua bahasa</span> : (
+        <ul class="baris">
+          {tertahan.map((t) => (
+            <li class="kartu">
+              <span class="label">{t.koleksi}</span>
+              <strong><TeksCampur bahasa="id" teks={t.judul} /></strong>
+              <span class="lencana-baris">
+                {t.kurang.map((k) => <span class="lencana lencana-galat">{NAMA_BAHASA[k.bahasa]}: {k.isian}</span>)}
+              </span>
+              <a href={tautanAdmin(t.koleksi, t.entri)}>Buka di panel admin</a>
+            </li>
+          ))}
+        </ul>
+      )}
+      <h2>Isi contoh ({contoh.length})</h2>
+      <p>Isi contoh tampil berlabel di prototipe. Website tidak bisa diterbitkan ke domain final selama daftar ini belum kosong.</p>
+      <ul class="contoh">{contoh.map((c) => <li><code>{c.koleksi}/{c.entri}</code></li>)}</ul>
+    </main>
+  </body>
+</html>
+
+<style>
+  .bilah-staf { background: var(--teks-900); color: var(--kartu-100); }
+  .dalam { display: flex; align-items: center; justify-content: space-between; gap: var(--ruang-2); min-height: var(--tinggi-bilah); }
+  .dalam :global(img) { width: auto; height: 38px; }
+  .isi { display: grid; gap: var(--ruang-3); }
+  .jumlah { color: var(--marun-600); font: 500 var(--huruf-judul-2) / 1 var(--font-judul); }
+  .baris { display: grid; gap: var(--ruang-2); }
+  .baris .kartu { display: grid; gap: var(--ruang-1); }
+  @media (min-width: 1024px) { .baris .kartu { grid-template-columns: 8rem 1fr 1.5fr auto; align-items: center; } }
+  .contoh { display: grid; gap: var(--ruang-1); }
+</style>

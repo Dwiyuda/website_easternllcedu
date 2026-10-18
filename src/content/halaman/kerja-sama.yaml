@@ -1,0 +1,48 @@
+id:
+  seo:
+    judul: Kelas Mandarin untuk Sekolah dan Perusahaan · Eastern LLC Pekanbaru
+    deskripsi: "Sejak 2007 Eastern LLC membuka kelas Mandarin di sekolah dan perusahaan di Pekanbaru dan sekitarnya: kurikulum, guru, dan pelatihan guru. Pernah mengadakan kelas untuk karyawan PT Contoh 1 dan PT Contoh 2."
+  pembuka:
+    judul: Kelas Kerja Sama
+    kalimat: Sejak 2007 Eastern LLC membuka kelas Mandarin di sekolah dan perusahaan di Pekanbaru dan sekitarnya.
+    foto: Kelas Mandarin di sekolah mitra
+  sekolah:
+    judul: Untuk sekolah
+    kalimat: Mandarin sebagai pelajaran sekolah, dari kurikulum sampai guru yang mengajar.
+    butir:
+      - Kurikulum dan materi per jenjang
+      - Guru Mandarin dari Eastern LLC
+      - Pelatihan untuk guru sekolah
+    foto: Kelas Mandarin di sekolah mitra
+  perusahaan:
+    judul: Untuk perusahaan
+    kalimat: Kelas Mandarin untuk karyawan, diadakan di kantor perusahaan.
+    klien: Pernah diadakan untuk karyawan PT Contoh 1 dan PT Contoh 2.
+    foto: Kelas Mandarin di perusahaan
+  penutup:
+    judul: Ajukan kerja sama
+    kalimat: Hubungi kantor Eastern LLC untuk membahas jumlah peserta, jadwal, dan materi.
+zh:
+  seo:
+    judul: 学校与企业中文课程 · 东方语言学院
+    deskripsi: 东方语言学院自2007年起为北干巴鲁及周边地区的学校和企业开设中文课程，提供课程设计、教师派遣和教师培训。曾为PT Contoh 1和PT Contoh 2员工开设中文培训。
+  pembuka:
+    judul: 合作课程
+    kalimat: 自2007年起，东方在北干巴鲁及周边地区的学校和企业开设中文课程。
+    foto: 合作学校的中文课
+  sekolah:
+    judul: 学校合作
+    kalimat: 将中文纳入学校课程，从课程设计到授课教师，一站式提供。
+    butir:
+      - 按年级设计课程与教材
+      - 派遣东方中文教师
+      - 学校教师培训
+    foto: 合作学校的中文课
+  perusahaan:
+    judul: 企业培训
+    kalimat: 为企业员工开设中文培训班，在企业内授课。
+    klien: 曾为PT Contoh 1和PT Contoh 2员工开设中文培训。
+    foto: 企业中文培训班
+  penutup:
+    judul: 洽谈合作
+    kalimat: 请联系东方办公室，商讨学员人数、上课时间和课程内容。

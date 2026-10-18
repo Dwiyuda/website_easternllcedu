@@ -1,0 +1,15 @@
+id:
+  slugPinyin: zhongguo-xialingying
+  judul: Summer camp di Tiongkok
+  program: study-tour
+  tanggal: '2026-10-11'
+  sampul: ../../assets/foto/camp-1.webp
+  foto:
+    - gambar: ../../assets/foto/camp-1.webp
+    - gambar: ../../assets/foto/camp-2.webp
+  video:
+    - youtube: https://www.youtube.com/watch?v=eo52oMjHu0M
+      sampul: ../../assets/foto/camp-2.webp
+  contoh: true
+zh:
+  judul: 中国夏令营

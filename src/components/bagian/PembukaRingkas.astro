@@ -1,0 +1,26 @@
+---
+// Pembuka ringkas (MASTER.md): remah, hanzi marun berkerangka (halaman utama saja; sub-halaman tanpa hanzi, P12 dan P18), judul, satu kalimat. Tanpa foto dan tirai.
+// Judul dan kalimat bisa berasal dari panel admin: lewat TeksCampur (Han di halaman Indonesia ber-lang zh, WCAG 3.1.2).
+import Hanzi from '../Hanzi.astro';
+import TeksCampur from '../TeksCampur.astro';
+import Remah from './Remah.astro';
+import type { Bahasa } from '../../lib/dua-bahasa';
+import type { ButirRemah } from '../../lib/navigasi';
+
+interface Props { bahasa: Bahasa; hanzi?: string; judul: string; kalimat?: string; remah: ButirRemah[] }
+const { bahasa, hanzi, judul, kalimat, remah } = Astro.props;
+---
+<section class="bagian pembuka-ringkas" aria-labelledby="judul-halaman">
+  <div class="wadah isi">
+    <Remah bahasa={bahasa} butir={remah} />
+    {hanzi && <Hanzi aksara={hanzi} />}
+    <h1 id="judul-halaman"><TeksCampur bahasa={bahasa} teks={judul} /></h1>
+    {kalimat && <p><TeksCampur bahasa={bahasa} teks={kalimat} /></p>}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .isi { display: grid; justify-items: start; gap: var(--ruang-3); }
+  p { font-size: var(--huruf-pembuka); line-height: 1.6; }
+</style>

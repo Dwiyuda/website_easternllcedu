@@ -1,0 +1,80 @@
+---
+// Halaman Kelas Kerja Sama (Naskah Kerja Sama): pembuka foto penuh 合, untuk sekolah, untuk perusahaan, penutup kantor dan email.
+// Empat bagian, jadi tanpa navigasi bagian (Panduan Visual 9b).
+// Perusahaan ditulis sebagai pernah mengadakan kelas, bukan kerja sama (permintaan cece 2026-10-11).
+// Foto berbingkai berketerangan ber-alt kosong: figcaption yang menjelaskan, jadi pembaca layar tidak membacanya dua kali.
+import { getEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import LencanaContoh from '../LencanaContoh.astro';
+import Penutup from '../beranda/Penutup.astro';
+import PembukaProgram from '../bagian/PembukaProgram.astro';
+import Dasar from '../../layouts/Dasar.astro';
+import fotoPembuka from '../../assets/foto/sekolah-1.webp';
+import fotoSekolah from '../../assets/foto/sekolah-2.webp';
+import perusahaan1 from '../../assets/foto/perusahaan-1.webp';
+import perusahaan2 from '../../assets/foto/perusahaan-2.webp';
+import perusahaan3 from '../../assets/foto/perusahaan-3.webp';
+import { ADMIN, EMAIL } from '../../data/kontak';
+import { UI } from '../../i18n/ui';
+import { RUTE } from '../../i18n/rute';
+import { bilaLengkap, type Bahasa } from '../../lib/dua-bahasa';
+import { ambilTampil } from '../../lib/konten';
+import { butirRemah } from '../../lib/navigasi';
+
+interface Props { bahasa: Bahasa }
+const { bahasa } = Astro.props;
+const halaman = await getEntry('halamanKerjaSama', 'kerja-sama');
+if (!halaman) throw new Error('src/content/halaman/kerja-sama.yaml tidak ditemukan');
+const h = halaman.data[bahasa];
+const sekolah = (await ambilTampil('mitra')).filter((m) => m.data.id.jenis === 'sekolah')
+  .map((m) => ({ nama: m.data.id.nama, contoh: m.data.id.contoh }));
+---
+<Dasar bahasa={bahasa} judul={h.seo.judul} deskripsi={h.seo.deskripsi} judulWa={h.pembuka.judul}>
+  {/* Isi pembuka rata bawah: lukisan ditahan sampai id pertama sesudah pembuka terurai, seperti Beranda (font-cls-report.md). */}
+  <link rel="expect" href="#judul-sekolah" blocking="render" slot="kepala" />
+  <PembukaProgram bahasa={bahasa} foto={fotoPembuka} hanzi="合" judul={h.pembuka.judul} kalimat={h.pembuka.kalimat}
+    keterangan={bilaLengkap(halaman.data.id.pembuka.foto, halaman.data.zh.pembuka.foto, bahasa)}
+    remah={butirRemah(bahasa, ['program'], h.pembuka.judul, RUTE.kerjaSama[bahasa])} />
+  <section class="bagian" aria-labelledby="judul-sekolah">
+    <div class="wadah dua">
+      <div class="judul-bagian">
+        <h2 id="judul-sekolah">{h.sekolah.judul}</h2>
+        <p>{h.sekolah.kalimat}</p>
+        <ul class="butir">{h.sekolah.butir.map((b) => <li>{b}</li>)}</ul>
+        {sekolah.length > 0 && <ul class="nama">{sekolah.map((s) => <li class="kartu">{s.nama} <LencanaContoh bahasa={bahasa} tampil={s.contoh} /></li>)}</ul>}
+      </div>
+      <figure class="bingkai" data-muncul>
+        <Image src={fotoSekolah} alt="" widths={[480, 800, 1200]} sizes="(min-width: 1024px) 520px, 100vw" data-warna="hangat" />
+        <figcaption><span class="apa">{h.sekolah.foto}</span></figcaption>
+      </figure>
+    </div>
+  </section>
+  <section class="bagian bagian-peach" aria-labelledby="judul-perusahaan">
+    <div class="wadah dua">
+      <div class="judul-bagian"><h2 id="judul-perusahaan">{h.perusahaan.judul}</h2><p>{h.perusahaan.kalimat}</p><p>{h.perusahaan.klien}</p></div>
+      <figure class="bingkai" data-muncul>
+        <div class="tiga">
+          {[perusahaan1, perusahaan2, perusahaan3].map((f) => (
+            <Image src={f} alt="" widths={[320, 480, 640]} sizes="(min-width: 1024px) 170px, 33vw" data-warna="hangat" />
+          ))}
+        </div>
+        <figcaption><span class="apa">{h.perusahaan.foto}</span></figcaption>
+      </figure>
+    </div>
+  </section>
+  <Penutup bahasa={bahasa} teks={h.penutup} judulHalaman={h.pembuka.judul} tombol={[{ admin: 'kantor', teks: UI[bahasa].konsultasi }]}>
+    <p>{ADMIN.kantor.layanan[bahasa]} {ADMIN.kantor.nomor} · <a href={`mailto:${EMAIL}`}>{EMAIL}</a></p>
+  </Penutup>
+</Dasar>
+
+<style>
+  .dua { display: grid; gap: var(--ruang-5); align-items: center; }
+  @media (min-width: 1024px) { .dua { grid-template-columns: 1fr 1fr; } }
+  .judul-bagian { margin-bottom: 0; justify-items: start; }
+  .butir { display: grid; gap: var(--ruang-1); padding-left: var(--ruang-3); list-style: disc; }
+  /* Gaya daftar nama sekolah sama dengan SekolahPerusahaan.astro di Beranda. */
+  .nama { display: flex; flex-wrap: wrap; gap: var(--ruang-2); }
+  .nama .kartu { display: inline-flex; align-items: center; gap: var(--ruang-1); padding: var(--ruang-2) var(--ruang-3); font-weight: 600; }
+  .tiga { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--ruang-1); }
+  .tiga :global(img) { aspect-ratio: 4 / 3; object-fit: cover; }
+</style>

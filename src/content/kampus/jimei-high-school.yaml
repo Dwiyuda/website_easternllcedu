@@ -1,0 +1,11 @@
+id:
+  slugPinyin: xiamen-jimei-zhongxue
+  nama: Jimei High School
+  deskripsi: Jimei High School didirikan pada 1918 oleh Tan Kah Kee (Chen Jiageng) di Jimei, Xiamen, Provinsi Fujian, Tiongkok (China). Eastern LLC mendampingi pendaftaran jenjang SMA ke sekolah ini.
+  kota: xiamen
+  jenjang:
+    - SMA
+  contoh: false
+zh:
+  nama: 厦门集美中学
+  deskripsi: 厦门集美中学由陈嘉庚先生于1918年创办，位于福建省厦门市集美区。东方协助学生申请该校高中。

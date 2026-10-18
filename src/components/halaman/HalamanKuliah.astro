@@ -1,0 +1,96 @@
+---
+// Halaman Kuliah ke Tiongkok (Naskah Kuliah Ke Tiongkok): pembuka foto penuh 留 dengan angka otomatis, navigasi bagian, kenapa
+// Tiongkok, layanan lima tahap, kenapa Eastern LLC (sama dengan Beranda), jenjang, peta kampus, alumni, info session, daftar.
+import { getEntry } from 'astro:content';
+import LencanaContoh from '../LencanaContoh.astro';
+import TeksCampur from '../TeksCampur.astro';
+import Video from '../Video.astro';
+import Alumni from '../beranda/Alumni.astro';
+import Kabar from '../beranda/Kabar.astro';
+import Kenapa from '../beranda/Kenapa.astro';
+import Penutup from '../beranda/Penutup.astro';
+import PetaMini from '../beranda/PetaMini.astro';
+import Langkah from '../bagian/Langkah.astro';
+import NavigasiBagian from '../bagian/NavigasiBagian.astro';
+import PembukaProgram from '../bagian/PembukaProgram.astro';
+import Dasar from '../../layouts/Dasar.astro';
+import foto from '../../assets/foto/keberangkatan-1.webp';
+import { RUTE } from '../../i18n/rute';
+import { UI } from '../../i18n/ui';
+import { ambil, bilaLengkap, type Bahasa } from '../../lib/dua-bahasa';
+import { alamatKabar, albumTampil, ambilTampil, artikelTampil, eventMendatang, kutipanTestimoni, petaKampus } from '../../lib/konten';
+import { butirNavigasi, butirRemah } from '../../lib/navigasi';
+import { hariIniJakarta } from '../../lib/tanggal';
+import { isiTempat } from '../../lib/teks';
+
+interface Props { bahasa: Bahasa }
+const { bahasa } = Astro.props;
+const [halaman, beranda] = await Promise.all([getEntry('halamanKuliah', 'kuliah'), getEntry('beranda', 'beranda')]);
+if (!halaman || !beranda) throw new Error('src/content/halaman/kuliah.yaml atau beranda.yaml tidak ditemukan');
+const h = halaman.data[bahasa];
+const b = beranda.data[bahasa];
+const { kota, jumlahKampus, jumlahInggris } = await petaKampus(bahasa);
+const semuaAlumni = await ambilTampil('alumni');
+const alumni = semuaAlumni.length;
+const hariIni = hariIniJakarta();
+const info = await eventMendatang(bahasa, hariIni, 'info-session');
+// Tautan artikel kategori Kuliah di Tiongkok di bawah "Kenapa kuliah di Tiongkok" (Naskah bagian 2), terbaru lebih dulu.
+const artikel = (await artikelTampil(hariIni)).filter((a) => a.data.id.kategori === 'kuliah')
+  .map((a) => ({ url: alamatKabar('artikel', a, bahasa), judul: ambil<string>(a.data, 'judul', bahasa) }));
+// Video Persiapan keberangkatan (Naskah bagian 3): video pertama album program Kuliah ke Tiongkok.
+const albumVideo = (await albumTampil(hariIni)).find((a) => a.data.id.program === 'kuliah' && a.data.id.video.length > 0);
+const t = (await ambilTampil('testimoni')).find((x) => x.data.id.peran === 'alumni' && x.data.id.kutipan);
+const kutipan = t && kutipanTestimoni(t, bahasa);
+// Alasan 2: jumlah kampus berjurusan bahasa Inggris dihitung dari Daftar Kampus (bawaan Rencana 2, P1).
+const alasanTiongkok = h.tiongkok.alasan.map((a) => ({ ...a, bukti: isiTempat(a.bukti, { inggris: jumlahInggris }) }));
+// Kalimat alumni Beranda lalu kalimat tambahan halaman ini, yang diganti tiap tahun (Naskah bagian 7, D4). 中文 tanpa spasi.
+const teksAlumni = { ...h.alumni, kalimat: `${b.alumni.kalimat}${bahasa === 'id' ? ' ' : ''}${h.alumni.kalimat}` };
+const ID = ['judul-tiongkok', 'judul-layanan', 'judul-kenapa', 'judul-jenjang', 'judul-kampus', 'judul-alumni', 'judul-info', 'judul-penutup'];
+const navigasi = butirNavigasi(h.navigasi.map((label, i) => ({ label, id: ID[i], tampil: ID[i] !== 'judul-info' || info.length > 0 })));
+---
+<Dasar bahasa={bahasa} judul={h.seo.judul} deskripsi={h.seo.deskripsi} judulWa={h.pembuka.judul}>
+  {/* Isi pembuka rata bawah: lukisan ditahan sampai id pertama sesudah pembuka terurai, seperti Beranda (font-cls-report.md). */}
+  <link rel="expect" href="#judul-tiongkok" blocking="render" slot="kepala" />
+  <PembukaProgram bahasa={bahasa} foto={foto} hanzi="留" judul={h.pembuka.judul} kalimat={h.pembuka.kalimat}
+    keterangan={bilaLengkap(halaman.data.id.pembuka.foto, halaman.data.zh.pembuka.foto, bahasa)}
+    remah={butirRemah(bahasa, ['program'], h.pembuka.judul, RUTE.kuliah[bahasa])}>
+    <p class="angka">{isiTempat(h.pembuka.angka, { alumni, kampus: jumlahKampus, kota: kota.length })} <LencanaContoh bahasa={bahasa} tampil={semuaAlumni.some((a) => a.data.id.contoh)} /></p>
+  </PembukaProgram>
+  <NavigasiBagian butir={navigasi} />
+  <Kenapa bahasa={bahasa} idJudul="judul-tiongkok" peach={false} teks={{ judul: h.tiongkok.judul, kalimat: h.tiongkok.kalimat, alasan: alasanTiongkok }}>
+    {artikel.length > 0 && (
+      <div class="artikel-kuliah">
+        <p class="label">{UI[bahasa].kabar.terkait}</p>
+        <ul>{artikel.map((a) => <li><a href={a.url}><TeksCampur bahasa={bahasa} teks={a.judul} /></a></li>)}</ul>
+      </div>
+    )}
+  </Kenapa>
+  <section class="bagian bagian-peach" aria-labelledby="judul-layanan">
+    <div class="wadah">
+      <div class="judul-bagian"><h2 id="judul-layanan">{h.layanan.judul}</h2><p>{h.layanan.kalimat}</p></div>
+      <Langkah langkah={h.layanan.langkah} />
+      {albumVideo && (
+        <div class="video-layanan">
+          <Video bahasa={bahasa} youtube={albumVideo.data.id.video[0].youtube} sampul={albumVideo.data.id.video[0].sampul} judul={ambil<string>(albumVideo.data, 'judul', bahasa)} />
+          <LencanaContoh bahasa={bahasa} tampil={albumVideo.data.id.contoh} />
+        </div>
+      )}
+      <a class="tombol tombol-kedua tautan-daftar" href={RUTE.caraMendaftar[bahasa]}>{h.layanan.tautan}</a>
+    </div>
+  </section>
+  <Kenapa bahasa={bahasa} peach={false} teks={b.kenapa} />
+  <Kenapa bahasa={bahasa} idJudul="judul-jenjang" peach={false} teks={{ judul: h.jenjang.judul, alasan: h.jenjang.kartu }} />
+  <PetaMini bahasa={bahasa} teks={b.kampus} kota={kota} jumlahKampus={jumlahKampus} />
+  <Alumni bahasa={bahasa} teks={teksAlumni} kutipan={kutipan} />
+  <Kabar bahasa={bahasa} idJudul="judul-info" teks={{ judul: h.info.judul, kalimat: h.info.kalimat }} event={info} artikel={[]} />
+  <Penutup bahasa={bahasa} teks={h.penutup} judulHalaman={h.pembuka.judul} tombol={[{ admin: 'kuliah1' }, { admin: 'kuliah2' }]}>
+    <a href={RUTE.caraMendaftar[bahasa]}>{h.penutup.tautan}</a>
+  </Penutup>
+</Dasar>
+
+<style>
+  .tautan-daftar { margin-top: var(--ruang-5); }
+  .artikel-kuliah { display: grid; gap: var(--ruang-1); }
+  .artikel-kuliah ul { display: grid; gap: var(--ruang-1); margin: 0; padding-left: var(--ruang-3); }
+  .video-layanan { display: grid; justify-items: start; gap: var(--ruang-1); max-width: 720px; margin-top: var(--ruang-5); }
+</style>

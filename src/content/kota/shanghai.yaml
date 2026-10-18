@@ -1,0 +1,10 @@
+id:
+  nama: Shanghai
+  provinsi: Shanghai
+  lon: 121.47
+  lat: 31.23
+  label: kanan
+  contoh: false
+zh:
+  nama: 上海
+  provinsi: 上海市

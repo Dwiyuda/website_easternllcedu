@@ -1,0 +1,35 @@
+---
+// Tawaran versi 中文 untuk browser berbahasa Mandarin (PRD F13): bisa ditutup dan diingat, tanpa pengalihan paksa.
+// Skrip inline langsung setelah elemen, supaya baris ini muncul sebelum halaman tergambar (tanpa geser tata letak).
+import Ikon from '../Ikon.astro';
+
+interface Props { tujuan: string }
+const { tujuan } = Astro.props;
+---
+<div class="tawaran-zh" lang="zh-Hans" data-tawaran-zh hidden>
+  <div class="wadah dalam">
+    <p>本网站提供中文版。</p>
+    <a href={tujuan} hreflang="zh-Hans">查看中文版</a>
+    <button type="button" data-tutup-tawaran aria-label="关闭"><Ikon nama="close" ukuran={20} /></button>
+  </div>
+</div>
+<script is:inline>
+  (function () {
+    var el = document.currentScript.previousElementSibling, tutup = false;
+    try { tutup = localStorage.getItem('tawaran-zh') === 'tutup'; } catch (e) {}
+    var zh = (navigator.languages || [navigator.language]).some(function (l) { return /^zh/i.test(l); });
+    if (zh && !tutup) el.hidden = false;
+    el.querySelector('[data-tutup-tawaran]').addEventListener('click', function () {
+      el.hidden = true;
+      try { localStorage.setItem('tawaran-zh', 'tutup'); } catch (e) {}
+    });
+  })();
+</script>
+
+<style>
+  .tawaran-zh { background: var(--peach-100); font-family: var(--font-isi-han); }
+  .dalam { display: flex; align-items: center; gap: var(--ruang-2); min-height: 48px; }
+  .dalam p { flex: 1; font-size: var(--huruf-kecil); }
+  button { display: inline-grid; place-items: center; width: 48px; height: 48px; border: 0; border-radius: var(--radius-pil); background: transparent; color: var(--marun-600); cursor: pointer; transition: background-color var(--durasi-kursor) var(--kurva); }
+  button:hover { background: var(--peach-200); }
+</style>

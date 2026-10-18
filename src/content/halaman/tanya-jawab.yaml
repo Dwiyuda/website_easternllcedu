@@ -1,0 +1,62 @@
+id:
+  seo:
+    judul: Tanya Jawab Eastern LLC · Kelas Mandarin, Biaya, Pendaftaran, dan Study Tour
+    deskripsi: Pertanyaan yang sering diajukan ke Eastern LLC Pekanbaru tentang kelas Mandarin online dan offline, level dan jadwal, tes penempatan, biaya, cara mendaftar, dan study tour ke Tiongkok (China).
+  pembuka:
+    judul: Tanya Jawab
+    kalimat: Pertanyaan yang sering diajukan tentang kelas Mandarin, biaya, cara mendaftar, dan study tour Eastern LLC.
+  tanya:
+    - tanya: Apakah ada kelas Mandarin online dan offline?
+      jawab: Keduanya tersedia — kelas Mandarin online dan tatap muka.
+    - tanya: Kapan jadwal kelasnya?
+      jawab: "Mengikuti jam kantor: Senin–Jumat 09.00–17.00 dan Sabtu 09.00–16.00; jadwal kelas diatur saat pendaftaran."
+    - tanya: Ada berapa level?
+      jawab: Enam level — Basic 1–2, Intermediate 3–4, dan Upper 5–6.
+    - tanya: Bagaimana sistem belajarnya?
+      jawab: Kelas kecil 5–10 siswa, tiap sesi 75 menit, materi bertahap dari dasar.
+    - tanya: Apakah ada tes kemampuan?
+      jawab: Tersedia tes penempatan untuk menentukan level yang sesuai.
+    - tanya: Bisa belajar dari nol untuk persiapan kuliah?
+      jawab: Bisa — program dirancang dari dasar sampai siap kuliah di Tiongkok.
+    - tanya: Berapa jumlah pertemuannya?
+      jawab: Bergantung level, mulai dari 24 sesi di tingkat dasar.
+    - tanya: Apa itu study tour atau camp?
+      jawab: Program budaya dan pendidikan langsung di Tiongkok, seperti Study Tour Nanning 14–25 Desember 2026.
+    - tanya: Berapa biayanya?
+      jawab: Biaya disampaikan lewat konsultasi WhatsApp sesuai program dan level.
+    - tanya: Bagaimana cara mendaftar?
+      jawab: Lewat WhatsApp admin sesuai layanan (les, kuliah, atau study tour).
+  penutup:
+    judul: Masih ada pertanyaan?
+    kalimat: "Admin Eastern LLC menjawab lewat WhatsApp sesuai layanan: les, kuliah, atau study tour."
+zh:
+  seo:
+    judul: 常见问题 · 东方语言学院
+    deskripsi: 关于东方语言学院中文课程（线上与线下）、级别与上课时间、分级测试、费用、报名方式和中国游学的常见问题。
+  pembuka:
+    judul: 常见问题
+    kalimat: 关于东方中文课程、费用、报名方式和游学的常见问题。
+  tanya:
+    - tanya: 有线上和线下中文课吗？
+      jawab: 两种都有——线上和面授中文课均开设。
+    - tanya: 上课时间是怎样安排的？
+      jawab: 按办公时间：周一至周五09:00–17:00，周六09:00–16:00；上课时间在报名时安排。
+    - tanya: 共有几个级别？
+      jawab: 六个级别——初级1–2、中级3–4、高级5–6。
+    - tanya: 教学方式是怎样的？
+      jawab: 小班5–10人，每节75分钟，内容由浅入深、循序渐进。
+    - tanya: 有水平测试吗？
+      jawab: 设有分级测试，用于确定合适的级别。
+    - tanya: 可以从零基础开始为留学做准备吗？
+      jawab: 可以——课程从零基础设计到具备赴中国留学的水平。
+    - tanya: 一共有多少次课？
+      jawab: 视级别而定，初级从24次课起。
+    - tanya: 游学或冬夏令营是什么？
+      jawab: 在中国实地开展的文化与教育项目，例如2026年12月14–25日的南宁游学。
+    - tanya: 费用是多少？
+      jawab: 费用通过WhatsApp咨询按项目和级别说明。
+    - tanya: 如何报名？
+      jawab: 通过对应服务的WhatsApp顾问报名（课程、留学或游学）。
+  penutup:
+    judul: 还有疑问？
+    kalimat: 东方顾问通过WhatsApp按服务解答：课程、留学或游学。

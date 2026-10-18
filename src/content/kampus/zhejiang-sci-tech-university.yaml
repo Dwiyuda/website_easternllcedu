@@ -1,0 +1,27 @@
+id:
+  slugPinyin: zhejiang-ligong-daxue
+  nama: Zhejiang Sci-Tech University
+  deskripsi: Zhejiang Sci-Tech University (ZSTU) berdiri pada 1897 di kawasan pendidikan Xiasha, Hangzhou, Provinsi Zhejiang, Tiongkok (China). Jurusan desain mode dan tekstilnya beragam, termasuk program kerja sama dengan Amerika Serikat. Jurusan S1 berbahasa Inggris antara lain Computer Science and Technology, Business Administration, dan Fashion Design and Engineering. Program bahasa Mandarin, S1, S2, dan S3 tersedia, dengan beasiswa potongan 50% atau 100% uang kuliah satu tahun.
+  kota: hangzhou
+  jenjang:
+    - Bahasa
+    - S1
+    - S2
+    - S3
+  jurusanInggris:
+    - nama: Computer Science and Technology
+      jenjang: S1
+    - nama: Mechanical Design & Manufacturing and Automation
+      jenjang: S1
+    - nama: Biotechnology
+      jenjang: S1
+    - nama: International Economics and Trade
+      jenjang: S1
+    - nama: Business Administration
+      jenjang: S1
+    - nama: Fashion Design and Engineering (Sino-American Program)
+      jenjang: S1
+  contoh: false
+zh:
+  nama: 浙江理工大学
+  deskripsi: 浙江理工大学始建于1897年，位于杭州下沙高教园区，服装设计与纺织类专业丰富，并设有中美合作项目。英文授课本科专业包括计算机科学与技术、工商管理和服装设计与工程等。学校设有汉语进修、本科、硕士和博士项目，奖学金可减免一学年50%或全额学费。

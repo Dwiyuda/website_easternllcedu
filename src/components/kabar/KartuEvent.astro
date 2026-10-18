@@ -1,0 +1,36 @@
+---
+// Kartu event (MASTER.md; Panduan Visual 9e): kotak tanggal, lencana status dan jenis, judul, baris waktu dan tempat, panah (tersembunyi
+// di HP). Tanpa foto; seluruh kartu menautkan detail event. Dipakai Beranda, Kuliah ke Tiongkok (Info session), dan Kabar & Event.
+import Ikon from '../Ikon.astro';
+import LencanaContoh from '../LencanaContoh.astro';
+import LencanaStatus from '../LencanaStatus.astro';
+import TeksCampur from '../TeksCampur.astro';
+import KotakTanggal from './KotakTanggal.astro';
+import { UI } from '../../i18n/ui';
+import type { Bahasa } from '../../lib/dua-bahasa';
+import type { EventKartu } from '../../lib/konten';
+import { formatRentang } from '../../lib/tanggal';
+
+interface Props { bahasa: Bahasa; event: EventKartu }
+const { bahasa, event: e } = Astro.props;
+---
+<a class="kartu kartu-event" href={e.url}>
+  <KotakTanggal bahasa={bahasa} tanggal={e.mulai} lewat={e.status === 'selesai'} />
+  <span class="isi">
+    <span class="lencana-baris"><LencanaStatus bahasa={bahasa} status={e.status} /><span class="lencana">{UI[bahasa].jenisEvent[e.jenis]}</span><LencanaContoh bahasa={bahasa} tampil={e.contoh} /></span>
+    <span class="judul"><TeksCampur bahasa={bahasa} teks={e.judul} /></span>
+    <span class="baris"><Ikon nama="schedule" ukuran={20} />{formatRentang(e.mulai, e.selesai, bahasa)}</span>
+    {e.tempat && <span class="baris"><Ikon nama="location_on" ukuran={20} /><TeksCampur bahasa={bahasa} teks={e.tempat} /></span>}
+  </span>
+  <Ikon nama="arrow_forward" class="panah" />
+</a>
+
+<style>
+  .kartu-event { display: flex; align-items: flex-start; gap: var(--ruang-3); height: 100%; }
+  .isi { display: grid; align-content: start; gap: var(--ruang-1); flex: 1; }
+  .judul { color: var(--marun-600); font: 500 var(--huruf-judul-4) / 1.3 var(--font-judul); font-variation-settings: "SOFT" 100; }
+  :lang(zh) .judul { font-family: var(--font-judul-han); font-weight: 400; }
+  .baris { display: flex; align-items: center; gap: var(--ruang-1); color: var(--teks-600); font-size: var(--huruf-kecil); }
+  .kartu-event :global(.panah) { display: none; align-self: center; color: var(--marun-600); }
+  @media (min-width: 768px) { .kartu-event :global(.panah) { display: inline-flex; } }
+</style>

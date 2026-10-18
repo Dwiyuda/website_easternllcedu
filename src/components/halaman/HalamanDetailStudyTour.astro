@@ -1,0 +1,100 @@
+---
+// Detail program study tour (Naskah Study Tour, Pola halaman detail program): pembuka ringkas 游 dengan status, jenis, tanggal,
+// dan rute; yang termasuk; biaya hanya kalau sakelar menyala; jadwal per hari dengan tanggal otomatis; penutup ke kantor dengan
+// nama program di pesan WhatsApp. Pembuka ringkas karena sampul sementara bukan foto dari program itu sendiri.
+import { getEntry, type CollectionEntry } from 'astro:content';
+import Ikon from '../Ikon.astro';
+import LencanaContoh from '../LencanaContoh.astro';
+import LencanaStatus from '../LencanaStatus.astro';
+import Penutup from '../beranda/Penutup.astro';
+import Langkah from '../bagian/Langkah.astro';
+import PembukaRingkas from '../bagian/PembukaRingkas.astro';
+import KartuAlbum from '../galeri/KartuAlbum.astro';
+import Dasar from '../../layouts/Dasar.astro';
+import { ADMIN } from '../../data/kontak';
+import { UI } from '../../i18n/ui';
+import { RUTE } from '../../i18n/rute';
+import { ambil, type Bahasa } from '../../lib/dua-bahasa';
+import { formatRupiah } from '../../lib/harga';
+import { albumTampil, ruteKota } from '../../lib/konten';
+import { butirRemah } from '../../lib/navigasi';
+import { formatRentang, formatTanggal, hariIniJakarta, statusEvent, tambahHari } from '../../lib/tanggal';
+
+interface Props { bahasa: Bahasa; entri: CollectionEntry<'studyTour'> }
+const { bahasa, entri } = Astro.props;
+const halaman = await getEntry('halamanStudyTour', 'study-tour');
+if (!halaman) throw new Error('src/content/halaman/study-tour.yaml tidak ditemukan');
+const h = halaman.data[bahasa];
+const ui = UI[bahasa];
+const d = entri.data;
+const judul = ambil<string>(d, 'judul', bahasa);
+// Isian terjemahan opsional dibaca dari blok bahasanya sendiri, tanpa jatuh ke blok id (bawaan Rencana 4 tentang ambil()).
+const blok = bahasa === 'zh' ? d.zh : d.id;
+const ringkasan = blok?.ringkasan;
+const termasuk = blok?.termasuk ?? [];
+const jadwal = (blok?.itinerary ?? []).map((it, i) => ({
+  judul: it.judul, kalimat: [formatTanggal(tambahHari(d.id.mulai, i), bahasa), it.isi].filter(Boolean).join(' · '),
+}));
+const rute = await ruteKota(d.id.kota, bahasa);
+const status = statusEvent(d.id.mulai, d.id.selesai, hariIniJakarta());
+const harga = d.id.tampilkanHarga && d.id.harga ? formatRupiah(d.id.harga) : undefined;
+const album = (await albumTampil(hariIniJakarta())).filter((a) => a.data.id.studyTour?.id === entri.id);
+const pasanganBahasa = { id: `${RUTE.studyTour.id}/${entri.id}`, zh: `${RUTE.studyTour.zh}/${entri.id}` };
+const judulTab = `${judul}${ui.akhiranTab}`;
+---
+<Dasar bahasa={bahasa} judul={judulTab} deskripsi={ringkasan ?? h.seo.deskripsi} judulWa={judul} pasanganBahasa={pasanganBahasa}>
+  <PembukaRingkas bahasa={bahasa} hanzi="游" judul={judul} kalimat={ringkasan} remah={butirRemah(bahasa, ['program', 'studyTour'], judul, pasanganBahasa[bahasa])}>
+    <span class="lencana-baris"><LencanaStatus bahasa={bahasa} status={status} /><span class="lencana">{ui.jenisStudyTour[d.id.jenis]}</span><LencanaContoh bahasa={bahasa} tampil={d.id.contoh} /></span>
+    <p class="baris"><Ikon nama="calendar_month" ukuran={20} />{formatRentang(d.id.mulai, d.id.selesai, bahasa)}</p>
+    {rute && <p class="baris rute"><Ikon nama="location_on" ukuran={20} />{rute}</p>}
+  </PembukaRingkas>
+  {(termasuk.length > 0 || harga) && (
+    <section class="bagian bagian-peach">
+      <div class="wadah dua">
+        {termasuk.length > 0 && (
+          <div>
+            <h2>{h.detail.termasuk}</h2>
+            <ul class="kartu termasuk">{termasuk.map((t) => <li><Ikon nama="check" ukuran={20} class="centang" />{t}</li>)}</ul>
+          </div>
+        )}
+        {harga && <div class="kartu biaya"><h2>{h.detail.biaya}</h2><p class="nilai">{harga}</p></div>}
+      </div>
+    </section>
+  )}
+  {jadwal.length > 0 && (
+    <section class="bagian" aria-labelledby="judul-jadwal">
+      <div class="wadah">
+        <div class="judul-bagian"><h2 id="judul-jadwal">{h.detail.jadwal}</h2></div>
+        <Langkah langkah={jadwal} />
+      </div>
+    </section>
+  )}
+  {album.length > 0 && (
+    <section class="bagian bagian-peach" aria-labelledby="judul-galeri">
+      <div class="wadah">
+        <div class="judul-bagian"><h2 id="judul-galeri">{h.navigasi[2]}</h2></div>
+        <ul class="kisi-album">{album.map((a) => <li><KartuAlbum bahasa={bahasa} album={a} /></li>)}</ul>
+      </div>
+    </section>
+  )}
+  <Penutup bahasa={bahasa} teks={h.penutup} judulHalaman={judul} tombol={[{ admin: 'kantor', teks: ui.konsultasi }]}>
+    <p>{ADMIN.kantor.layanan[bahasa]} {ADMIN.kantor.nomor}</p>
+  </Penutup>
+</Dasar>
+
+<style>
+  .baris { display: flex; align-items: center; gap: var(--ruang-1); color: var(--teks-600); }
+  .dua { display: grid; gap: var(--ruang-5); align-items: start; }
+  @media (min-width: 1024px) { .dua { grid-template-columns: 2fr 1fr; } }
+  .dua h2 { margin-bottom: var(--ruang-3); }
+  .termasuk { display: grid; gap: var(--ruang-1); }
+  .termasuk li { display: flex; align-items: center; gap: var(--ruang-1); }
+  .termasuk :global(.centang) { color: var(--sukses); }
+  .biaya h2 { font-size: var(--huruf-judul-4); }
+  :lang(zh) .biaya h2 { font-size: calc(var(--huruf-judul-4) * 0.9); }
+  .nilai { color: var(--marun-600); font: 500 var(--huruf-judul-3) / 1.2 var(--font-judul); font-variant-numeric: tabular-nums; }
+  .kisi-album { display: grid; gap: var(--ruang-3); }
+  @media (min-width: 768px) { .kisi-album { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1024px) { .kisi-album { grid-template-columns: repeat(3, 1fr); } }
+  .kisi-album li { display: grid; }
+</style>

@@ -1,0 +1,44 @@
+---
+// Blok "Biaya dan pendaftaran" (MASTER.md; Panduan Visual 9c2 dan 9c3): satu pita di atas Daftar Kampus (mendatar di desktop) dan
+// panel kartu di detail kampus. Konsultasi ke admin kuliah pertama dengan judul halaman atau nama kampus di pesan (Peta Halaman).
+// Angka biaya hanya kalau sakelar biaya kampus menyala dan angkanya diisi (bawaan mati, keputusan cece 2026-10-11).
+import { ADMIN } from '../../data/kontak';
+import { UI, tandaTabBaru } from '../../i18n/ui';
+import type { Bahasa } from '../../lib/dua-bahasa';
+import { formatRmb } from '../../lib/harga';
+import { isiTempat } from '../../lib/teks';
+import { tautanWa } from '../../lib/wa';
+
+type Rentang = { min: number; sampai?: number };
+interface Props { bahasa: Bahasa; idJudul: string; judulWa: string; mendatar?: boolean; biaya?: { kuliah?: Rentang; asrama?: Rentang; tahun: number } }
+const { bahasa, idJudul, judulWa, mendatar = false, biaya } = Astro.props;
+const ui = UI[bahasa];
+const t = ui.kampus.biaya;
+const baris = biaya ? ([[t.kuliah, biaya.kuliah], [t.asrama, biaya.asrama]] as const).filter(([, r]) => r) : [];
+---
+<div class:list={['kartu', 'blok-biaya', { mendatar }]}>
+  <div class="teks">
+    <h2 id={idJudul}>{t.judul}</h2>
+    <p>{t.kalimat}</p>
+    {baris.length > 0 && (
+      <>
+        <dl>{baris.map(([label, r]) => <div><dt>{label}</dt><dd>{formatRmb(r!.min, r!.sampai, bahasa)}</dd></div>)}</dl>
+        <p class="kecil">{isiTempat(t.estimasi, { tahun: biaya!.tahun })}</p>
+      </>
+    )}
+  </div>
+  <a class="tombol tombol-utama" href={tautanWa(ADMIN.kuliah1.nomor, judulWa, bahasa)} target="_blank" rel="noopener"
+    aria-label={`${ui.konsultasi}${ui.titikDua}${ui.konsultasiLabel}${tandaTabBaru(bahasa)}`}>{ui.konsultasi}</a>
+</div>
+
+<style>
+  .blok-biaya { display: grid; justify-items: start; gap: var(--ruang-3); }
+  .teks { display: grid; gap: var(--ruang-2); }
+  h2 { font-size: var(--huruf-judul-4); line-height: 1.3; }
+  :lang(zh) h2 { font-size: calc(var(--huruf-judul-4) * 0.9); }
+  @media (min-width: 1024px) { .mendatar { grid-template-columns: minmax(0, 1fr) auto; align-items: center; } }
+  dl { display: grid; gap: var(--ruang-1); margin: 0; }
+  dl div { display: flex; justify-content: space-between; gap: var(--ruang-2); }
+  dt { color: var(--teks-600); }
+  dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; }
+</style>

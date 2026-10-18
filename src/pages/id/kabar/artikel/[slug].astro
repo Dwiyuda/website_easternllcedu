@@ -1,0 +1,13 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import HalamanDetailArtikel from '../../../../components/halaman/HalamanDetailArtikel.astro';
+import { artikelTampil } from '../../../../lib/konten';
+import { hariIniJakarta } from '../../../../lib/tanggal';
+
+// Satu halaman per artikel yang tampil. Alamat Indonesia = nama berkas (Peta Halaman: /id/kabar/artikel/<slug>).
+export async function getStaticPaths() {
+  return (await artikelTampil(hariIniJakarta())).map((entri) => ({ params: { slug: entri.id }, props: { entri } }));
+}
+const { entri } = Astro.props as { entri: CollectionEntry<'artikel'> };
+---
+<HalamanDetailArtikel bahasa="id" entri={entri} />

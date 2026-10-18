@@ -1,0 +1,15 @@
+---
+// Potongan satu baris isi (lib/isi.ts) sebagai elemen biasa: <strong>, <em>, tautan https di tab baru dengan keterangan tab baru
+// untuk pembaca layar. Tanpa set:html. Aksara Han di halaman Indonesia diberi lang="zh-Hans" lewat TeksCampur (WCAG 3.1.2).
+import TeksCampur from './TeksCampur.astro';
+import { tandaTabBaru } from '../i18n/ui';
+import type { Bahasa } from '../lib/dua-bahasa';
+import type { Inline } from '../lib/isi';
+
+interface Props { isi: Inline[]; bahasa: Bahasa }
+const { isi, bahasa } = Astro.props;
+---
+{isi.map((x) => (typeof x === 'string' ? <TeksCampur bahasa={bahasa} teks={x} />
+  : x.tag === 'a' ? <a href={x.href} target="_blank" rel="noopener"><Astro.self isi={x.isi} bahasa={bahasa} /><span class="sr">{tandaTabBaru(bahasa)}</span></a>
+  : x.tag === 'strong' ? <strong><Astro.self isi={x.isi} bahasa={bahasa} /></strong>
+  : <em><Astro.self isi={x.isi} bahasa={bahasa} /></em>))}

@@ -1,0 +1,38 @@
+---
+// Halaman 404 sederhana (MASTER.md): lencana galat, aksara 寻, judul, kalimat, tombol ke Beranda, tautan ke Kontak.
+import Hanzi from '../Hanzi.astro';
+import TeksCampur from '../TeksCampur.astro';
+import Dasar from '../../layouts/Dasar.astro';
+import { UI } from '../../i18n/ui';
+import { RUTE } from '../../i18n/rute';
+import type { Bahasa } from '../../lib/dua-bahasa';
+
+interface Props { bahasa: Bahasa | 'dua' }
+const { bahasa } = Astro.props;
+const daftar: Bahasa[] = bahasa === 'dua' ? ['id', 'zh'] : [bahasa];
+const utama = daftar[0];
+---
+<Dasar bahasa={utama} judul={daftar.map((b) => UI[b].galat404.tab).join(' / ')} deskripsi={UI[utama].galat404.kalimat} judulWa={UI[utama].judulWaBeranda} indeks={false}>
+  <section class="bagian">
+    <div class="wadah isi">
+      <span class="lencana lencana-galat"><TeksCampur bahasa={utama} teks={daftar.map((b) => UI[b].galat404.lencana).join(' / ')} /></span>
+      <Hanzi aksara="寻" />
+      {daftar.map((b, i) => (
+        <div class="blok" lang={b === 'zh' ? 'zh-Hans' : 'id'}>
+          {i === 0 ? <h1>{UI[b].galat404.judul}</h1> : <h2>{UI[b].galat404.judul}</h2>}
+          <p>{UI[b].galat404.kalimat}</p>
+        </div>
+      ))}
+      <div class="aksi">
+        {daftar.map((b) => <a class="tombol tombol-utama" href={RUTE.beranda[b]} lang={b === 'zh' ? 'zh-Hans' : 'id'}>{UI[b].galat404.tombol}</a>)}
+        {bahasa !== 'dua' && <a href={RUTE.kontak[bahasa]}>{UI[bahasa].galat404.tautan}</a>}
+      </div>
+    </div>
+  </section>
+</Dasar>
+
+<style>
+  .isi { display: grid; justify-items: start; gap: var(--ruang-3); }
+  .blok { display: grid; gap: var(--ruang-2); }
+  .aksi { display: flex; flex-wrap: wrap; align-items: center; gap: var(--ruang-3); }
+</style>

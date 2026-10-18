@@ -1,0 +1,70 @@
+---
+// Halaman Cara Mendaftar (Naskah Cara Mendaftar, Panduan Visual 9g2 A bertumpuk): pembuka ringkas 申, enam langkah, 14 dokumen umum
+// dalam daftar dua kolom (satu kolom di HP), tambahan per kampus dalam buka-tutup, catatan CSCA berlatar peringatan, penutup admin kuliah.
+// Bagian langkah tanpa judul bagian karena naskah tidak memberinya.
+import { getEntry } from 'astro:content';
+import Ikon from '../Ikon.astro';
+import Penutup from '../beranda/Penutup.astro';
+import BukaTutup from '../bagian/BukaTutup.astro';
+import Langkah from '../bagian/Langkah.astro';
+import PembukaRingkas from '../bagian/PembukaRingkas.astro';
+import Dasar from '../../layouts/Dasar.astro';
+import { UI } from '../../i18n/ui';
+import { RUTE } from '../../i18n/rute';
+import type { Bahasa } from '../../lib/dua-bahasa';
+import { butirRemah } from '../../lib/navigasi';
+import { formatTanggal } from '../../lib/tanggal';
+import { isiTempat } from '../../lib/teks';
+
+interface Props { bahasa: Bahasa }
+const { bahasa } = Astro.props;
+const halaman = await getEntry('halamanCaraMendaftar', 'cara-mendaftar');
+if (!halaman) throw new Error('src/content/halaman/cara-mendaftar.yaml tidak ditemukan');
+const h = halaman.data[bahasa];
+const diperbarui = isiTempat(UI[bahasa].diperbarui, { tanggal: formatTanggal(halaman.data.id.cscaDiperbarui, bahasa) });
+---
+<Dasar bahasa={bahasa} judul={h.seo.judul} deskripsi={h.seo.deskripsi} judulWa={h.pembuka.judul}>
+  <PembukaRingkas bahasa={bahasa} hanzi="申" judul={h.pembuka.judul} kalimat={h.pembuka.kalimat}
+    remah={butirRemah(bahasa, ['program', 'kuliah'], h.pembuka.judul, RUTE.caraMendaftar[bahasa])} />
+  <section class="bagian"><div class="wadah"><Langkah langkah={h.langkah} tingkat={2} /></div></section>
+  <section class="bagian bagian-peach" aria-labelledby="judul-dokumen">
+    <div class="wadah">
+      <div class="judul-bagian"><h2 id="judul-dokumen">{h.dokumen.judul}</h2><p>{h.dokumen.kalimat}</p></div>
+      <ul class="kartu dokumen">
+        {h.dokumen.daftar.map((d) => (
+          <li><Ikon nama="check" ukuran={20} class="centang" /><span>{d.nama}{d.bahasa && <span class="tanda-bahasa">{d.bahasa}</span>}</span></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+  <section class="bagian" aria-labelledby="judul-tambahan">
+    <div class="wadah isi">
+      <div class="judul-bagian"><h2 id="judul-tambahan">{h.tambahan.judul}</h2><p>{h.tambahan.kalimat}</p><p class="kecil">{h.tambahan.singkatan}</p></div>
+      <div class="kampus">
+        {h.tambahan.kampus.map((k) => <BukaTutup bahasa={bahasa} judul={k.nama}><ul class="isi-kampus">{k.dokumen.map((x) => <li>{x}</li>)}</ul></BukaTutup>)}
+      </div>
+      <div class="peringatan">
+        <h2>{h.csca.judul}</h2>
+        <p>{h.csca.isi}</p>
+        <p class="kecil">{diperbarui}</p>
+      </div>
+    </div>
+  </section>
+  <Penutup bahasa={bahasa} teks={h.penutup} judulHalaman={h.pembuka.judul} tombol={[{ admin: 'kuliah1' }, { admin: 'kuliah2' }]} />
+</Dasar>
+
+<style>
+  .dokumen { display: grid; gap: var(--ruang-2) var(--ruang-4); }
+  @media (min-width: 768px) { .dokumen { grid-template-columns: 1fr 1fr; } }
+  .dokumen li { display: flex; align-items: flex-start; gap: var(--ruang-1); }
+  .dokumen :global(.centang) { color: var(--sukses); }
+  .tanda-bahasa { display: block; color: var(--teks-600); font-size: var(--huruf-mini); font-weight: 600; line-height: 1.2; }
+  .isi { display: grid; gap: var(--ruang-5); }
+  .isi .judul-bagian { margin-bottom: 0; }
+  .kampus { display: grid; gap: var(--ruang-2); }
+  .isi-kampus { display: grid; gap: var(--ruang-1); padding-left: var(--ruang-3); list-style: disc; }
+  .peringatan { display: grid; gap: var(--ruang-2); padding: var(--ruang-3); border-radius: var(--radius-besar); background: var(--peringatan-latar); }
+  @media (min-width: 1024px) { .peringatan { padding: var(--ruang-4); } }
+  .peringatan h2 { color: var(--peringatan); font-size: var(--huruf-judul-3); }
+  :lang(zh) .peringatan h2 { font-size: calc(var(--huruf-judul-3) * 0.9); }
+</style>

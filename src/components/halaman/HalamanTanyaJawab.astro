@@ -1,0 +1,32 @@
+---
+// Halaman Tanya Jawab: 10 tanya-jawab (dipindah dari Cara Mendaftar) sebagai akordeon <details> dengan pembuka ringkas 问 dan
+// penutup konsultasi. Satu bagian isi, jadi judul halaman (h1) sudah menamainya — tanpa judul bagian ulang.
+import { getEntry } from 'astro:content';
+import BukaTutup from '../bagian/BukaTutup.astro';
+import Penutup from '../beranda/Penutup.astro';
+import PembukaRingkas from '../bagian/PembukaRingkas.astro';
+import Dasar from '../../layouts/Dasar.astro';
+import { RUTE } from '../../i18n/rute';
+import type { Bahasa } from '../../lib/dua-bahasa';
+import { butirRemah } from '../../lib/navigasi';
+
+interface Props { bahasa: Bahasa }
+const { bahasa } = Astro.props;
+const halaman = await getEntry('halamanTanyaJawab', 'tanya-jawab');
+if (!halaman) throw new Error('src/content/halaman/tanya-jawab.yaml tidak ditemukan');
+const h = halaman.data[bahasa];
+---
+<Dasar bahasa={bahasa} judul={h.seo.judul} deskripsi={h.seo.deskripsi} judulWa={h.pembuka.judul}>
+  <PembukaRingkas bahasa={bahasa} hanzi="问" judul={h.pembuka.judul} kalimat={h.pembuka.kalimat}
+    remah={butirRemah(bahasa, [], h.pembuka.judul, RUTE.tanyaJawab[bahasa])} />
+  <section class="bagian bagian-peach" aria-label={h.pembuka.judul}>
+    <div class="wadah">
+      <div class="tanya">{h.tanya.map((t) => <BukaTutup bahasa={bahasa} judul={t.tanya}><p>{t.jawab}</p></BukaTutup>)}</div>
+    </div>
+  </section>
+  <Penutup bahasa={bahasa} teks={h.penutup} judulHalaman={h.pembuka.judul} />
+</Dasar>
+
+<style>
+  .tanya { display: grid; gap: var(--ruang-2); }
+</style>

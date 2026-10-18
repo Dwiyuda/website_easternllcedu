@@ -1,0 +1,33 @@
+---
+// Peta mini kampus mitra: pesisir, dua sungai, titik kota (MASTER.md). Dipotong ke Tiongkok timur, seluruh peta menautkan Daftar Kampus.
+import Peta from '../kampus/Peta.astro';
+import { RUTE } from '../../i18n/rute';
+import { UI } from '../../i18n/ui';
+import type { Bahasa } from '../../lib/dua-bahasa';
+import type { KotaPeta } from '../../lib/konten';
+import { isiTempat } from '../../lib/teks';
+
+interface Props { bahasa: Bahasa; teks: { judul: string; kalimat: string; tautan: string }; kota: KotaPeta[]; jumlahKampus: number }
+const { bahasa, teks, kota, jumlahKampus } = Astro.props;
+const ringkasan = kota.map((k) => `${k.nama} ${k.jumlah}`).join(bahasa === 'zh' ? '、' : ', ');
+---
+<section class="bagian bagian-peach" aria-labelledby="judul-kampus">
+  <div class="wadah dua">
+    <div class="judul-bagian">
+      <h2 id="judul-kampus">{teks.judul}</h2>
+      <p>{isiTempat(teks.kalimat, { kampus: jumlahKampus, kota: kota.length })}</p>
+      <a class="tombol tombol-kedua" href={RUTE.kampus[bahasa]}>{teks.tautan}</a>
+    </div>
+    <a class="peta" href={RUTE.kampus[bahasa]} aria-label={`${teks.tautan}${UI[bahasa].titikDua}${ringkasan}`}>
+      <Peta bahasa={bahasa} kota={kota} />
+    </a>
+  </div>
+</section>
+
+<style>
+  .dua { display: grid; gap: var(--ruang-5); align-items: center; }
+  @media (min-width: 1024px) { .dua { grid-template-columns: 1fr 1fr; } }
+  .judul-bagian { justify-items: start; }
+  .peta { display: block; padding: var(--ruang-2); border-radius: var(--radius-besar); background: var(--kartu-100); transition: background-color var(--durasi-kursor) var(--kurva); }
+  .peta:hover { background: var(--kartu-50); }
+</style>

@@ -1,0 +1,88 @@
+---
+// Saringan Daftar Kampus (Naskah Daftar Kampus bagian 3 dan 4; Panduan Visual 9c; MASTER.md Lencana pilihan). bagian="kota": daftar
+// kota di bawah peta, jalan pintas papan ketik dan HP (titik peta hanya untuk tetikus dan sentuh, K13). bagian="lain": jenjang, jurusan
+// berbahasa Inggris, rentang biaya (hanya kalau sakelar biaya menyala dan ada angka), jumlah hasil, hapus filter, pesan kosong.
+// Tanpa JavaScript keduanya tetap hidden dan semua kampus tampil. Skrip dimuat sekali per halaman walau komponen dipakai dua kali.
+// Kait jumlah hasil data-hasil, bukan data-jumlah: itu milik titik peta (K1). Hanya angka yang diumumkan (aria-live di span).
+import { UI } from '../../i18n/ui';
+import type { Bahasa } from '../../lib/dua-bahasa';
+
+interface Props { bahasa: Bahasa; bagian: 'kota' | 'lain'; kota?: { slug: string; nama: string }[]; biaya?: boolean }
+const { bahasa, bagian, kota = [], biaya = false } = Astro.props;
+const ui = UI[bahasa];
+const t = ui.kampus;
+---
+{bagian === 'kota' ? (
+  <div class="saring" data-saring-wadah hidden>
+    <p class="label" id="label-kota">{ui.peta.label}</p>
+    <div class="baris" role="group" aria-labelledby="label-kota">
+      <button class="pilihan" type="button" data-saring="kota" data-nilai="" aria-pressed="true">{ui.peta.semuaKota}</button>
+      {kota.map((k) => <button class="pilihan" type="button" data-saring="kota" data-nilai={k.slug} aria-pressed="false">{k.nama}</button>)}
+    </div>
+  </div>
+) : (
+  <div class="saring" data-saring-wadah hidden>
+    <div class="baris">
+      <button class="pilihan" type="button" data-saring="jenjang" data-nilai="" aria-pressed="true">{t.saring.semuaJenjang}</button>
+      {Object.entries(ui.jenjang).map(([nilai, label]) => <button class="pilihan" type="button" data-saring="jenjang" data-nilai={nilai} aria-pressed="false">{label}</button>)}
+    </div>
+    <div class="baris">
+      <button class="pilihan" type="button" data-saring="inggris" data-nilai="1" aria-pressed="false">{t.saring.inggris}</button>
+    </div>
+    {biaya && (
+      <div class="baris" role="group" aria-labelledby="label-biaya">
+        <span class="label" id="label-biaya">{t.biaya.rentang}</span>
+        {t.biaya.kelompok.map((label, i) => <button class="pilihan" type="button" data-saring="biaya" data-nilai={String(i)} aria-pressed="false">{label}</button>)}
+      </div>
+    )}
+    <p class="hasil"><span data-hasil data-templat={t.saring.jumlah} aria-live="polite"></span> <button class="hapus" type="button" data-hapus hidden>{t.saring.hapus}</button></p>
+    <p class="kosong" data-kosong hidden>{t.saring.kosong}</p>
+  </div>
+)}
+
+<style>
+  .saring { display: grid; gap: var(--ruang-2); }
+  .saring[hidden] { display: none; }
+  .baris { display: flex; flex-wrap: wrap; align-items: center; gap: var(--ruang-1); }
+  .hasil { display: flex; flex-wrap: wrap; align-items: center; gap: var(--ruang-2); font-weight: 600; }
+  .hapus { min-height: 48px; padding: 0; border: 0; background: none; color: var(--marun-600); font: inherit; text-decoration: underline;
+    text-decoration-thickness: var(--garis); text-underline-offset: 0.2em; cursor: pointer; transition: color var(--durasi-kursor) var(--kurva); }
+  .hapus:hover { color: var(--terakota-600); }
+</style>
+
+<script>
+  import { cocokKampus, pilihSaring, SARING_KOSONG, type JenisSaring } from '../../lib/saring';
+
+  const daftar = document.querySelector<HTMLElement>('[data-daftar-kampus]');
+  if (daftar) {
+    let keadaan = SARING_KOSONG;
+    const kartu = [...daftar.querySelectorAll<HTMLElement>('li[data-kota]')];
+    const kelompok = [...daftar.querySelectorAll<HTMLElement>('[data-kelompok]')];
+    const tombol = [...document.querySelectorAll<HTMLButtonElement>('[data-saring]')];
+    const titik = [...document.querySelectorAll<HTMLElement>('[data-peta] .titik')];
+    const hasil = document.querySelector<HTMLElement>('[data-hasil]')!;
+    const hapus = document.querySelector<HTMLButtonElement>('[data-hapus]')!;
+    const kosong = document.querySelector<HTMLElement>('[data-kosong]')!;
+    const terapkan = () => {
+      let n = 0;
+      for (const li of kartu) {
+        li.hidden = !cocokKampus(li.dataset, keadaan);
+        if (!li.hidden) n++;
+      }
+      for (const g of kelompok) g.hidden = !g.querySelector('li:not([hidden])');
+      for (const b of tombol) b.setAttribute('aria-pressed', String(keadaan[b.dataset.saring as JenisSaring] === (b.dataset.nilai ?? '')));
+      for (const t of titik) t.classList.toggle('dipilih', t.dataset.kota === keadaan.kota);
+      const aktif = Object.values(keadaan).some(Boolean);
+      hasil.textContent = aktif ? hasil.dataset.templat!.replace('{n}', String(n)) : '';
+      hapus.hidden = !aktif;
+      kosong.hidden = n > 0;
+    };
+    const pilih = (jenis: JenisSaring, nilai: string) => { keadaan = pilihSaring(keadaan, jenis, nilai); terapkan(); };
+    for (const b of tombol) b.addEventListener('click', () => pilih(b.dataset.saring as JenisSaring, b.dataset.nilai ?? ''));
+    for (const t of titik) t.addEventListener('click', () => pilih('kota', t.dataset.kota!));
+    // Tombol hapus ikut tersembunyi, jadi fokus pindah ke pilihan pertama (Semua jenjang) supaya tidak jatuh ke body.
+    hapus.addEventListener('click', () => { keadaan = SARING_KOSONG; terapkan(); daftar.querySelector<HTMLElement>('[data-saring]')?.focus(); });
+    for (const w of document.querySelectorAll<HTMLElement>('[data-saring-wadah]')) w.hidden = false;
+    terapkan();
+  }
+</script>

@@ -1,0 +1,11 @@
+id:
+  slugPinyin: huanan-shifan-daxue
+  nama: South China Normal University
+  deskripsi: South China Normal University (SCNU) adalah universitas keguruan yang berdiri pada 1933, dengan kampus Shipai dan University Town di Guangzhou, Provinsi Guangdong, Tiongkok (China), serta kampus Nanhai. Jurusannya mencakup pendidikan, bahasa Mandarin untuk penutur asing, desain, psikologi, komputer, ekonomi, dan musik. Kampus Nanhai membuka Finance program kerja sama dengan Inggris.
+  kota: guangzhou
+  jenjang:
+    - S1
+  contoh: false
+zh:
+  nama: 华南师范大学
+  deskripsi: 华南师范大学创建于1933年，设石牌、大学城和南海三个校区，石牌和大学城校区位于广东省广州市。专业涵盖教育、汉语（面向非母语者）、设计、心理学、计算机、经济和音乐等，南海校区开设金融学中英合作项目。

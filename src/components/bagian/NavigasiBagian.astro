@@ -1,0 +1,70 @@
+---
+// Navigasi bagian (Panduan Visual 9b, MASTER.md): lencana pilihan yang menempel di bawah bilah menu dan menandai bagian
+// yang sedang dibaca. Hanya untuk halaman dengan lima bagian tampil atau lebih (lib/navigasi.ts butirNavigasi).
+import type { ButirNavigasi } from '../../lib/navigasi';
+
+interface Props { butir: ButirNavigasi[] }
+const { butir } = Astro.props;
+---
+{butir.length > 0 && (
+  <div class="navigasi-bagian" data-navigasi-bagian>
+    <ul class="wadah">
+      {butir.map((b) => <li><a class="pilihan" href={`#${b.id}`}>{b.label}</a></li>)}
+    </ul>
+  </div>
+)}
+
+<style>
+  .navigasi-bagian { position: sticky; top: var(--tinggi-bilah); z-index: var(--z-menu); padding-block: var(--ruang-1); background: var(--krem-100); }
+  ul { position: relative; display: flex; gap: var(--ruang-1); overflow-x: auto; scrollbar-width: none; }
+  .pilihan { display: inline-flex; align-items: center; min-height: 48px; padding-inline: var(--ruang-2); border-radius: var(--radius-pil); background: var(--kartu-100); color: var(--teks-900); font-size: var(--huruf-kecil); line-height: 1.2; text-decoration: none; white-space: nowrap; transition: background-color var(--durasi-kursor) var(--kurva), color var(--durasi-kursor) var(--kurva); }
+  .pilihan:hover { background: var(--peach-200); color: var(--teks-900); }
+  .pilihan[aria-current='true'] { background: var(--marun-600); color: var(--kartu-100); }
+  /* Cincin fokus di dalam lencana: ul menggulir ke samping (overflow-x), jadi cincin di luar lencana terpotong. */
+  .pilihan:focus-visible { outline-offset: calc(-2 * var(--fokus)); }
+  .pilihan[aria-current='true']:focus-visible { outline-color: var(--kartu-100); }
+  /* Lencana yang menempel ada di dalam scroll-padding-top html di bawah, jadi Chrome menganggapnya tertutup dan menggulir
+     halaman naik setiap Tab. Margin negatif yang sama besar membatalkannya. */
+  .pilihan { scroll-margin-top: calc(-1 * (var(--tinggi-bilah) + var(--ruang-8) + var(--ruang-2))); }
+  :global(html:has([data-navigasi-bagian])) { scroll-padding-top: calc(var(--tinggi-bilah) + var(--ruang-8) + var(--ruang-2)); }
+</style>
+
+<script>
+  const nav = document.querySelector<HTMLElement>('[data-navigasi-bagian]');
+  if (nav) {
+    const daftar = nav.querySelector('ul')!;
+    const tautan = [...nav.querySelectorAll<HTMLAnchorElement>('a')];
+    // Yang diamati judul sasaran tautan, bukan <section>: dua judul dalam satu bagian (Kursus Bahasa) bisa aktif bergantian.
+    const judul = tautan.map((a) => document.getElementById(a.hash.slice(1)));
+    let aktif: HTMLAnchorElement | undefined;
+    const tandai = (baru?: HTMLAnchorElement) => {
+      if (baru === aktif) return;
+      aktif?.removeAttribute('aria-current');
+      aktif = baru;
+      if (!baru) return;
+      baru.setAttribute('aria-current', 'true');
+      // ul berposisi relative, jadi offsetLeft tautan sudah diukur dari ul.
+      daftar.scrollTo({ left: baru.offsetLeft });
+    };
+    // Bagian yang sedang dibaca: judul terbawah yang sudah melewati garis 40% tinggi layar. Pita pengamat 0–40% (bukan 30–40%)
+    // supaya lompatan lewat tautan, yang menaruh judul di bawah bilah, tetap terdeteksi. Judul sebaris (dua kolom di desktop)
+    // sama tinggi: yang sedang aktif atau yang baru diklik dipertahankan.
+    const pengamat = new IntersectionObserver(([d]) => {
+      const garis = d.rootBounds!.bottom;
+      let pilih: HTMLAnchorElement | undefined;
+      let atas = -Infinity;
+      judul.forEach((j, i) => {
+        const t = j?.getBoundingClientRect().top;
+        if (t !== undefined && t < garis && (t > atas || (t === atas && tautan[i] === aktif))) { atas = t; pilih = tautan[i]; }
+      });
+      tandai(pilih);
+    }, { rootMargin: '0px 0px -60% 0px' });
+    for (const j of judul) if (j) pengamat.observe(j);
+    nav.addEventListener('click', (e) => { const a = (e.target as Element).closest('a'); if (a) tandai(a); });
+    // Chrome tidak menggulir daftar kalau lencana yang difokus masih tampak sebagian: geser secukupnya supaya utuh.
+    nav.addEventListener('focusin', (e) => {
+      const a = e.target as HTMLElement;
+      daftar.scrollLeft = Math.min(Math.max(daftar.scrollLeft, a.offsetLeft + a.offsetWidth - daftar.clientWidth), a.offsetLeft);
+    });
+  }
+</script>

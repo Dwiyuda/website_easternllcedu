@@ -1,0 +1,10 @@
+id:
+  nama: Guangzhou
+  provinsi: Guangdong
+  lon: 113.26
+  lat: 23.13
+  label: kiri
+  contoh: false
+zh:
+  nama: 广州
+  provinsi: 广东省

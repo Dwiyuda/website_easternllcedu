@@ -1,0 +1,13 @@
+---
+import '../../../styles/font-han.css';
+import HalamanGaleri from '../../../components/halaman/HalamanGaleri.astro';
+import { HALAMAN_PROGRAM, type Program } from '../../../i18n/rute';
+import { segmenProgram } from '../../../lib/galeri';
+
+// Empat halaman Galeri per program, segmen pinyin halaman programnya (/zh/xiangce/yuyan-kecheng).
+export function getStaticPaths() {
+  return (Object.keys(HALAMAN_PROGRAM) as Program[]).map((program) => ({ params: { program: segmenProgram(program, 'zh') }, props: { program } }));
+}
+const { program } = Astro.props as { program: Program };
+---
+<HalamanGaleri bahasa="zh" program={program} />

@@ -1,0 +1,31 @@
+---
+// Penutup marun dengan tombol WhatsApp. Bawaan: tiga admin Beranda. Butir tanpa admin membuka panel pilihan admin (tombol melayang).
+// aria-label diawali teks yang tampak, juga saat teks diganti, supaya pengguna kendali suara bisa menyebutnya.
+import { ADMIN, type KunciAdmin } from '../../data/kontak';
+import { UI, tandaTabBaru } from '../../i18n/ui';
+import type { Bahasa } from '../../lib/dua-bahasa';
+import { tautanWa } from '../../lib/wa';
+
+interface Tombol { admin?: KunciAdmin; teks?: string }
+interface Props { bahasa: Bahasa; teks: { judul: string; kalimat: string }; judulHalaman: string; tombol?: Tombol[] }
+const { bahasa, teks, judulHalaman, tombol = [{ admin: 'kursusOffline' }, { admin: 'kursusOnline' }, { admin: 'kuliah1' }] } = Astro.props;
+const ui = UI[bahasa];
+---
+<section class="bagian bagian-marun penutup" aria-labelledby="judul-penutup">
+  <div class="wadah">
+    <div class="judul-bagian"><h2 id="judul-penutup">{teks.judul}</h2><p>{teks.kalimat}</p><slot /></div>
+    <ul class="tombol-daftar">
+      {tombol.map((t) => (
+        <li>
+          {t.admin
+            ? <a class="tombol tombol-terang" href={tautanWa(ADMIN[t.admin].nomor, judulHalaman, bahasa)} target="_blank" rel="noopener" aria-label={`${t.teks ?? ADMIN[t.admin].layanan[bahasa]}${ui.titikDua}${ui.konsultasiLabel}${tandaTabBaru(bahasa)}`}>{t.teks ?? ADMIN[t.admin].layanan[bahasa]}</a>
+            : <button class="tombol tombol-terang" type="button" popovertarget="panel-wa">{t.teks ?? ui.konsultasi}</button>}
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .tombol-daftar { display: flex; flex-wrap: wrap; gap: var(--ruang-2); }
+</style>

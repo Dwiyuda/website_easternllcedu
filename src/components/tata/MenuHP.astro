@@ -1,0 +1,99 @@
+---
+// Menu HP layar penuh marun (MASTER.md). <dialog> bawaan browser: fokus terkunci, Esc menutup, fokus kembali ke tombol ☰.
+import { Image } from 'astro:assets';
+import Ikon from '../Ikon.astro';
+import PemilihBahasa from './PemilihBahasa.astro';
+import logo from '../../assets/merek/logo-terang-ringkas.png';
+import { ALAMAT_RINGKAS, SOSIAL } from '../../data/kontak';
+import { UI, tandaTabBaru } from '../../i18n/ui';
+import { RUTE, rapikan, tandaKini, type KunciRute, type Pasangan } from '../../i18n/rute';
+import type { Bahasa } from '../../lib/dua-bahasa';
+
+interface Props { bahasa: Bahasa; pasangan?: Pasangan }
+const { bahasa, pasangan } = Astro.props;
+const ui = UI[bahasa];
+const jalur = rapikan(Astro.url.pathname);
+const kini = (k: KunciRute) => tandaKini(jalur, RUTE[k][bahasa]);
+const PROGRAM: KunciRute[] = ['kursus', 'kerjaSama', 'studyTour', 'kuliah', 'kampus'];
+const KEGIATAN: KunciRute[] = ['kabar', 'galeri'];
+---
+<dialog id="menu-hp" class="menu-hp" aria-label={ui.bukaMenu}>
+  <div class="kepala">
+    <Image src={logo} alt="" height={88} loading="eager" />
+    <button type="button" class="tutup" data-tutup-menu aria-label={ui.tutupMenu}><Ikon nama="close" /></button>
+  </div>
+  <div class="atas">
+    <PemilihBahasa bahasa={bahasa} pasangan={pasangan} />
+    <button class="tombol tombol-terang" type="button" data-konsultasi>{ui.konsultasi}</button>
+  </div>
+  <nav aria-label={ui.navUtama}>
+    <ul class="daftar">
+      <li><a href={RUTE.beranda[bahasa]} aria-current={kini('beranda')}>{ui.menu.beranda}</a></li>
+      <li><a href={RUTE.tentang[bahasa]} aria-current={kini('tentang')}>{ui.menu.tentang}</a></li>
+      <li>
+        <details name="menu-hp" open={PROGRAM.some((k) => kini(k))}>
+          <summary>{ui.menu.program}<Ikon nama="expand_more" /></summary>
+          <ul class="sub">{PROGRAM.map((k) => <li><a href={RUTE[k][bahasa]} aria-current={kini(k)}>{ui.programButir[k]!.judul}</a></li>)}</ul>
+        </details>
+      </li>
+      <li>
+        <details name="menu-hp" open={KEGIATAN.some((k) => kini(k))}>
+          <summary>{ui.menu.kegiatan}<Ikon nama="expand_more" /></summary>
+          <ul class="sub">{KEGIATAN.map((k) => <li><a href={RUTE[k][bahasa]} aria-current={kini(k)}>{ui.kegiatanButir[k]!.judul}</a></li>)}</ul>
+        </details>
+      </li>
+      <li><a href={RUTE.testimoni[bahasa]} aria-current={kini('testimoni')}>{ui.menu.testimoni}</a></li>
+      <li><a href={RUTE.kontak[bahasa]} aria-current={kini('kontak')}>{ui.menu.kontak}</a></li>
+    </ul>
+  </nav>
+  <div class="bawah">
+    <ul class="sosial">
+      {SOSIAL.map((s) => <li><a href={s.url} target="_blank" rel="noopener" aria-label={`${s.nama}${tandaTabBaru(bahasa)}`}><Ikon nama={s.ikon} ukuran={20} /></a></li>)}
+    </ul>
+    <p>{ALAMAT_RINGKAS[bahasa]}</p>
+  </div>
+</dialog>
+
+<style>
+  .menu-hp { width: 100%; max-width: none; height: 100%; max-height: none; margin: 0; padding: var(--ruang-2) var(--tepi) var(--ruang-4); border: 0; background: var(--marun-600); color: var(--kartu-100); opacity: 0; transition: opacity var(--durasi-pindah) var(--kurva), display var(--durasi-pindah) allow-discrete, overlay var(--durasi-pindah) allow-discrete; }
+  .menu-hp[open] { display: grid; align-content: start; gap: var(--ruang-3); opacity: 1; }
+  @starting-style { .menu-hp[open] { opacity: 0; } }
+  .menu-hp::backdrop { background: var(--marun-600); }
+  .menu-hp :focus-visible { outline-color: var(--peach-100); }
+  .kepala { display: flex; align-items: center; justify-content: space-between; min-height: var(--tinggi-bilah); }
+  .kepala :global(img) { width: auto; height: 38px; }
+  .tutup { display: inline-grid; place-items: center; width: 48px; height: 48px; border: 0; border-radius: var(--radius-pil); background: transparent; color: var(--kartu-100); cursor: pointer; transition: background-color var(--durasi-kursor) var(--kurva); }
+  .tutup:hover { background: var(--marun-500); }
+  .atas { display: flex; flex-wrap: wrap; align-items: center; gap: var(--ruang-2); }
+  .daftar { display: grid; gap: var(--ruang-1); }
+  .daftar > li > a, summary { display: flex; align-items: center; justify-content: space-between; min-height: 52px; padding-inline: var(--ruang-2); border-radius: var(--radius-kecil); color: var(--kartu-100); font: 500 1.375rem / 1.2 var(--font-judul); font-variation-settings: "SOFT" 100; text-decoration: none; cursor: pointer; list-style: none; transition: background-color var(--durasi-kursor) var(--kurva); }
+  summary::-webkit-details-marker { display: none; }
+  :lang(zh) .daftar > li > a, :lang(zh) summary { font-family: var(--font-judul-han); font-weight: 400; }
+  /* Baris "halaman ini" tidak bereaksi pada kursor (MASTER.md, Tautan dalam teks dan Menu besar), sama dengan sub-menu. */
+  .daftar > li > a:not([aria-current]):hover, summary:hover { background: var(--marun-500); color: var(--kartu-100); }
+  .daftar a[aria-current] { background: var(--marun-700); color: var(--kartu-100); }
+  summary :global(svg) { transition: transform var(--durasi-kursor) var(--kurva); }
+  details[open] summary :global(svg) { transform: rotate(180deg); }
+  .sub { display: grid; margin-top: var(--ruang-1); padding: var(--ruang-1); border-radius: var(--radius-kecil); background: var(--marun-700); }
+  .sub a { display: flex; align-items: center; min-height: 44px; padding-inline: var(--ruang-2); border-radius: var(--radius-kecil); color: var(--peach-100); font-size: var(--huruf-isi); text-decoration: none; transition: background-color var(--durasi-kursor) var(--kurva), color var(--durasi-kursor) var(--kurva); }
+  .sub a:hover { background: var(--marun-500); color: var(--kartu-100); }
+  .sub a[aria-current] { background: var(--marun-600); color: var(--kartu-100); font-weight: 600; }
+  .bawah { display: grid; gap: var(--ruang-2); color: var(--peach-100); }
+  .bawah p { color: var(--peach-100); font-size: var(--huruf-kecil); }
+  .sosial { display: flex; gap: var(--ruang-1); }
+  .sosial a { display: inline-grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; background: var(--marun-700); color: var(--putih-logo); transition: background-color var(--durasi-kursor) var(--kurva); }
+  .sosial a:hover { background: var(--marun-500); color: var(--putih-logo); }
+</style>
+
+<script>
+  const menu = document.getElementById('menu-hp') as HTMLDialogElement | null;
+  document.querySelector('[data-buka-menu]')?.addEventListener('click', () => menu?.showModal());
+  menu?.querySelector('[data-tutup-menu]')?.addEventListener('click', () => menu.close());
+  // Popover WhatsApp ada di luar dialog. Dialog ditutup dulu supaya panel tidak terhalang dialog modal.
+  menu?.querySelector('[data-konsultasi]')?.addEventListener('click', () => {
+    menu.close();
+    const panel = document.getElementById('panel-wa');
+    panel?.showPopover();
+    panel?.querySelector<HTMLElement>('button, a')?.focus();
+  });
+</script>

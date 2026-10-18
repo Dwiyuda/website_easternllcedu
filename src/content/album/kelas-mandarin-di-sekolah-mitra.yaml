@@ -1,0 +1,12 @@
+id:
+  slugPinyin: hezuo-xuexiao-zhongwenke
+  judul: Kelas Mandarin di sekolah mitra
+  program: kerja-sama
+  tanggal: '2026-10-11'
+  sampul: ../../assets/foto/sekolah-1.webp
+  foto:
+    - gambar: ../../assets/foto/sekolah-1.webp
+    - gambar: ../../assets/foto/sekolah-2.webp
+  contoh: true
+zh:
+  judul: 合作学校中文课

@@ -1,0 +1,99 @@
+id:
+  seo:
+    judul: Tentang Eastern LLC · LKP Kursus Mandarin di Pekanbaru sejak 2006
+    deskripsi: Eastern LLC (LKP Eastern Language Learning Center) berdiri 1 September 2006 di Pekanbaru. Profil, sejarah, legalitas NIB dan izin LKP, tim, dan kantor di Jl. Contoh No. 1.
+  pembuka:
+    judul: Tentang Kami
+    kalimat: LKP Eastern Language Learning Center, dikenal sebagai Eastern LLC, mengajar Mandarin di Pekanbaru sejak 1 September 2006.
+    foto: Gedung Eastern LLC, Jl. Contoh No. 1 · Pekanbaru
+  legalitas:
+    judul: Legalitas
+  profil:
+    judul: Belajar Mandarin di Jl. Contoh No. 1 sejak 2006
+    paragraf:
+      - "Eastern LLC berdiri pada 1 September 2006 sebagai kursus bahasa Mandarin dan Inggris untuk anak, remaja, dan dewasa. Sejak 2007 Eastern LLC juga mengajar Mandarin di sekolah dan perusahaan: menyusun kurikulum, menyediakan guru, dan melatih guru sekolah. Sejak 2016 Eastern LLC mendampingi siswa yang ingin kuliah di Tiongkok (China), dari pilihan jurusan sampai keberangkatan."
+      - Setiap tahun sejak 2023, Eastern LLC membawa rombongan siswa ke Tiongkok untuk summer camp, winter camp, dan campus tour, supaya calon mahasiswa mengenal kampusnya langsung sebelum mendaftar.
+    nama: LLC pada nama Eastern LLC berarti Language Learning Center.
+  pendiri:
+    judul: Pesan pendiri
+  sejarah:
+    judul: Sejarah
+    butir:
+      - { tahun: '2006', judul: Berdiri, teks: '1 September 2006, kursus Mandarin dan Inggris.' }
+      - { tahun: '2007', judul: Kerja sama sekolah, teks: 'Kelas Mandarin, kurikulum, guru, dan pelatihan guru.' }
+      - { tahun: '2016', judul: Kuliah ke Tiongkok, teks: 'Membuka layanan pendampingan kuliah ke Tiongkok.' }
+      - { tahun: '2023–2026', judul: Study tour setiap tahun, teks: 'Guangzhou, Hangzhou, Shanghai, Nanchang, Jiujiang, dan Guangxi.' }
+      - { tahun: '2025', judul: Izin operasional diperbarui, teks: 'Berlaku sampai 7 Februari 2028.' }
+      - { tahun: '2026', judul: Rombongan mahasiswa berangkat, teks: 'September 2026.' }
+  visi:
+    judul: Visi dan misi
+    visi: Menjadi lembaga kursus Mandarin di Pekanbaru yang dipercaya keluarga, sekolah, dan perusahaan, sekaligus jembatan bagi siswa yang ingin belajar dan kuliah di Tiongkok.
+    misi:
+      - Mengajar Mandarin bertahap dari dasar sampai HSK 6, offline dan online.
+      - Menyediakan kelas Mandarin, kurikulum, dan pelatihan guru untuk sekolah dan perusahaan.
+      - Memperkenalkan budaya Tiongkok lewat study tour dan kegiatan budaya.
+      - Mendampingi siswa kuliah ke Tiongkok dengan informasi yang jujur dan bisa dibuktikan.
+  tim:
+    judul: Tim Eastern LLC
+    daftar:
+      - { tim: learning-advisor, nama: Learning Advisor, penjelasan: 'Membantu calon siswa memilih kelas, jenjang, atau program kuliah yang sesuai.' }
+      - { tim: guru, nama: Guru Pengajar, penjelasan: 'Mengajar kelas Mandarin offline, online, dan di sekolah mitra.' }
+      - { tim: kurikulum, nama: Pengembangan Kurikulum, penjelasan: 'Menyusun materi dan jenjang kursus, termasuk persiapan HSK.' }
+      - { tim: it-media, nama: IT dan Media, penjelasan: 'Mengelola kelas online, website, dan media sosial Eastern LLC.' }
+  fasilitas:
+    judul: Kantor dan ruang belajar
+    foto:
+      - { apa: Rak buku bacaan dan penghargaan, kapan: Kantor Eastern LLC }
+      - { apa: Ruang kelas ber-AC dengan papan tulis, kapan: Kantor Eastern LLC }
+  penutup:
+    judul: Kunjungi kantor Eastern LLC
+  visiContoh: false
+zh:
+  seo:
+    judul: 关于东方语言学院 · 北干巴鲁正式注册的中文培训机构
+    deskripsi: 东方语言学院成立于2006年9月1日，位于印尼北干巴鲁Jl. Contoh No. 1。介绍学院概况、发展历程、办学资质、团队和教学环境。
+  pembuka:
+    judul: 关于我们
+    kalimat: 东方语言学院（LKP Eastern Language Learning Center）自2006年9月1日起在北干巴鲁教授中文。
+    foto: 东方语言学院，Jl. Contoh No. 1 · 北干巴鲁
+  legalitas:
+    judul: 办学资质
+  profil:
+    judul: 2006年起，在Jl. Contoh No. 1教授中文
+    paragraf:
+      - 东方语言学院成立于2006年9月1日，面向儿童、青少年和成人开设中文和英语课程。2007年起，东方走进学校和企业开设中文课，负责课程设计、派遣教师并培训学校教师。2016年起，东方协助有意赴中国留学的学生，从选择专业到出发全程陪同。
+      - 自2023年起，东方每年带领学生赴中国参加冬夏令营和院校参访，让学生在申请前亲身了解院校。
+    nama: 名称中的“LLC”是Language Learning Center（语言学习中心）的缩写。
+  pendiri:
+    judul: 创办人寄语
+  sejarah:
+    judul: 发展历程
+    butir:
+      - { judul: 成立, teks: 2006年9月1日成立，开设中文和英语课程。 }
+      - { judul: 走进学校, teks: 开设中文课，提供课程、教师和教师培训。 }
+      - { judul: 留学服务, teks: 开始提供中国留学申请服务。 }
+      - { judul: 每年游学, teks: 广州、杭州、上海、南昌、九江、广西。 }
+      - { judul: 更新运营许可, teks: 有效期至2028年2月7日。 }
+      - { judul: 学生集体赴华, teks: 2026年9月。 }
+  visi:
+    judul: 愿景与使命
+    visi: 成为北干巴鲁值得家庭、学校和企业信赖的中文培训机构，并为有意赴中国学习和深造的学生搭建桥梁。
+    misi:
+      - 提供从零基础到HSK六级的线下和线上中文课程。
+      - 为学校和企业提供中文课程、教学大纲和教师培训。
+      - 通过游学和文化活动介绍中华文化。
+      - 以真实、可查证的信息协助学生赴中国留学。
+  tim:
+    judul: 东方团队
+    daftar:
+      - { nama: 学习顾问, penjelasan: 帮助学员选择合适的课程、级别或留学项目。 }
+      - { nama: 授课教师, penjelasan: 负责线下、线上及合作学校的中文教学。 }
+      - { nama: 课程研发, penjelasan: 编写教材、设计课程级别，包括HSK备考。 }
+      - { nama: 信息与媒体, penjelasan: 负责线上课堂、网站和社交媒体。 }
+  fasilitas:
+    judul: 教学环境
+    foto:
+      - { apa: 图书与奖杯陈列, kapan: 东方语言学院 }
+      - { apa: 配有空调和白板的教室, kapan: 东方语言学院 }
+  penutup:
+    judul: 欢迎到访东方语言学院

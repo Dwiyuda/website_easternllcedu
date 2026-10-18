@@ -1,0 +1,28 @@
+id:
+  slugPinyin: shanghai-jiaotong-daxue
+  nama: Shanghai Jiao Tong University
+  deskripsi: 'Shanghai Jiao Tong University berdiri pada 1896 di Shanghai, Tiongkok (China). Jurusan berbahasa Mandarin sangat luas, dari bahasa dan ekonomi sampai teknik dan farmasi. Program teknik berbahasa Inggris dibuka dalam bentuk Cluster Program: teknik mesin, elektro dan komputer, material, perkapalan dan kelautan, serta energi. Beasiswa kampus tingkat satu sampai tiga diberikan menurut nilai.'
+  kota: shanghai
+  jenjang:
+    - S1
+  jurusanInggris:
+    - nama: Mechanical Engineering
+      jenjang: S1
+    - nama: Electrical and Computer Engineering
+      jenjang: S1
+    - nama: Materials Science and Engineering
+      jenjang: S1
+    - nama: Computer Science and Technology
+      jenjang: S1
+    - nama: Information Engineering
+      jenjang: S1
+    - nama: Automation
+      jenjang: S1
+    - nama: Naval Architecture and Ocean Engineering
+      jenjang: S1
+    - nama: Power and Energy Engineering
+      jenjang: S1
+  contoh: false
+zh:
+  nama: 上海交通大学
+  deskripsi: 上海交通大学创建于1896年，位于上海。中文授课专业覆盖语言、经济、工程和药学等众多领域。英文授课工科以大类培养（Cluster Program）形式开设，包括机械、电子与计算机、材料、船舶与海洋工程和能源动力等方向。学校按综合成绩评定一、二、三等奖学金。

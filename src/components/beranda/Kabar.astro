@@ -1,0 +1,55 @@
+---
+// Event mendatang dan artikel terbaru (Blueprint). Bagian tersembunyi kalau keduanya kosong. Kartu event sama dengan halaman
+// Kabar & Event (KartuEvent); kartu artikel ringkas tanpa sampul. Semua kartu menautkan halaman detailnya.
+import LencanaContoh from '../LencanaContoh.astro';
+import TeksCampur from '../TeksCampur.astro';
+import KartuEvent from '../kabar/KartuEvent.astro';
+import { UI } from '../../i18n/ui';
+import { RUTE } from '../../i18n/rute';
+import type { Bahasa } from '../../lib/dua-bahasa';
+import type { EventKartu } from '../../lib/konten';
+import { formatTanggal } from '../../lib/tanggal';
+
+interface Artikel { url: string; judul: string; ringkasan: string; terbit: string; kategori: keyof (typeof UI)['id']['kategori']; contoh: boolean }
+interface Props { bahasa: Bahasa; teks: { judul: string; tautan?: string; kalimat?: string }; event: EventKartu[]; artikel: Artikel[]; idJudul?: string }
+const { bahasa, teks, event, artikel, idJudul = 'judul-kabar' } = Astro.props;
+const ui = UI[bahasa];
+---
+{(event.length > 0 || artikel.length > 0) && (
+  <section class="bagian bagian-peach" aria-labelledby={idJudul}>
+    <div class="wadah">
+      <div class="kepala-bagian">
+        <h2 id={idJudul}>{teks.judul}</h2>
+        {teks.tautan && <a href={RUTE.kabar[bahasa]}>{teks.tautan}</a>}
+        {teks.kalimat && <p>{teks.kalimat}</p>}
+      </div>
+      <ul class="daftar">
+        {event.map((e) => <li data-muncul><KartuEvent bahasa={bahasa} event={e} /></li>)}
+        {artikel.map((a) => (
+          <li data-muncul>
+            <a class="kartu kartu-artikel" href={a.url}>
+              <span class="lencana-baris"><span class="lencana">{ui.kategori[a.kategori]}</span><LencanaContoh bahasa={bahasa} tampil={a.contoh} /></span>
+              <span class="judul"><TeksCampur bahasa={bahasa} teks={a.judul} /></span>
+              <span class="ringkasan"><TeksCampur bahasa={bahasa} teks={a.ringkasan} /></span>
+              <span class="tanggal">{formatTanggal(a.terbit, bahasa)}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+)}
+
+<style>
+  .kepala-bagian { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--ruang-2); margin-bottom: var(--ruang-5); }
+  .kepala-bagian p { flex-basis: 100%; }
+  .daftar { display: grid; gap: var(--ruang-2); }
+  @media (min-width: 1024px) { .daftar { grid-template-columns: repeat(2, 1fr); } }
+  .daftar li { display: grid; }
+  /* align-content: start: baris isi tidak ikut meregang saat kartu disamakan tingginya, kalau tidak -webkit-line-clamp menampilkan sisa baris ketiga. */
+  .kartu-artikel { display: grid; align-content: start; gap: var(--ruang-1); height: 100%; }
+  .judul { color: var(--marun-600); font: 500 var(--huruf-judul-4) / 1.3 var(--font-judul); font-variation-settings: "SOFT" 100; }
+  :lang(zh) .judul { font-family: var(--font-judul-han); font-weight: 400; }
+  .ringkasan { color: var(--teks-600); font-size: var(--huruf-kecil); line-height: 1.55; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .tanggal { color: var(--teks-600); font-size: var(--huruf-mini); font-weight: 600; }
+</style>

@@ -1,0 +1,44 @@
+---
+// Empat kartu program dengan foto asli Eastern. Tanpa ikon hiasan (MASTER.md, Ikon).
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import kursus from '../../assets/foto/kelas-kantor.webp';
+import kerjaSama from '../../assets/foto/sekolah-1.webp';
+import studyTour from '../../assets/foto/camp-1.webp';
+import kuliah from '../../assets/foto/keberangkatan-1.webp';
+import { RUTE, type KunciRute } from '../../i18n/rute';
+import type { Bahasa } from '../../lib/dua-bahasa';
+
+interface Props { bahasa: Bahasa; teks: { judul: string; kartu: { judul: string; kalimat: string }[] } }
+const { bahasa, teks } = Astro.props;
+const KARTU: [KunciRute, ImageMetadata][] = [['kursus', kursus], ['kerjaSama', kerjaSama], ['studyTour', studyTour], ['kuliah', kuliah]];
+---
+<section class="bagian" aria-labelledby="judul-program">
+  <div class="wadah">
+    <div class="judul-bagian"><h2 id="judul-program">{teks.judul}</h2></div>
+    <ul class="kisi">
+      {teks.kartu.map((k, i) => (
+        <li data-muncul style={`--urut: ${i}`}>
+          <a class="kartu" href={RUTE[KARTU[i][0]][bahasa]}>
+            <Image src={KARTU[i][1]} alt="" widths={[320, 480, 640]} sizes="(min-width: 1024px) 248px, (min-width: 768px) 45vw, 100vw" data-warna="hangat" />
+            <h3>{k.judul}</h3>
+            <p>{k.kalimat}</p>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .kisi { display: grid; gap: var(--ruang-3); }
+  @media (min-width: 768px) { .kisi { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1024px) { .kisi { grid-template-columns: repeat(4, 1fr); } }
+  .kartu { display: grid; align-content: start; gap: var(--ruang-2); height: 100%; padding: var(--ruang-1) var(--ruang-1) var(--ruang-3); }
+  .kartu :global(img) { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius-kecil); }
+  h3, p { padding-inline: var(--ruang-2); }
+  h3 { font-size: var(--huruf-judul-4); line-height: 1.3; }
+  /* Tanpa ini aturan global :lang(zh) h3 menang (spesifisitas lebih tinggi) atas h3 di atas, dan judul kartu 中文 jadi lebih besar dari kartu Indonesia. */
+  :lang(zh) .kartu h3 { font-size: calc(var(--huruf-judul-4) * 0.9); }
+  p { color: var(--teks-600); font-size: var(--huruf-kecil); line-height: 1.55; }
+</style>

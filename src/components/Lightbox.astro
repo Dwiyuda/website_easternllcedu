@@ -1,0 +1,104 @@
+---
+// Lightbox (MASTER.md; Panduan Visual 9e2): <dialog> penuh layar berlatar teks-900. Atas: nomor "3 / 9" (pembaca layar: "Foto 3 dari 9")
+// dan tombol tutup; tengah: foto utuh dengan filter pilihan staf, tombol sebelumnya dan berikutnya 48 px marun-700; bawah: judul album
+// dan keterangan foto. Esc menutup (bawaan <dialog>), panah papan ketik dan geser di HP berpindah foto, fokus kembali ke foto asal.
+// Pemicu: tautan a[data-lightbox] di dalam [data-lightbox-daftar]; tanpa JavaScript tautan membuka berkas foto besar. Teks dibaca dari
+// atribut HTML, jadi skrip tidak memuat teks 中文 (bawaan Rencana 4). Kurangi gerakan: tanpa transisi, pergantian foto langsung.
+// Nomor lightbox mengikuti nomor foto di album (data-awal, data-total di daftar), sama dengan teks alternatif "Foto n dari total".
+// Klik bermodifier (Ctrl, Cmd, Shift, Alt) tetap membuka berkas foto di tab atau jendela baru.
+import Ikon from './Ikon.astro';
+import TeksCampur from './TeksCampur.astro';
+import { UI } from '../i18n/ui';
+import type { Bahasa } from '../lib/dua-bahasa';
+
+interface Props { bahasa: Bahasa; judul: string }
+const { bahasa, judul } = Astro.props;
+const t = UI[bahasa].lightbox;
+---
+<dialog class="lightbox" data-lightbox-dialog aria-labelledby="lightbox-judul">
+  <div class="atas">
+    <p class="nomor"><span aria-hidden="true" data-angka></span><span class="sr" data-sr data-templat={t.nomor} aria-live="polite"></span></p>
+    <button type="button" class="tombol-ikon" data-tutup aria-label={t.tutup}><Ikon nama="close" /></button>
+  </div>
+  <div class="tengah">
+    <button type="button" class="tombol-ikon" data-arah="-1" aria-label={t.sebelumnya}><Ikon nama="chevron_right" class="balik" /></button>
+    <img data-gambar alt="" />
+    <button type="button" class="tombol-ikon" data-arah="1" aria-label={t.berikutnya}><Ikon nama="chevron_right" /></button>
+  </div>
+  <div class="bawah"><p id="lightbox-judul" class="judul"><TeksCampur bahasa={bahasa} teks={judul} /></p><p class="keterangan" data-keterangan></p></div>
+</dialog>
+
+<style>
+  .lightbox { width: 100%; max-width: none; height: 100%; max-height: none; margin: 0; padding: var(--ruang-2); border: 0; background: var(--teks-900); color: var(--peach-100); opacity: 0; transition: opacity var(--durasi-pindah) var(--kurva), display var(--durasi-pindah) allow-discrete, overlay var(--durasi-pindah) allow-discrete; }
+  .lightbox[open] { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; gap: var(--ruang-2); opacity: 1; }
+  @starting-style { .lightbox[open] { opacity: 0; } }
+  .lightbox::backdrop { background: var(--teks-900); }
+  .lightbox :focus-visible { outline-color: var(--peach-100); }
+  .lightbox:focus-visible { outline: var(--fokus) solid var(--peach-100); outline-offset: calc(-1 * var(--ruang-1)); }
+  .atas { display: flex; align-items: center; justify-content: space-between; }
+  .nomor { color: var(--peach-100); font-variant-numeric: tabular-nums; }
+  .tengah { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: var(--ruang-1); min-height: 0; }
+  .tengah img { width: 100%; height: 100%; max-height: 100%; object-fit: contain; touch-action: pan-y pinch-zoom; }
+  /* HP: tombol sebelumnya dan berikutnya menumpang di tepi foto, supaya foto selebar layar (dua kolom 48 px menyisakan ±230 px di 375 px). */
+  @media (max-width: 767px) {
+    .tengah { grid-template-columns: minmax(0, 1fr); }
+    .tengah > * { grid-area: 1 / 1; }
+    .tengah > button { position: relative; z-index: 1; justify-self: start; } /* z-index: foto berfilter hangat punya konteks tumpukan sendiri */
+    .tengah > button:last-child { justify-self: end; }
+  }
+  .tombol-ikon { display: inline-grid; place-items: center; width: 48px; height: 48px; border: 0; border-radius: var(--radius-pil); background: var(--marun-700); color: var(--kartu-100); cursor: pointer; transition: background-color var(--durasi-kursor) var(--kurva); }
+  .tombol-ikon:hover { background: var(--marun-500); }
+  .tengah :global(.balik) { transform: rotate(180deg); }
+  .bawah { display: grid; gap: var(--ruang-1); }
+  .judul { color: var(--kartu-100); font: 500 var(--huruf-judul-4) / 1.3 var(--font-judul); font-variation-settings: "SOFT" 100; }
+  :lang(zh) .judul { font-family: var(--font-judul-han); font-weight: 400; }
+  .keterangan { color: var(--peach-100); font-size: var(--huruf-kecil); }
+  .keterangan:empty { display: none; }
+</style>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>('[data-lightbox-dialog]');
+  const daftar = [...document.querySelectorAll<HTMLAnchorElement>('[data-lightbox-daftar] a[data-lightbox]')];
+  const induk = daftar[0]?.closest<HTMLElement>('[data-lightbox-daftar]');
+  if (dialog && daftar.length) {
+    const awal = Number(induk?.dataset.awal ?? 0);
+    const total = Number(induk?.dataset.total ?? daftar.length);
+    const gambar = dialog.querySelector<HTMLImageElement>('[data-gambar]')!;
+    const angka = dialog.querySelector<HTMLElement>('[data-angka]')!;
+    const sr = dialog.querySelector<HTMLElement>('[data-sr]')!;
+    const keterangan = dialog.querySelector<HTMLElement>('[data-keterangan]')!;
+    let kini = 0;
+    let asal: HTMLElement | null = null;
+    const tampil = (i: number) => {
+      kini = (i + daftar.length) % daftar.length;
+      const a = daftar[kini];
+      gambar.src = a.href;
+      gambar.alt = a.dataset.keterangan ?? '';
+      gambar.dataset.warna = a.dataset.warna ?? 'hangat';
+      angka.textContent = `${awal + kini + 1} / ${total}`;
+      sr.textContent = sr.dataset.templat!.replace('{n}', String(awal + kini + 1)).replace('{total}', String(total));
+      keterangan.textContent = a.dataset.keterangan ?? '';
+    };
+    daftar.forEach((a, i) => a.addEventListener('click', (e) => {
+      if (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return; // klik bermodifier tetap membuka foto di tab atau jendela baru
+      e.preventDefault();
+      asal = a;
+      tampil(i);
+      dialog.showModal();
+    }));
+    dialog.querySelector('[data-tutup]')!.addEventListener('click', () => dialog.close());
+    for (const b of dialog.querySelectorAll<HTMLButtonElement>('[data-arah]')) b.addEventListener('click', () => tampil(kini + Number(b.dataset.arah)));
+    dialog.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') tampil(kini - 1);
+      if (e.key === 'ArrowRight') tampil(kini + 1);
+    });
+    // Geser di HP: geser mendatar lebih dari 48 px berpindah foto (img memakai touch-action: pan-y pinch-zoom, cubit-zoom tetap jalan).
+    let mulaiX: number | null = null;
+    gambar.addEventListener('pointerdown', (e) => { mulaiX = e.clientX; });
+    gambar.addEventListener('pointerup', (e) => {
+      if (mulaiX !== null && Math.abs(e.clientX - mulaiX) > 48) tampil(kini + (e.clientX < mulaiX ? 1 : -1));
+      mulaiX = null;
+    });
+    dialog.addEventListener('close', () => asal?.focus());
+  }
+</script>

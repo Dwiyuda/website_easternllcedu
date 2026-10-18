@@ -1,0 +1,92 @@
+---
+// Detail event (Naskah Kabar Dan Event, Pola detail event; Blueprint): pembuka ringkas tanpa hanzi (P18) dengan remah Kabar & Event ›
+// Event, lencana status otomatis dan jenis; baris info (waktu, tempat, online, program), poster asli, isi, tautan jadwal per hari kalau
+// event ini satu program study tour. Sebelum selesai: tombol Daftar ke admin WhatsApp event (lib/wa.ts adminEvent) dengan judul event
+// di pesan. Sesudahnya: kalimat selesai dan tautan album kegiatan kalau ada. Jam event ditulis di isi (P14).
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import IsiTeks from '../IsiTeks.astro';
+import LencanaContoh from '../LencanaContoh.astro';
+import LencanaStatus from '../LencanaStatus.astro';
+import TeksCampur from '../TeksCampur.astro';
+import PembukaRingkas from '../bagian/PembukaRingkas.astro';
+import Dasar from '../../layouts/Dasar.astro';
+import { ADMIN } from '../../data/kontak';
+import { UI, tandaTabBaru } from '../../i18n/ui';
+import { HALAMAN_PROGRAM, RUTE } from '../../i18n/rute';
+import { eventLd, jsonAman } from '../../lib/data-terstruktur';
+import { ambil, type Bahasa } from '../../lib/dua-bahasa';
+import { ringkasIsi } from '../../lib/isi';
+import { alamatKabar, albumEvent, ambilTampil, urlAlbum } from '../../lib/konten';
+import { butirRemah } from '../../lib/navigasi';
+import { formatRentang, hariIniJakarta, statusEvent } from '../../lib/tanggal';
+import { alamatHttps, namaHost } from '../../lib/teks';
+import { adminEvent, tautanWa } from '../../lib/wa';
+
+interface Props { bahasa: Bahasa; entri: CollectionEntry<'event'> }
+const { bahasa, entri } = Astro.props;
+const ui = UI[bahasa];
+const t = ui.kabar;
+const d = entri.data;
+const hariIni = hariIniJakarta();
+const judul = ambil<string>(d, 'judul', bahasa);
+const isi = ambil<string>(d, 'isi', bahasa);
+const status = statusEvent(d.id.mulai, d.id.selesai, hariIni);
+// Tempat opsional dari blok bahasanya sendiri, tanpa jatuh ke blok id (global constraint isian opsional dua bahasa).
+const tempat = bahasa === 'zh' ? d.zh?.tempat : d.id.tempat;
+const online = alamatHttps(d.id.online);
+const program = d.id.program && HALAMAN_PROGRAM[d.id.program];
+const studyTour = d.id.studyTour && (await ambilTampil('studyTour')).find((s) => s.id === d.id.studyTour!.id);
+const album = status === 'selesai' ? await albumEvent(entri, hariIni) : undefined;
+const pasanganBahasa = { id: alamatKabar('event', entri, 'id'), zh: alamatKabar('event', entri, 'zh') };
+// Beranda › Kabar & Event › Event › [judul]; butir Event membuka Kabar terbaru yang tersaring event.
+const remah = butirRemah(bahasa, ['kabar'], judul, pasanganBahasa[bahasa]);
+remah.splice(-1, 0, { nama: t.event, url: `${RUTE.kabar[bahasa]}?saring=event` });
+const admin = adminEvent(d.id);
+const deskripsi = ringkasIsi(isi);
+const data = eventLd(Astro.site!.href, {
+  judul, url: pasanganBahasa[bahasa], mulai: d.id.mulai, selesai: d.id.selesai, tempat, online: online?.href, deskripsi, bahasa,
+});
+---
+<Dasar bahasa={bahasa} judul={`${judul}${ui.akhiranTab}`} deskripsi={deskripsi} judulWa={judul} pasanganBahasa={pasanganBahasa}
+  gambarOg={d.id.poster}>
+  <script is:inline type="application/ld+json" slot="kepala" set:html={jsonAman(data)} />
+  <PembukaRingkas bahasa={bahasa} judul={judul} remah={remah}>
+    <span class="lencana-baris"><LencanaStatus bahasa={bahasa} status={status} /><span class="lencana">{ui.jenisEvent[d.id.jenis]}</span><LencanaContoh bahasa={bahasa} tampil={d.id.contoh} /></span>
+  </PembukaRingkas>
+  <div class="wadah susunan">
+    <dl class="kartu info">
+      <div><dt class="label">{t.info.waktu}</dt><dd>{formatRentang(d.id.mulai, d.id.selesai, bahasa)}</dd></div>
+      {tempat && <div><dt class="label">{t.info.tempat}</dt><dd><TeksCampur bahasa={bahasa} teks={tempat} /></dd></div>}
+      {online && <div><dt class="label">{t.info.online}</dt><dd><a href={online.href} target="_blank" rel="noopener">{namaHost(online)}<span class="sr">{tandaTabBaru(bahasa)}</span></a></dd></div>}
+      {program && <div><dt class="label">{t.info.program}</dt><dd><a href={RUTE[program][bahasa]}>{ui.programButir[program]!.judul}</a></dd></div>}
+    </dl>
+    <div class="isi">
+      {d.id.poster && <Image src={d.id.poster} alt={judul} widths={[480, 768]} sizes="(min-width: 1024px) 640px, 100vw" class="poster" />}
+      <IsiTeks isi={isi} bahasa={bahasa} />
+      {studyTour && <a href={`${RUTE.studyTour[bahasa]}/${studyTour.id}`}>{t.lihatJadwal}</a>}
+      <div class="akhir">
+        {status === 'selesai'
+          ? <p>{t.sudahSelesai}</p>
+          : <a class="tombol tombol-utama" href={tautanWa(ADMIN[admin].nomor, judul, bahasa)} target="_blank" rel="noopener" aria-label={`${t.daftar}${ui.titikDua}${ui.konsultasiLabel}${tandaTabBaru(bahasa)}`}>{t.daftar}</a>}
+        {album && <a href={urlAlbum(album, bahasa)}>{t.lihatFoto}</a>}
+        <a href={RUTE.kabar[bahasa]}>{t.kembali}</a>
+      </div>
+    </div>
+  </div>
+</Dasar>
+
+<style>
+  .susunan { display: grid; gap: var(--ruang-5); padding-bottom: var(--ruang-bagian); }
+  @media (min-width: 1024px) {
+    .susunan { grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); align-items: start; }
+    .info { grid-column: 2; grid-row: 1; position: sticky; top: calc(var(--tinggi-bilah) + var(--ruang-3)); }
+    .isi { grid-column: 1; grid-row: 1; }
+  }
+  .info { display: grid; gap: var(--ruang-2); margin: 0; }
+  .info div { display: grid; gap: var(--ruang-1); }
+  .info dd { margin: 0; }
+  .isi { display: grid; justify-items: start; gap: var(--ruang-3); }
+  .isi :global(.poster) { width: 100%; max-width: 640px; height: auto; border-radius: var(--radius-besar); }
+  .akhir { display: flex; flex-wrap: wrap; align-items: center; gap: var(--ruang-3); }
+</style>

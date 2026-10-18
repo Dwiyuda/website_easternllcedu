@@ -1,0 +1,11 @@
+id:
+  judul: Campus Tour Guangzhou–Hangzhou
+  jenis: campus-tour
+  mulai: '2023-12-17'
+  selesai: '2023-12-25'
+  kota: [guangzhou, hangzhou]
+  tampilkanHarga: false
+  sampul: ../../assets/foto/camp-1.webp
+  contoh: false
+zh:
+  judul: 广州、杭州院校参访

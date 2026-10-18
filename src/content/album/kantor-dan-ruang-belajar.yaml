@@ -1,0 +1,12 @@
+id:
+  slugPinyin: dongfang-jiaoxue-huanjing
+  judul: Kantor dan ruang belajar
+  program: kursus
+  tanggal: '2026-10-11'
+  sampul: ../../assets/foto/gedung.webp
+  foto:
+    - gambar: ../../assets/foto/gedung.webp
+    - gambar: ../../assets/foto/rak-buku.webp
+  contoh: true
+zh:
+  judul: 东方教学环境

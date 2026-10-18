@@ -1,0 +1,199 @@
+id:
+  cscaDiperbarui: '2026-10-11'
+  seo:
+    judul: Cara Daftar Kuliah ke China · Langkah dan Persyaratan Dokumen · Eastern LLC
+    deskripsi: Enam langkah mendaftar kuliah ke China lewat Eastern LLC Pekanbaru, dari konsultasi sampai berangkat, beserta 14 dokumen umum dan persyaratan tambahan per kampus.
+  pembuka:
+    judul: Cara Mendaftar
+    kalimat: Enam langkah mendaftar kuliah di Tiongkok (China) bersama Eastern LLC, dari konsultasi pertama sampai berangkat.
+  langkah:
+    - judul: Konsultasi
+      kalimat: Ceritakan jurusan, jenjang, dan rencana biaya ke admin kuliah Eastern LLC.
+    - judul: Pilih kampus dan jurusan
+      kalimat: Admin menjelaskan pilihan kampus, bahasa pengantar, beasiswa, dan syaratnya.
+    - judul: Siapkan dokumen
+      kalimat: Kumpulkan dokumen umum di bawah, ditambah dokumen khusus kampus tujuan.
+    - judul: Pendaftaran dan beasiswa
+      kalimat: Eastern LLC mengirim berkas ke kampus dan mengajukan beasiswa. Sebagian kampus meminta wawancara atau ujian.
+    - judul: Surat penerimaan dan visa
+      kalimat: Setelah surat penerimaan terbit, visa pelajar diurus bersama admin.
+    - judul: Berangkat
+      kalimat: Pemeriksaan kesehatan bila diminta kampus, persiapan keberangkatan, lalu berangkat bersama rombongan Eastern LLC.
+  dokumen:
+    judul: Dokumen umum
+    kalimat: Berlaku untuk hampir semua kampus. Persyaratan bisa berbeda per kampus dan tahun ajaran, jadi admin kuliah memastikan daftar terbaru sebelum berkas dikirim.
+    daftar:
+      - nama: Data diri untuk formulir pendaftaran
+      - nama: Paspor
+      - nama: KTP
+      - nama: KTP atau paspor orang tua
+      - nama: Kartu Keluarga
+      - nama: Pas foto digital, latar merah atau biru, paling besar 500 KB
+      - nama: Transkrip nilai SMA semester 1–5
+        bahasa: Inggris atau Mandarin
+      - nama: Ijazah SMA. Siswa kelas 12 memakai surat keterangan akan lulus
+        bahasa: Inggris atau Mandarin
+      - nama: Study plan
+        bahasa: Inggris atau Mandarin
+      - nama: Surat rekomendasi dari sekolah dan dari guru
+        bahasa: Inggris
+      - nama: Surat keterangan dari SMA
+        bahasa: Inggris
+      - nama: IELTS, untuk program berbahasa Inggris
+      - nama: HSK, untuk program berbahasa Mandarin
+      - nama: Sertifikat penghargaan atau lomba, kalau ada
+  tambahan:
+    judul: Tambahan per kampus
+    kalimat: Dokumen tambahan yang diminta kampus tertentu. Buka nama kampus untuk melihat daftarnya.
+    singkatan: MCU = pemeriksaan kesehatan. SKCK = surat keterangan catatan kepolisian.
+    kampus:
+      - nama: Zhejiang University · 浙江大学
+        dokumen:
+          - Formulir Zhejiang Government Scholarship
+          - Bukti rekening orang tua
+          - MCU
+      - nama: Huaqiao University · 华侨大学
+        dokumen:
+          - Formulir pendaftaran HQU
+          - Formulir beasiswa Chen Jiageng, kalau mengajukan
+          - Formulir Financial Support
+          - Surat keterangan keturunan Tionghoa, untuk beasiswa Chen Jiageng
+          - MCU paling lambat 1 bulan sebelum berangkat
+      - nama: Zhejiang Sci-Tech University · 浙江理工大学
+        dokumen:
+          - Formulir Zhejiang Government Scholarship
+          - Laporan keuangan
+          - Pernyataan anti narkoba
+          - Pernyataan bebas catatan kriminal
+          - MCU (wajib)
+          - Video perkenalan diri
+          - SKCK berbahasa Inggris
+      - nama: Zhejiang University of Science and Technology · 浙江科技大学
+        dokumen:
+          - Formulir Zhejiang Provincial Scholarship, Outstanding New Students Scholarship, dan Promotion Scholarship
+          - Laporan keuangan
+          - Pernyataan anti narkoba dan bebas catatan kriminal
+          - Video perkenalan diri
+      - nama: Nanjing University of Science and Technology · 南京理工大学
+        dokumen:
+          - Rekening koran
+          - Jaminan keuangan
+          - SKCK berbahasa Inggris
+          - MCU (wajib)
+          - Formulir Lanshan Scholarship
+          - Pernyataan bebas catatan kriminal
+      - nama: East China Jiaotong University · 华东交通大学
+        dokumen:
+          - SKCK berbahasa Inggris
+          - Rekening koran
+      - nama: Nanjing University of Finance and Economics · 南京财经大学
+        dokumen:
+          - MCU
+          - SKCK berbahasa Inggris
+          - Rekening koran
+          - Jaminan keuangan
+  csca:
+    judul: Ujian CSCA
+    isi: Sebagian kampus dan sebagian beasiswa Pemerintah Tiongkok mulai meminta calon mahasiswa S1 mengikuti CSCA (China Scholastic Competency Assessment), ujian kemampuan akademik untuk mahasiswa internasional. Ketentuannya berbeda per kampus, dan masih ada kampus yang menerima tanpa CSCA. Admin kuliah Eastern LLC menjelaskan kampus mana yang mewajibkannya untuk tahun ajaran berjalan.
+  penutup:
+    judul: Mulai dari konsultasi
+    kalimat: Admin kuliah Eastern LLC memeriksa kelengkapan dokumen dan menjelaskan langkah berikutnya.
+zh:
+  seo:
+    judul: 中国留学申请流程与材料 · 东方语言学院
+    deskripsi: 通过东方语言学院申请中国留学的六个步骤，从咨询到出发，以及14项通用申请材料和各院校的补充要求。
+  pembuka:
+    judul: 申请流程
+    kalimat: 通过东方申请中国留学的六个步骤，从首次咨询到出发。
+  langkah:
+    - judul: 咨询
+      kalimat: 向东方留学顾问说明意向专业、层次和预算。
+    - judul: 选择院校和专业
+      kalimat: 顾问介绍可选院校、授课语言、奖学金及申请条件。
+    - judul: 准备材料
+      kalimat: 准备下方通用材料，以及目标院校要求的补充材料。
+    - judul: 递交申请和奖学金
+      kalimat: 东方向院校递交申请并申请奖学金。部分院校要求面试或考试。
+    - judul: 录取与签证
+      kalimat: 收到录取通知书后，在顾问协助下办理学习签证。
+    - judul: 出发
+      kalimat: 按院校要求完成体检，参加行前准备，与东方留学团集体出发。
+  dokumen:
+    judul: 通用申请材料
+    kalimat: 适用于大多数院校。各院校和各学年的要求可能不同，递交前请以留学顾问确认的最新清单为准。
+    daftar:
+      - nama: 个人信息（用于填写申请表）
+      - nama: 护照
+      - nama: 身份证（KTP）
+      - nama: 父母身份证或护照
+      - nama: 家庭户口簿（Kartu Keluarga）
+      - nama: 红色或蓝色背景电子证件照，不超过500KB
+      - nama: 高中第1至5学期成绩单
+        bahasa: 英文或中文
+      - nama: 高中毕业证书，应届生提供预毕业证明
+        bahasa: 英文或中文
+      - nama: 学习计划
+        bahasa: 英文或中文
+      - nama: 学校及教师推荐信
+        bahasa: 英文
+      - nama: 高中在读或毕业证明
+        bahasa: 英文
+      - nama: 雅思成绩（英文授课项目）
+      - nama: HSK成绩（中文授课项目）
+      - nama: 获奖或竞赛证书（如有）
+  tambahan:
+    judul: 各院校补充材料
+    kalimat: 部分院校的补充要求，点击院校名称查看。
+    singkatan: MCU = 体检。SKCK = 无犯罪记录证明。
+    kampus:
+      - nama: Zhejiang University · 浙江大学
+        dokumen:
+          - 浙江省政府奖学金申请表
+          - 父母银行存款证明
+          - 体检
+      - nama: Huaqiao University · 华侨大学
+        dokumen:
+          - 华侨大学申请表
+          - 陈嘉庚奖学金申请表（如申请）
+          - 经济担保表
+          - 华裔身份证明（申请陈嘉庚奖学金）
+          - 出发前一个月内的体检报告
+      - nama: Zhejiang Sci-Tech University · 浙江理工大学
+        dokumen:
+          - 浙江省政府奖学金申请表
+          - 经济证明
+          - 无吸毒承诺书
+          - 无犯罪记录承诺书
+          - 体检（必需）
+          - 自我介绍视频
+          - 英文无犯罪记录证明
+      - nama: Zhejiang University of Science and Technology · 浙江科技大学
+        dokumen:
+          - 浙江省政府奖学金、优秀新生奖学金和推广奖学金申请表
+          - 经济证明
+          - 无吸毒及无犯罪记录承诺书
+          - 自我介绍视频
+      - nama: Nanjing University of Science and Technology · 南京理工大学
+        dokumen:
+          - 银行流水
+          - 经济担保
+          - 英文无犯罪记录证明
+          - 体检（必需）
+          - 兰山奖学金申请表
+          - 无犯罪记录承诺书
+      - nama: East China Jiaotong University · 华东交通大学
+        dokumen:
+          - 英文无犯罪记录证明
+          - 银行流水
+      - nama: Nanjing University of Finance and Economics · 南京财经大学
+        dokumen:
+          - 体检
+          - 英文无犯罪记录证明
+          - 银行流水
+          - 经济担保
+  csca:
+    judul: 关于CSCA考试
+    isi: 部分院校和部分中国政府奖学金项目开始要求本科申请者参加来华留学本科入学学业水平测试（CSCA）。各院校要求不同，也有院校无需CSCA成绩。具体要求请向东方留学顾问咨询当年最新规定。
+  penutup:
+    judul: 从咨询开始
+    kalimat: 东方留学顾问会核对材料并说明下一步安排。

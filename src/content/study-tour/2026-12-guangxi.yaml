@@ -1,0 +1,57 @@
+id:
+  judul: Study Tour Budaya dan Pendidikan di Guangxi
+  ringkasan: "Dua belas hari belajar Mandarin dan budaya Tiongkok (China) di Guangxi Vocational and Technical College of Industry and Commerce: kelas Mandarin dasar, kaligrafi, seni gunting kertas, upacara teh, workshop keramik dan livestreaming, serta wisata budaya."
+  jenis: winter-camp
+  mulai: '2026-12-14'
+  selesai: '2026-12-25'
+  kota: [nanning]
+  termasuk:
+    - Tiket pesawat Kuala Lumpur–Nanning PP
+    - Visa kunjungan 1× masuk ke China
+    - Makan di kantin sekolah
+    - Tempat tinggal di apartemen kampus
+    - Jemput-antar bandara dan transportasi
+    - Biaya belajar (Mandarin, budaya, dan lainnya)
+    - Biaya wisata
+    - Asuransi selama di Nanning
+  itinerary:
+    - judul: Penjemputan di bandara
+    - judul: Upacara pembukaan, pengenalan kampus, dan kelas Mandarin dasar
+    - judul: Kunjungan museum dan workshop keramik
+    - judul: Upacara minum teh dan olahraga
+    - judul: "Kelas budaya Tiongkok: seni gunting kertas dan workshop tie-dye (pewarnaan kain)"
+    - judul: Kelas Mandarin dasar dan istirahat
+    - judul: Wisata kota kuno Danau Xiangsi dan foto Hanfu
+    - judul: Waktu bebas
+    - judul: "Workshop livestreaming: belajar teknik siaran langsung dan terapi bekam tradisional"
+    - judul: Kelas Mandarin dasar dan workshop kaligrafi
+    - judul: Istirahat dan konser musik di padang rumput
+    - judul: Upacara penutupan dan pengantaran ke bandara
+  tampilkanHarga: false
+  sampul: ../../assets/foto/camp-1.webp
+  contoh: false
+zh:
+  judul: 广西文化教育游学
+  ringkasan: 在广西工商职业技术学院度过十二天，学习中文和中华文化：初级汉语课、书法、剪纸、茶艺、陶艺和直播工作坊，以及文化游览。
+  termasuk:
+    - 吉隆坡-南宁往返机票
+    - 一次入境中国签证
+    - 学校食堂餐饮
+    - 校园公寓住宿
+    - 机场接送及交通
+    - 中文、文化等学习费用
+    - 旅游费用
+    - 南宁期间保险
+  itinerary:
+    - judul: 接机
+    - judul: 开营仪式、校园介绍、初级汉语课
+    - judul: 参观博物馆、陶艺体验
+    - judul: 茶艺体验、体育运动
+    - judul: 中华文化课：剪纸、扎染工作坊
+    - judul: 初级汉语课、休整
+    - judul: 相思湖古镇游览、汉服拍照
+    - judul: 自由活动
+    - judul: 直播工作坊：学习直播技巧、拔罐
+    - judul: 初级汉语课、书法体验
+    - judul: 休整、草地音乐会
+    - judul: 结营仪式、送机

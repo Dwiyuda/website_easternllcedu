@@ -1,0 +1,21 @@
+id:
+  slugPinyin: nanjing-ligong-daxue
+  nama: Nanjing University of Science and Technology
+  deskripsi: 'Nanjing University of Science and Technology (NJUST) berdiri pada 1953 di Nanjing, Provinsi Jiangsu, Tiongkok (China). Bidang utamanya teknik: mesin, kendaraan, kimia, material, dan komputer. Jurusan S1 berbahasa Inggris: Mechanical Engineering, Software Engineering, International Economics and Trade, dan Nanomaterials and Nanotechnology. Mahasiswa berprestasi bisa mengajukan Lanshan Scholarship, berupa bebas uang kuliah, potongan 50% uang kuliah, atau asrama gratis.'
+  kota: nanjing
+  jenjang:
+    - S1
+  situs: https://study.njust.edu.cn/
+  jurusanInggris:
+    - nama: Mechanical Engineering
+      jenjang: S1
+    - nama: Software Engineering
+      jenjang: S1
+    - nama: International Economics and Trade
+      jenjang: S1
+    - nama: Nanomaterials and Nanotechnology
+      jenjang: S1
+  contoh: false
+zh:
+  nama: 南京理工大学
+  deskripsi: 南京理工大学创建于1953年，位于江苏省南京市，工科见长，涵盖机械、车辆、化工、材料和计算机等领域。英文授课本科专业有机械工程、软件工程、国际经济与贸易和纳米材料与技术。成绩优异者可申请兰山奖学金，可免学费、减免50%学费或免住宿费。

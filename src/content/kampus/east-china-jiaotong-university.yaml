@@ -1,0 +1,29 @@
+id:
+  slugPinyin: huadong-jiaotong-daxue
+  nama: East China Jiaotong University
+  deskripsi: East China Jiaotong University (ECJTU) berdiri pada 1971 di Nanchang, Provinsi Jiangxi, Tiongkok (China), dengan bidang utama transportasi dan perkeretaapian. Jurusan S1 berbahasa Inggris antara lain Civil Engineering, Electrical Engineering and Automation, Transportation Engineering, Vehicle Engineering, dan Accounting. Program bahasa Mandarin, S2, dan S3 juga tersedia, dengan beasiswa kampus untuk mahasiswa internasional.
+  kota: nanchang
+  jenjang:
+    - Bahasa
+    - S1
+    - S2
+    - S3
+  jurusanInggris:
+    - nama: Civil Engineering
+      jenjang: S1
+    - nama: Electrical Engineering and Automation
+      jenjang: S1
+    - nama: Transportation Engineering
+      jenjang: S1
+    - nama: Vehicle Engineering
+      jenjang: S1
+    - nama: Mechanical Design and Manufacture and Automation
+      jenjang: S1
+    - nama: Accounting
+      jenjang: S1
+    - nama: International Trade
+      jenjang: S1
+  contoh: false
+zh:
+  nama: 华东交通大学
+  deskripsi: 华东交通大学创建于1971年，位于江西省南昌市，以交通运输和轨道交通为特色。英文授课本科专业包括土木工程、电气工程及其自动化、交通工程、车辆工程和会计学等，另设汉语进修、硕士和博士项目，并为国际学生提供学校奖学金。

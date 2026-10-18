@@ -1,0 +1,24 @@
+---
+import { UI } from '../../i18n/ui';
+import { pasangan, type Pasangan } from '../../i18n/rute';
+import type { Bahasa } from '../../lib/dua-bahasa';
+
+interface Props { bahasa: Bahasa; pasangan?: Pasangan }
+const { bahasa, pasangan: dariInduk } = Astro.props;
+const p = dariInduk ?? pasangan(Astro.url.pathname) ?? { id: '/id/', zh: '/zh/' };
+---
+<div class="bahasa" role="group" aria-label={UI[bahasa].pilihBahasa}>
+  {bahasa === 'id' ? <span aria-current="true">ID</span> : <a href={p.id} hreflang="id" lang="id">ID</a>}
+  {bahasa === 'zh' ? <span aria-current="true" lang="zh-Hans">中文</span> : <a href={p.zh} hreflang="zh-Hans" lang="zh-Hans">中文</a>}
+</div>
+
+<style>
+  .bahasa { display: inline-flex; padding: 2px; border-radius: var(--radius-pil); background: var(--marun-700); }
+  .bahasa > * { display: inline-grid; place-items: center; min-height: 44px; padding-inline: var(--ruang-2); border-radius: var(--radius-pil); font-size: var(--huruf-kecil); font-weight: 600; white-space: nowrap; text-decoration: none; }
+  .bahasa a { color: var(--peach-100); transition: background-color var(--durasi-kursor) var(--kurva); }
+  .bahasa a:hover { background: var(--marun-500); color: var(--kartu-100); }
+  .bahasa a:active { background: var(--marun-600); transform: scale(var(--skala-tekan)); }
+  .bahasa a:focus-visible { outline-color: var(--peach-100); }
+  .bahasa span { background: var(--kartu-100); color: var(--marun-600); }
+  [lang='zh-Hans'] { font-family: var(--font-isi-han); }
+</style>

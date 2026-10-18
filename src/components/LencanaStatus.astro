@@ -1,0 +1,10 @@
+---
+// Lencana status otomatis dari tanggal (Naskah Kabar Dan Event bagian 2): Akan datang dan Sedang berlangsung hijau, Selesai krem.
+// Satu komponen untuk kartu dan detail study tour, kartu event, aliran kabar, dan detail event (minor T9 #1 Rencana 2).
+import type { Bahasa } from '../lib/dua-bahasa';
+import { lencanaStatus, type StatusEvent } from '../lib/tanggal';
+
+interface Props { bahasa: Bahasa; status: StatusEvent }
+const [label, kelas] = lencanaStatus(Astro.props.status, Astro.props.bahasa);
+---
+<span class={`lencana ${kelas}`}>{label}</span>

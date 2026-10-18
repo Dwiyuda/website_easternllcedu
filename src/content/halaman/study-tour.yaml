@@ -1,0 +1,62 @@
+id:
+  seo:
+    judul: Study Tour ke China · Summer Camp dan Campus Tour · Eastern LLC Pekanbaru
+    deskripsi: "Summer camp, winter camp, dan campus tour ke Tiongkok setiap tahun sejak 2023: Guangzhou, Hangzhou, Shanghai, Nanchang, Jiujiang, dan Guangxi. Tiket pesawat, visa, hotel, makan, transportasi, dan tur termasuk dalam program."
+  pembuka:
+    judul: Study Tour
+    kalimat: Summer camp, winter camp, dan campus tour ke Tiongkok (China) setiap tahun sejak 2023, untuk belajar Mandarin dan melihat kampusnya langsung.
+  navigasi:
+    - Jenis program
+    - Program
+    - Galeri
+    - Testimoni camp
+    - Daftar
+  jenis:
+    judul: Jenis program
+    kartu:
+      - judul: Summer dan Winter Camp
+        bukti: Belajar Mandarin dan budaya di kampus Tiongkok selama liburan sekolah, termasuk guzheng, kaligrafi, dan Hanfu.
+      - judul: Campus Tour
+        bukti: Mengunjungi kampus tujuan sebelum mendaftar kuliah.
+      - judul: Culture Experience Tour
+        bukti: Perjalanan budaya ke kota-kota di Tiongkok.
+  program:
+    judul: Program
+  detail:
+    termasuk: Yang termasuk
+    jadwal: Jadwal per hari
+    biaya: Biaya
+  penutup:
+    judul: Tanyakan program berikutnya
+    kalimat: Admin kantor menjelaskan jadwal, rute, dan biaya program yang akan datang.
+zh:
+  seo:
+    judul: 中国游学 · 夏令营与院校参访 · 东方语言学院
+    deskripsi: 东方语言学院自2023年起每年组织中国冬夏令营和院校参访，足迹遍及广州、杭州、上海、南昌、九江和广西。项目包含往返机票、签证、住宿、餐饮、交通和参观。
+  pembuka:
+    judul: 游学
+    kalimat: 自2023年起，每年组织学生赴中国参加冬夏令营和院校参访，在当地学习中文，亲身了解中国院校。
+  navigasi:
+    - 项目类型
+    - 往期与近期项目
+    - 相册
+    - 营员评价
+    - 报名咨询
+  jenis:
+    judul: 项目类型
+    kartu:
+      - judul: 冬夏令营
+        bukti: 假期在中国院校学习中文和中华文化，包括古筝、书法和汉服体验。
+      - judul: 院校参访
+        bukti: 申请前实地参观目标院校。
+      - judul: 文化体验游
+        bukti: 赴中国各地的文化体验之旅。
+  program:
+    judul: 往期与近期项目
+  detail:
+    termasuk: 项目包含
+    jadwal: 每日行程
+    biaya: 费用
+  penutup:
+    judul: 咨询下一期项目
+    kalimat: 办公室顾问将介绍下一期项目的时间、路线和费用。

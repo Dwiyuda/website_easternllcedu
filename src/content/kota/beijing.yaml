@@ -1,0 +1,10 @@
+id:
+  nama: Beijing
+  provinsi: Beijing
+  lon: 116.40
+  lat: 39.90
+  label: kanan
+  contoh: false
+zh:
+  nama: 北京
+  provinsi: 北京市

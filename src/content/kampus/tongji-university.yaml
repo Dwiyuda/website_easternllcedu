@@ -1,0 +1,17 @@
+id:
+  slugPinyin: tongji-daxue
+  nama: Tongji University
+  deskripsi: Tongji University berdiri pada 1907 di Shanghai, Tiongkok (China), dan dikenal di bidang arsitektur, perencanaan kota, dan teknik sipil. Jurusan berbahasa Mandarin mencakup teknik, desain, kedokteran, dan bahasa. Kelas internasional Arsitektur dan Perencanaan Kota serta MBBS diajarkan dalam bahasa Inggris. Tersedia juga program bahasa Mandarin dan program persiapan universitas.
+  kota: shanghai
+  jenjang:
+    - Bahasa
+    - S1
+  jurusanInggris:
+    - nama: Architecture and Urban Planning (International Class)
+      jenjang: S1
+    - nama: MBBS
+      jenjang: S1
+  contoh: false
+zh:
+  nama: 同济大学
+  deskripsi: 同济大学创建于1907年，位于上海，建筑、城市规划和土木工程等学科享有盛誉。中文授课专业涵盖工科、设计、医学和语言等，建筑学与城乡规划国际班和临床医学（MBBS）为英文授课。学校另设汉语进修和预科项目。

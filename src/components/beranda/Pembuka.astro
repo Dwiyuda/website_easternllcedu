@@ -1,0 +1,55 @@
+---
+// Video pembuka (MASTER.md): sampul tampil lebih dulu sebagai LCP, video diunduh setelah halaman selesai dimuat.
+// Tanpa video untuk "kurangi gerakan" dan mode hemat data. Video tampil asli tanpa filter. Satu tombol saja.
+import { Image } from 'astro:assets';
+import Hanzi from '../Hanzi.astro';
+import LencanaContoh from '../LencanaContoh.astro';
+import sampul from '../../assets/foto/pembuka-sampul.webp';
+import { ASET_CONTOH } from '../../data/aset-contoh';
+import { RUTE } from '../../i18n/rute';
+import type { Bahasa } from '../../lib/dua-bahasa';
+
+interface Props { bahasa: Bahasa; teks: { judul: string; kalimat: string; tombol: string } }
+const { bahasa, teks } = Astro.props;
+const VIDEO = 'video/pembuka-contoh.mp4';
+---
+<section class="pembuka" aria-labelledby="judul-beranda">
+  <div class="media" aria-hidden="true">
+    <Image src={sampul} alt="" widths={[640, 960, 1280, 1600]} sizes="100vw" loading="eager" fetchpriority="high" />
+    <video muted loop playsinline preload="none" data-sumber={`/${VIDEO}`}></video>
+  </div>
+  <div class="wadah isi">
+    <Hanzi aksara="东方" warna="terang" kerangka={false} />
+    <h1 id="judul-beranda">{teks.judul}</h1>
+    <p>{teks.kalimat}</p>
+    <div class="aksi">
+      <a class="tombol tombol-terang" href={RUTE.program[bahasa]}>{teks.tombol}</a>
+      <LencanaContoh bahasa={bahasa} tampil={ASET_CONTOH.includes(VIDEO)} />
+    </div>
+  </div>
+</section>
+
+<style>
+  .pembuka { position: relative; display: grid; min-height: min(88svh, 760px); overflow: hidden; color: var(--kartu-100); }
+  .media, .media :global(img), .media video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .media video { opacity: 0; transition: opacity var(--durasi-pindah) var(--kurva); }
+  .media video.main { opacity: 1; }
+  .media::after { content: ''; position: absolute; inset: 0; background: var(--tirai-pembuka); }
+  .isi { position: relative; align-self: end; display: grid; justify-items: start; gap: var(--ruang-3); padding-block: var(--ruang-16) var(--ruang-8); }
+  h1 { max-width: 14ch; color: var(--kartu-100); font-size: var(--huruf-tampilan); line-height: 1.04; letter-spacing: -0.01em; }
+  /* 中文: "北干巴鲁中文教学，" (9 aksara) harus muat satu baris supaya patah baris jatuh setelah koma, bukan di tengah kata atau koma di awal baris. */
+  :lang(zh) h1 { max-width: 12em; font-size: min(calc(var(--huruf-tampilan) * 0.9), calc((100vw - 2 * var(--tepi)) / 9.5)); letter-spacing: 0; }
+  p { color: var(--kartu-100); font-size: var(--huruf-pembuka); line-height: 1.6; }
+  .aksi { display: flex; flex-wrap: wrap; align-items: center; gap: var(--ruang-2); }
+</style>
+
+<script>
+  const video = document.querySelector<HTMLVideoElement>('.pembuka video');
+  const hemat = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData;
+  if (video && !hemat && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    addEventListener('load', () => {
+      video.src = video.dataset.sumber!;
+      video.play().then(() => video.classList.add('main')).catch(() => {});
+    }, { once: true });
+  }
+</script>

@@ -1,0 +1,25 @@
+id:
+  judul: Campus Tour Nanchang–Wuning–Yongxiu–Jiujiang
+  jenis: campus-tour
+  mulai: '2025-06-22'
+  selesai: '2025-06-30'
+  kota: [nanchang, wuning, yongxiu, jiujiang]
+  termasuk:
+    - Tiket pesawat pulang-pergi Pekanbaru–Tiongkok
+    - Visa
+    - Hotel
+    - Makan
+    - Transportasi
+    - Tur
+  tampilkanHarga: false
+  sampul: ../../assets/foto/camp-1.webp
+  contoh: false
+zh:
+  judul: 南昌、武宁、永修、九江院校参访
+  termasuk:
+    - 北干巴鲁往返中国机票
+    - 签证
+    - 住宿
+    - 餐饮
+    - 交通
+    - 参观

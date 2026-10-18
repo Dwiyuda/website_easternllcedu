@@ -1,0 +1,37 @@
+id:
+  slugPinyin: xibei-gongye-daxue
+  nama: Northwestern Polytechnical University
+  deskripsi: 'Northwestern Polytechnical University (NPU) berada di Xi''an, Provinsi Shaanxi, Tiongkok (China), dan dikenal di bidang penerbangan, antariksa, dan kelautan. Jurusan S1 berbahasa Inggris antara lain Aerospace Engineering, Naval Architecture and Marine Engineering, Materials Science and Engineering, dan Computer Science and Technology. S2 dan S3 juga tersedia. Beasiswa yang tercatat: Beasiswa Pemerintah Tiongkok, NPU President Scholarship, dan Xi''an Belt and Road Scholarship.'
+  kota: xian
+  logo: ../../assets/logo-kampus/northwestern-polytechnical-university.png
+  jenjang:
+    - S1
+    - S2
+    - S3
+  jurusanInggris:
+    - nama: Aerospace Engineering
+      jenjang: S1
+    - nama: Naval Architecture and Marine Engineering
+      jenjang: S1
+    - nama: Materials Science and Engineering
+      jenjang: S1
+    - nama: Mechanical Design & Manufacturing and Their Automation
+      jenjang: S1
+    - nama: Civil Engineering
+      jenjang: S1
+    - nama: Electronics and Information Engineering
+      jenjang: S1
+    - nama: Electrical Engineering and Automation
+      jenjang: S1
+    - nama: Computer Science and Technology
+      jenjang: S1
+    - nama: Business Administration
+      jenjang: S1
+    - nama: Biotechnology
+      jenjang: S1
+    - nama: English
+      jenjang: S1
+  contoh: false
+zh:
+  nama: 西北工业大学
+  deskripsi: 西北工业大学位于陕西省西安市，在航空、航天和航海领域特色鲜明。英文授课本科专业包括航空航天工程、船舶与海洋工程、材料科学与工程和计算机科学与技术等，并设有硕士和博士项目。可申请中国政府奖学金、西北工业大学校长奖学金和西安“一带一路”奖学金。

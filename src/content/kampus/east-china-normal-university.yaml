@@ -1,0 +1,22 @@
+id:
+  slugPinyin: huadong-shifan-daxue
+  nama: East China Normal University
+  deskripsi: 'East China Normal University (ECNU) berdiri pada 1951 dan punya dua kampus di Shanghai, Tiongkok (China): Putuo dan Minhang. Jurusan berbahasa Mandarin mencakup bahasa dan budaya Tiongkok, Business Chinese, komputer, psikologi, desain, dan bisnis. S1 berbahasa Inggris tersedia untuk Visual Communication Design, International Economics and Trade, Bioengineering, dan Artificial Intelligence. Beasiswa yang tercatat: ECNU Excellent Freshmen Scholarship dan Beasiswa Pemerintah Shanghai.'
+  kota: shanghai
+  jenjang:
+    - S1
+  jurusanInggris:
+    - nama: Visual Communication Design
+      jenjang: S1
+    - nama: International Economics and Trade
+      jenjang: S1
+    - nama: Intelligent Manufacturing Engineering
+      jenjang: S1
+    - nama: Bioengineering
+      jenjang: S1
+    - nama: Artificial Intelligence
+      jenjang: S1
+  contoh: false
+zh:
+  nama: 华东师范大学
+  deskripsi: 华东师范大学创建于1951年，在上海设有普陀和闵行两个校区。中文授课专业包括汉语言与文化、商务汉语、计算机、心理学、设计和工商管理等，英文授课本科专业有视觉传达设计、国际经济与贸易、生物工程和人工智能等。可申请华东师范大学优秀新生奖学金和上海市政府奖学金。

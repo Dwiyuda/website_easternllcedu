@@ -1,0 +1,15 @@
+id:
+  slugPinyin: liuxuesheng-jiti-chufa
+  judul: Keberangkatan mahasiswa
+  program: kuliah
+  tanggal: '2026-10-11'
+  sampul: ../../assets/foto/keberangkatan-1.webp
+  foto:
+    - gambar: ../../assets/foto/keberangkatan-1.webp
+    - gambar: ../../assets/foto/keberangkatan-2.webp
+  video:
+    - youtube: https://www.youtube.com/watch?v=3oP7rzD0PBA
+      sampul: ../../assets/foto/keberangkatan-2.webp
+  contoh: true
+zh:
+  judul: 留学生集体出发

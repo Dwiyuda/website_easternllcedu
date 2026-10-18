@@ -1,0 +1,13 @@
+id:
+  slugPinyin: qiye-zhongwen-peixunban
+  judul: Kelas Mandarin di perusahaan
+  program: kerja-sama
+  tanggal: '2026-10-11'
+  sampul: ../../assets/foto/perusahaan-1.webp
+  foto:
+    - gambar: ../../assets/foto/perusahaan-1.webp
+    - gambar: ../../assets/foto/perusahaan-2.webp
+    - gambar: ../../assets/foto/perusahaan-3.webp
+  contoh: true
+zh:
+  judul: 企业中文培训班

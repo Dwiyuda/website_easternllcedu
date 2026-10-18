@@ -1,0 +1,44 @@
+id:
+  seo:
+    judul: Testimoni dan Alumni Eastern LLC · Kuliah di China dengan Beasiswa
+    deskripsi: Alumni Eastern LLC 2024–2025 kuliah di Peking University, Zhejiang University, Xi'an Jiaotong University, Harbin Institute of Technology, dan kampus lain dengan beasiswa. Cerita siswa, orang tua, dan karya siswa.
+  pembuka:
+    judul: Testimoni
+    kalimat: Cerita siswa, orang tua, dan alumni Eastern LLC, serta daftar alumni yang kuliah di Tiongkok (China) dengan beasiswa.
+  video:
+    judul: Video testimoni
+  kutipan:
+    judul: Kata siswa dan orang tua
+  alumni:
+    judul: Alumni dan beasiswa
+    kalimat: '{alumni} alumni Eastern LLC berangkat kuliah ke Tiongkok pada 2024–2025, di {kampus} kampus.'
+  karya:
+    judul: Karya siswa di koran 硕河橋
+    kalimat: 23 karangan Mandarin siswa Eastern LLC dimuat di kolom koran 硕河橋, dibimbing guru 陈慧珠.
+  camp:
+    judul: Kata peserta camp
+  penutup:
+    judul: Konsultasi lewat WhatsApp
+    kalimat: Pilih admin sesuai keperluan.
+zh:
+  seo:
+    judul: 学员评价与校友 · 东方语言学院
+    deskripsi: 2024–2025年东方校友就读于北京大学、浙江大学、西安交通大学、哈尔滨工业大学等院校并获得奖学金。学员和家长的心声以及学生作品。
+  pembuka:
+    judul: 学员评价
+    kalimat: 东方学员、家长和校友的心声，以及获得奖学金赴中国留学的校友名单。
+  video:
+    judul: 视频评价
+  kutipan:
+    judul: 学员与家长说
+  alumni:
+    judul: 校友与奖学金
+    kalimat: 2024–2025年，共有{alumni}名东方校友赴中国{kampus}所院校留学。
+  karya:
+    judul: 学生作文登报
+    kalimat: 23篇东方学生的中文作文刊登于《硕河橋》专栏，指导老师陈慧珠。
+  camp:
+    judul: 营员心声
+  penutup:
+    judul: 通过WhatsApp咨询
+    kalimat: 请选择对应的咨询顾问。

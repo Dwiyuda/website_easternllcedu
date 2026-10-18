@@ -1,0 +1,73 @@
+---
+// Halaman Kursus Bahasa (Naskah Kursus Bahasa, Blueprint): pembuka foto penuh 学, navigasi bagian, offline dan online,
+// jenjang dalam tab, reguler dan weekend, bahasa Inggris, pita karya siswa, tanya jawab, daftar ke dua admin kursus.
+import { getEntry } from 'astro:content';
+import TeksCampur from '../TeksCampur.astro';
+import Kenapa from '../beranda/Kenapa.astro';
+import Penutup from '../beranda/Penutup.astro';
+import BukaTutup from '../bagian/BukaTutup.astro';
+import NavigasiBagian from '../bagian/NavigasiBagian.astro';
+import PembukaProgram from '../bagian/PembukaProgram.astro';
+import TabJenjang from '../program/TabJenjang.astro';
+import Dasar from '../../layouts/Dasar.astro';
+import foto from '../../assets/foto/kelas-kantor.webp';
+import { RUTE } from '../../i18n/rute';
+import { bilaLengkap, type Bahasa } from '../../lib/dua-bahasa';
+import { butirNavigasi, butirRemah } from '../../lib/navigasi';
+
+interface Props { bahasa: Bahasa }
+const { bahasa } = Astro.props;
+const [halaman, jenjang] = await Promise.all([getEntry('halamanKursus', 'kursus'), getEntry('jenjang', 'jenjang')]);
+if (!halaman || !jenjang) throw new Error('src/content/halaman/kursus.yaml atau jenjang.yaml tidak ditemukan');
+const h = halaman.data[bahasa];
+const ID = ['judul-belajar', 'judul-jenjang', 'judul-jadwal', 'judul-inggris', 'judul-tanya', 'judul-penutup'];
+const navigasi = butirNavigasi(h.navigasi.map((label, i) => ({ label, id: ID[i] })));
+// Target dan harga di blok id, terjemahan di blok zh dengan urutan sama (skema: tepat empat).
+const daftarJenjang = jenjang.data.id.daftar.map((j, i) => ({ ...j, ...(bahasa === 'zh' ? jenjang.data.zh.daftar[i] : {}) }));
+---
+<Dasar bahasa={bahasa} judul={h.seo.judul} deskripsi={h.seo.deskripsi} judulWa={h.pembuka.judul}>
+  {/* Isi pembuka rata bawah: lukisan ditahan sampai id pertama sesudah pembuka terurai, seperti Beranda (font-cls-report.md). */}
+  <link rel="expect" href="#judul-belajar" blocking="render" slot="kepala" />
+  <PembukaProgram bahasa={bahasa} foto={foto} hanzi="学" judul={h.pembuka.judul} kalimat={h.pembuka.kalimat}
+    keterangan={bilaLengkap(halaman.data.id.pembuka.foto, halaman.data.zh.pembuka.foto, bahasa)}
+    remah={butirRemah(bahasa, ['program'], h.pembuka.judul, RUTE.kursus[bahasa])} />
+  <NavigasiBagian butir={navigasi} />
+  <Kenapa bahasa={bahasa} idJudul="judul-belajar" peach={false} teks={{ judul: h.belajar.judul, alasan: h.belajar.kartu }} />
+  <section class="bagian bagian-peach" aria-labelledby="judul-jenjang">
+    <div class="wadah">
+      <div class="judul-bagian"><h2 id="judul-jenjang">{h.jenjang.judul}</h2><p>{h.jenjang.hsk}</p><p>{h.jenjang.kalimat}</p></div>
+      <TabJenjang bahasa={bahasa} idJudul="judul-jenjang" jenjang={daftarJenjang} tampilkanHarga={jenjang.data.id.tampilkanHarga} contoh={jenjang.data.id.contoh} />
+    </div>
+  </section>
+  <section class="bagian">
+    <div class="wadah isi">
+      <div class="dua">
+        <div class="judul-bagian"><h2 id="judul-jadwal">{h.jadwal.judul}</h2><p>{h.jadwal.kalimat}</p></div>
+        <div class="judul-bagian"><h2 id="judul-inggris">{h.inggris.judul}</h2><p>{h.inggris.kalimat}</p></div>
+      </div>
+      <div class="kartu pita-karya">
+        <h3><TeksCampur bahasa={bahasa} teks={h.karya.judul} /></h3>
+        <p><TeksCampur bahasa={bahasa} teks={h.karya.kalimat} /></p>
+        <a href={RUTE.testimoni[bahasa]}>{h.karya.tautan}</a>
+      </div>
+    </div>
+  </section>
+  <section class="bagian bagian-peach" aria-labelledby="judul-tanya">
+    <div class="wadah">
+      <div class="judul-bagian"><h2 id="judul-tanya">{h.tanya.judul}</h2></div>
+      <div class="tanya">{h.tanya.daftar.map((t) => <BukaTutup bahasa={bahasa} judul={t.tanya}><p>{t.jawab}</p></BukaTutup>)}</div>
+    </div>
+  </section>
+  <Penutup bahasa={bahasa} teks={h.penutup} judulHalaman={h.pembuka.judul} tombol={[{ admin: 'kursusOffline' }, { admin: 'kursusOnline' }]} />
+</Dasar>
+
+<style>
+  .isi { display: grid; gap: var(--ruang-5); }
+  .dua { display: grid; gap: var(--ruang-5); }
+  @media (min-width: 1024px) { .dua { grid-template-columns: 1fr 1fr; } }
+  .dua .judul-bagian { margin-bottom: 0; }
+  .pita-karya { display: grid; justify-items: start; gap: var(--ruang-1); }
+  .pita-karya h3 { font-size: var(--huruf-judul-4); line-height: 1.3; }
+  :lang(zh) .pita-karya h3 { font-size: calc(var(--huruf-judul-4) * 0.9); }
+  .tanya { display: grid; gap: var(--ruang-2); }
+</style>

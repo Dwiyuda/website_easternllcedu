@@ -1,0 +1,48 @@
+---
+// Kartu album (MASTER.md; Panduan Visual 9e2 C): bingkai dokumentasi bertautan, sampul 4:3 pilihan staf (dipotong), deretan paling
+// banyak empat foto kecil setinggi 40 px dengan rasio asli dan lencana +N untuk sisanya, judul album, baris program · jumlah foto ·
+// tanggal. Seluruh kartu satu tautan ke halaman album; kursor dan fokus mengikuti kartu.
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import LencanaContoh from '../LencanaContoh.astro';
+import TeksCampur from '../TeksCampur.astro';
+import { UI } from '../../i18n/ui';
+import { ambil, type Bahasa } from '../../lib/dua-bahasa';
+import { urlAlbum } from '../../lib/konten';
+import { formatTanggal } from '../../lib/tanggal';
+import { isiTempat } from '../../lib/teks';
+
+// segera: kartu pertama Galeri ada di atas lipatan HP dan sampulnya gambar LCP, jadi dimuat segera berprioritas tinggi (Task 11).
+interface Props { bahasa: Bahasa; album: CollectionEntry<'album'>; segera?: boolean }
+const { bahasa, album, segera = false } = Astro.props;
+const t = UI[bahasa].galeri;
+const d = album.data.id;
+const kecil = d.foto.slice(0, 4);
+const sisa = d.foto.length - kecil.length;
+---
+<a class="bingkai kartu-album" href={urlAlbum(album, bahasa)}>
+  <span class="sampul"><Image src={d.sampul} alt="" widths={[320, 480, 720]} sizes="(min-width: 1024px) 340px, (min-width: 768px) 45vw, 100vw" data-warna="hangat"
+    loading={segera ? 'eager' : 'lazy'} fetchpriority={segera ? 'high' : undefined} /></span>
+  {kecil.length > 0 && (
+    <span class="deret">
+      {kecil.map((f) => <Image src={f.gambar} alt="" height={80} data-warna={f.warna} />)}
+      {sisa > 0 && <span class="lencana sisa">{isiTempat(t.sisa, { n: sisa })}</span>}
+    </span>
+  )}
+  <span class="judul"><TeksCampur bahasa={bahasa} teks={ambil<string>(album.data, 'judul', bahasa)} /></span>
+  <span class="baris">{[t.program[d.program], d.foto.length > 0 && isiTempat(t.jumlahFoto, { n: d.foto.length }), formatTanggal(d.tanggal, bahasa)].filter(Boolean).join(' · ')}</span>
+  <LencanaContoh bahasa={bahasa} tampil={d.contoh} />
+</a>
+
+<style>
+  .kartu-album { display: grid; align-content: start; gap: var(--ruang-1); height: 100%; color: inherit; text-decoration: none; transition: transform var(--durasi-kursor) var(--kurva), background-color var(--durasi-kursor) var(--kurva); }
+  .kartu-album:hover { transform: translateY(calc(-1 * var(--jarak-angkat))); background: var(--kartu-50); color: inherit; }
+  .kartu-album:active { transform: none; background: var(--krem-200); }
+  .sampul :global(img) { aspect-ratio: 4 / 3; object-fit: cover; }
+  .deret { display: flex; align-items: center; gap: var(--ruang-1); overflow: hidden; }
+  .deret :global(img) { flex: none; width: auto; height: 40px; }
+  .judul { padding-inline: var(--ruang-1); color: var(--marun-600); font: 500 var(--huruf-judul-4) / 1.3 var(--font-judul); font-variation-settings: "SOFT" 100; }
+  :lang(zh) .judul { font-family: var(--font-judul-han); font-weight: 400; }
+  .baris { padding: 0 var(--ruang-1) var(--ruang-1); color: var(--teks-600); font-size: var(--huruf-mini); font-weight: 600; line-height: 1.2; }
+  .kartu-album :global(.lencana-contoh) { justify-self: start; margin: 0 var(--ruang-1) var(--ruang-1); }
+</style>

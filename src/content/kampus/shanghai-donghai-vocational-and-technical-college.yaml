@@ -1,0 +1,12 @@
+id:
+  slugPinyin: shanghai-donghai-zhiye-jishu-xueyuan
+  nama: Shanghai Donghai Vocational and Technical College
+  deskripsi: Shanghai Donghai Vocational and Technical College adalah perguruan tinggi vokasi di Minhang, Shanghai, Tiongkok (China). Programnya terapan, antara lain akuntansi dan big data, logistik, e-commerce, kendaraan listrik, robot industri, keperawatan, layanan penerbangan sipil, dan animasi.
+  kota: shanghai
+  logo: ../../assets/logo-kampus/shanghai-donghai-vocational-and-technical-college.png
+  jenjang:
+    - Diploma
+  contoh: false
+zh:
+  nama: 上海东海职业技术学院
+  deskripsi: 上海东海职业技术学院是位于上海闵行区的高等职业院校，开设大数据与会计、现代物流管理、电子商务、新能源汽车技术、工业机器人技术、护理、民航运输服务和影视动画等应用型专业。

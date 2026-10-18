@@ -1,0 +1,76 @@
+---
+// Tab empat jenjang (Blueprint Kursus Bahasa bagian 3, Desain Teknis bagian 5): bisa dipakai dengan papan ketik.
+// Tanpa JavaScript daftar tab tersembunyi dan keempat panel tampil berurutan. Tab bergaya Lencana pilihan (MASTER.md):
+// nama jenjang sebagai label utama, target HSK baris kecil di bawahnya (Naskah Kursus Bahasa bagian 3).
+import LencanaContoh from '../LencanaContoh.astro';
+import { UI } from '../../i18n/ui';
+import type { Bahasa } from '../../lib/dua-bahasa';
+import { formatRupiah } from '../../lib/harga';
+
+interface Jenjang { nama: string; target: string; pertemuan: string; lama: string; isi: string; hargaReguler?: number; hargaWeekend?: number }
+interface Props { bahasa: Bahasa; idJudul: string; jenjang: Jenjang[]; tampilkanHarga: boolean; contoh: boolean }
+const { bahasa, idJudul, jenjang, tampilkanHarga, contoh } = Astro.props;
+const ui = UI[bahasa];
+// Harga hanya kalau sakelar menyala (bawaan mati), dan hanya yang diisi.
+const harga = (j: Jenjang): [string, number][] => (tampilkanHarga
+  ? ([[ui.hargaKelas.reguler, j.hargaReguler], [ui.hargaKelas.weekend, j.hargaWeekend]].filter(([, n]) => n) as [string, number][])
+  : []);
+---
+<div class="tab" data-tab>
+  <div class="daftar-tab" role="tablist" aria-labelledby={idJudul}>
+    {jenjang.map((j, i) => (
+      <button type="button" role="tab" id={`tab-jenjang-${i}`} aria-controls={`panel-jenjang-${i}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>
+        <span class="nama">{j.nama}</span><span class="target">{j.target}</span>
+      </button>
+    ))}
+  </div>
+  {jenjang.map((j, i) => (
+    <div class="kartu panel" role="tabpanel" id={`panel-jenjang-${i}`} aria-labelledby={`tab-jenjang-${i}`} tabindex="0" data-aktif={i === 0 ? '' : undefined}>
+      <h3>{j.nama} · {j.target}</h3>
+      <p>{j.isi}</p>
+      <p class="kecil">{j.pertemuan} · {j.lama}</p>
+      {harga(j).length > 0 && <dl class="harga">{harga(j).map(([label, n]) => <div><dt>{label}</dt><dd>{formatRupiah(n)}</dd></div>)}</dl>}
+      <LencanaContoh bahasa={bahasa} tampil={contoh} />
+    </div>
+  ))}
+</div>
+
+<style>
+  .tab { display: grid; gap: var(--ruang-3); }
+  .daftar-tab { display: none; flex-wrap: wrap; gap: var(--ruang-1); }
+  :global(.js) .daftar-tab { display: flex; }
+  [role='tab'] { display: grid; justify-items: center; min-height: 48px; padding: var(--ruang-1) var(--ruang-2); border: 0; border-radius: var(--radius-pil); background: var(--kartu-100); color: var(--teks-900); font: inherit; font-size: var(--huruf-kecil); line-height: 1.2; cursor: pointer; transition: background-color var(--durasi-kursor) var(--kurva), color var(--durasi-kursor) var(--kurva); }
+  [role='tab']:hover { background: var(--peach-200); }
+  [role='tab'][aria-selected='true'] { background: var(--marun-600); color: var(--kartu-100); }
+  .nama { font-weight: 600; }
+  .target { font-size: var(--huruf-mini); }
+  .panel { display: grid; justify-items: start; gap: var(--ruang-2); }
+  :global(.js) .panel:not([data-aktif]) { display: none; }
+  h3 { font-size: var(--huruf-judul-3); }
+  :lang(zh) h3 { font-size: calc(var(--huruf-judul-3) * 0.9); }
+  .harga { display: flex; flex-wrap: wrap; gap: var(--ruang-2) var(--ruang-4); margin: 0; }
+  dt { color: var(--teks-600); font-size: var(--huruf-mini); font-weight: 600; }
+  dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; }
+</style>
+
+<script>
+  for (const tab of document.querySelectorAll<HTMLElement>('[data-tab]')) {
+    const tombol = [...tab.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+    const pilih = (i: number, fokus = false) => tombol.forEach((t, j) => {
+      const aktif = i === j;
+      t.setAttribute('aria-selected', String(aktif));
+      t.tabIndex = aktif ? 0 : -1;
+      document.getElementById(t.getAttribute('aria-controls')!)!.toggleAttribute('data-aktif', aktif);
+      if (aktif && fokus) t.focus();
+    });
+    tombol.forEach((t, i) => {
+      t.addEventListener('click', () => pilih(i));
+      t.addEventListener('keydown', (e) => {
+        const ke = ({ ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tombol.length - 1 } as Record<string, number>)[e.key];
+        if (ke === undefined) return;
+        e.preventDefault();
+        pilih((ke + tombol.length) % tombol.length, true);
+      });
+    });
+  }
+</script>

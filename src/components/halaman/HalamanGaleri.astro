@@ -1,0 +1,57 @@
+---
+// Galeri (Naskah Galeri; Panduan Visual 9e2): tanpa program = Galeri utama (pembuka ringkas 影, semua album terbaru lebih dulu);
+// dengan program = Galeri per program (pembuka ringkas tanpa hanzi, P18; album program itu atau kalimat kosong; tautan ke halaman
+// program). Tab program berupa tautan antarhalaman (lencana pilihan aria-current), tanpa JavaScript. Kisi tiga kolom di desktop.
+import KartuAlbum from '../galeri/KartuAlbum.astro';
+import PembukaRingkas from '../bagian/PembukaRingkas.astro';
+import Dasar from '../../layouts/Dasar.astro';
+import { UI } from '../../i18n/ui';
+import { HALAMAN_PROGRAM, RUTE, type Program } from '../../i18n/rute';
+import type { Bahasa } from '../../lib/dua-bahasa';
+import { alamatGaleriProgram } from '../../lib/galeri';
+import { albumTampil } from '../../lib/konten';
+import { butirRemah } from '../../lib/navigasi';
+import { hariIniJakarta } from '../../lib/tanggal';
+import { isiTempat } from '../../lib/teks';
+
+interface Props { bahasa: Bahasa; program?: Program }
+const { bahasa, program } = Astro.props;
+const ui = UI[bahasa];
+const t = ui.galeri;
+const semua = await albumTampil(hariIniJakarta());
+const album = program ? semua.filter((a) => a.data.id.program === program) : semua;
+const nama = program && t.program[program];
+const judul = nama ? isiTempat(t.perProgram.judul, { program: nama }) : ui.kegiatanButir.galeri!.judul;
+const kalimat = nama ? isiTempat(t.perProgram.kalimat, { program: nama }) : t.kalimat;
+const alamat = program ? alamatGaleriProgram(program, bahasa) : RUTE.galeri[bahasa];
+const pasanganBahasa = program && { id: alamatGaleriProgram(program, 'id'), zh: alamatGaleriProgram(program, 'zh') };
+// Remah Galeri per program: Beranda › Galeri › [program] (Naskah Galeri).
+const remah = nama ? butirRemah(bahasa, ['galeri'], nama, alamat) : butirRemah(bahasa, [], judul, alamat);
+const tab = [
+  { url: RUTE.galeri[bahasa], label: t.semua },
+  ...(Object.keys(HALAMAN_PROGRAM) as Program[]).map((p) => ({ url: alamatGaleriProgram(p, bahasa), label: t.program[p] })),
+];
+---
+<Dasar bahasa={bahasa} judul={nama ? isiTempat(t.perProgram.seo, { program: nama }) : t.seo.judul} deskripsi={nama ? kalimat : t.seo.deskripsi}
+  judulWa={judul} pasanganBahasa={pasanganBahasa}>
+  <PembukaRingkas bahasa={bahasa} hanzi={program ? undefined : '影'} judul={judul} kalimat={kalimat} remah={remah}>
+    {program && <a href={RUTE[HALAMAN_PROGRAM[program]][bahasa]}>{t.perProgram.tautan}</a>}
+  </PembukaRingkas>
+  <div class="bagian bagian-peach">
+    <div class="wadah susun">
+      <ul class="baris-pilihan">{tab.map((x) => <li><a class="pilihan" href={x.url} aria-current={x.url === alamat ? 'page' : undefined}>{x.label}</a></li>)}</ul>
+      {/* Kartu pertama (sampulnya LCP) langsung tampil, tanpa menunggu JavaScript. */}
+      {album.length > 0
+        ? <ul class="kisi">{album.map((a, i) => <li data-muncul={i === 0 ? undefined : ''} style={`--urut: ${i % 6}`}><KartuAlbum bahasa={bahasa} album={a} segera={i === 0} /></li>)}</ul>
+        : <p>{t.kosong}</p>}
+    </div>
+  </div>
+</Dasar>
+
+<style>
+  .susun { display: grid; gap: var(--ruang-5); }
+  .kisi { display: grid; gap: var(--ruang-3); }
+  @media (min-width: 768px) { .kisi { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1024px) { .kisi { grid-template-columns: repeat(3, 1fr); } }
+  .kisi li { display: grid; }
+</style>

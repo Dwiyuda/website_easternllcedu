@@ -1,0 +1,108 @@
+---
+// Halaman Study Tour (Naskah Study Tour): pembuka foto penuh 游, tiga jenis program, kartu program terbaru lebih dulu, penutup kantor.
+// Galeri (album dan video study tour) dan testimoni camp tampil kalau ada isinya (Naskah Study Tour bagian 4–5).
+import { getEntry } from 'astro:content';
+import LencanaContoh from '../LencanaContoh.astro';
+import Video from '../Video.astro';
+import Kenapa from '../beranda/Kenapa.astro';
+import Penutup from '../beranda/Penutup.astro';
+import NavigasiBagian from '../bagian/NavigasiBagian.astro';
+import PembukaProgram from '../bagian/PembukaProgram.astro';
+import KartuAlbum from '../galeri/KartuAlbum.astro';
+import KartuStudyTour from '../program/KartuStudyTour.astro';
+import KartuTestimoni from '../testimoni/KartuTestimoni.astro';
+import Dasar from '../../layouts/Dasar.astro';
+import foto from '../../assets/foto/camp-1.webp';
+import { ADMIN } from '../../data/kontak';
+import { UI } from '../../i18n/ui';
+import { RUTE } from '../../i18n/rute';
+import { ambil, bilaLengkap, type Bahasa } from '../../lib/dua-bahasa';
+import { alamatGaleriProgram } from '../../lib/galeri';
+import { albumTampil, ambilTampil, keteranganTestimoni, kutipanTestimoni, ruteKota } from '../../lib/konten';
+import { butirNavigasi, butirRemah } from '../../lib/navigasi';
+import { hariIniJakarta, statusEvent } from '../../lib/tanggal';
+import { isiTempat } from '../../lib/teks';
+
+interface Props { bahasa: Bahasa }
+const { bahasa } = Astro.props;
+const halaman = await getEntry('halamanStudyTour', 'study-tour');
+if (!halaman) throw new Error('src/content/halaman/study-tour.yaml tidak ditemukan');
+const h = halaman.data[bahasa];
+const hariIni = hariIniJakarta();
+const program = await Promise.all((await ambilTampil('studyTour'))
+  .sort((a, b) => b.data.id.mulai.localeCompare(a.data.id.mulai))
+  .map(async (e) => ({
+    url: `${RUTE.studyTour[bahasa]}/${e.id}`, judul: ambil<string>(e.data, 'judul', bahasa), jenis: e.data.id.jenis,
+    mulai: e.data.id.mulai, selesai: e.data.id.selesai, sampul: e.data.id.sampul, contoh: e.data.id.contoh,
+    rute: await ruteKota(e.data.id.kota, bahasa), status: statusEvent(e.data.id.mulai, e.data.id.selesai, hariIni),
+  })));
+const ui = UI[bahasa];
+const album = (await albumTampil(hariIni)).filter((a) => a.data.id.program === 'study-tour');
+// Video dari album atau testimoni contoh berlabel Contoh (Model Konten aturan 10).
+const video = album.flatMap((a) => a.data.id.video.map((v) => ({ ...v, judul: ambil<string>(a.data, 'judul', bahasa), contoh: a.data.id.contoh })));
+const testimoniCamp = (await ambilTampil('testimoni')).filter((t) => t.data.id.peran === 'peserta-camp');
+const campVideo = testimoniCamp.flatMap((t) => (t.data.id.video
+  ? [{ ...t.data.id.video, keterangan: keteranganTestimoni(t.data.id, bahasa), contoh: t.data.id.contoh }] : []));
+const campKutipan = testimoniCamp.filter((t) => t.data.id.kutipan).map((t) => kutipanTestimoni(t, bahasa));
+const navigasi = butirNavigasi([
+  { label: h.navigasi[0], id: 'judul-jenis' },
+  { label: h.navigasi[1], id: 'judul-daftar-program', tampil: program.length > 0 },
+  { label: h.navigasi[2], id: 'judul-galeri', tampil: album.length > 0 },
+  { label: h.navigasi[3], id: 'judul-testimoni-camp', tampil: campVideo.length + campKutipan.length > 0 },
+  { label: h.navigasi[4], id: 'judul-penutup' },
+]);
+---
+<Dasar bahasa={bahasa} judul={h.seo.judul} deskripsi={h.seo.deskripsi} judulWa={h.pembuka.judul}>
+  {/* Isi pembuka rata bawah: lukisan ditahan sampai id pertama sesudah pembuka terurai, seperti Beranda (font-cls-report.md). */}
+  <link rel="expect" href="#judul-jenis" blocking="render" slot="kepala" />
+  <PembukaProgram bahasa={bahasa} foto={foto} hanzi="游" judul={h.pembuka.judul} kalimat={h.pembuka.kalimat}
+    keterangan={bilaLengkap(halaman.data.id.pembuka.foto, halaman.data.zh.pembuka.foto, bahasa)}
+    remah={butirRemah(bahasa, ['program'], h.pembuka.judul, RUTE.studyTour[bahasa])} />
+  <NavigasiBagian butir={navigasi} />
+  <Kenapa bahasa={bahasa} idJudul="judul-jenis" peach={false} teks={{ judul: h.jenis.judul, alasan: h.jenis.kartu }} />
+  {program.length > 0 && (
+    <section class="bagian bagian-peach" aria-labelledby="judul-daftar-program">
+      <div class="wadah">
+        <div class="judul-bagian"><h2 id="judul-daftar-program">{h.program.judul}</h2></div>
+        <ul class="kisi">{program.map((p, i) => <li data-muncul style={`--urut: ${i % 6}`}><KartuStudyTour bahasa={bahasa} program={p} /></li>)}</ul>
+      </div>
+    </section>
+  )}
+  {album.length > 0 && (
+    <section class="bagian" aria-labelledby="judul-galeri">
+      <div class="wadah">
+        <div class="judul-bagian"><h2 id="judul-galeri">{h.navigasi[2]}</h2></div>
+        {/* Video dan kartu album satu kisi, video lebih dulu: baris pertama terisi [video][album][album] walau videonya cuma satu. */}
+        <ul class="kisi">
+          {video.map((v) => <li><Video bahasa={bahasa} youtube={v.youtube} sampul={v.sampul} judul={v.judul} /><LencanaContoh bahasa={bahasa} tampil={v.contoh} /></li>)}
+          {album.slice(0, 3).map((a, i) => <li data-muncul style={`--urut: ${i % 6}`}><KartuAlbum bahasa={bahasa} album={a} /></li>)}
+        </ul>
+        <a class="tautan-galeri" href={alamatGaleriProgram('study-tour', bahasa)}>{isiTempat(ui.galeri.perProgram.judul, { program: ui.galeri.program['study-tour'] })}</a>
+      </div>
+    </section>
+  )}
+  {campVideo.length + campKutipan.length > 0 && (
+    <section class="bagian bagian-peach" aria-labelledby="judul-testimoni-camp">
+      <div class="wadah">
+        <div class="judul-bagian"><h2 id="judul-testimoni-camp">{h.navigasi[3]}</h2></div>
+        <ul class="kisi">
+          {campVideo.map((v) => <li><Video bahasa={bahasa} youtube={v.youtube} sampul={v.sampul} judul={v.keterangan} keterangan={v.keterangan} /><LencanaContoh bahasa={bahasa} tampil={v.contoh} /></li>)}
+          {campKutipan.map((k) => <li><KartuTestimoni bahasa={bahasa} kutipan={k} /></li>)}
+        </ul>
+      </div>
+    </section>
+  )}
+  <Penutup bahasa={bahasa} teks={h.penutup} judulHalaman={h.pembuka.judul} tombol={[{ admin: 'kantor', teks: ui.konsultasi }]}>
+    <p>{ADMIN.kantor.layanan[bahasa]} {ADMIN.kantor.nomor}</p>
+  </Penutup>
+</Dasar>
+
+<style>
+  .kisi { display: grid; gap: var(--ruang-3); }
+  @media (min-width: 768px) { .kisi { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1024px) { .kisi { grid-template-columns: repeat(3, 1fr); } }
+  .kisi li { display: grid; }
+  .tautan-galeri { display: inline-block; margin-top: var(--ruang-3); }
+  /* Lencana Contoh di bawah video, selebar isinya (seperti Testimoni). */
+  li > :global(.lencana-contoh) { margin-top: var(--ruang-1); }
+</style>

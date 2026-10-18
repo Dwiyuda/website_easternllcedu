@@ -1,0 +1,68 @@
+---
+// Kabar & Event (Naskah Kabar Dan Event; Panduan Visual 9e C satu aliran bertanggal; MASTER.md Aliran kabar): pembuka ringkas 讯,
+// Akan datang (kartu event, tersembunyi kalau kosong), Kabar terbaru (artikel terbit dan event selesai, terbaru lebih dulu, saringan),
+// pita ke Event Sebelumnya (tersembunyi selama arsipnya kosong). Konsultasi lewat tombol melayang (Peta Halaman, Nomor Per Halaman).
+import Ikon from '../Ikon.astro';
+import PembukaRingkas from '../bagian/PembukaRingkas.astro';
+import BarisKabar from '../kabar/BarisKabar.astro';
+import KartuEvent from '../kabar/KartuEvent.astro';
+import SaringKabar from '../kabar/SaringKabar.astro';
+import Dasar from '../../layouts/Dasar.astro';
+import { UI } from '../../i18n/ui';
+import { RUTE } from '../../i18n/rute';
+import type { Bahasa } from '../../lib/dua-bahasa';
+import { aliranKabar, eventMendatang, eventSelesai } from '../../lib/konten';
+import { butirRemah } from '../../lib/navigasi';
+import { hariIniJakarta } from '../../lib/tanggal';
+
+interface Props { bahasa: Bahasa }
+const { bahasa } = Astro.props;
+const ui = UI[bahasa];
+const t = ui.kabar;
+const judul = ui.kegiatanButir.kabar!.judul;
+const hariIni = hariIniJakarta();
+const [mendatang, aliran, arsip] = await Promise.all([eventMendatang(bahasa, hariIni), aliranKabar(bahasa, hariIni), eventSelesai(bahasa, hariIni)]);
+---
+<Dasar bahasa={bahasa} judul={t.seo.judul} deskripsi={t.seo.deskripsi} judulWa={judul}>
+  <PembukaRingkas bahasa={bahasa} hanzi="讯" judul={judul} kalimat={t.kalimat} remah={butirRemah(bahasa, [], judul, RUTE.kabar[bahasa])} />
+  {mendatang.length > 0 && (
+    <section class="bagian bagian-peach" aria-labelledby="judul-akan">
+      <div class="wadah">
+        <div class="judul-bagian"><h2 id="judul-akan">{t.akanDatang}</h2></div>
+        <ul class="kisi-event">{mendatang.map((e, i) => <li data-muncul style={`--urut: ${i % 6}`}><KartuEvent bahasa={bahasa} event={e} /></li>)}</ul>
+      </div>
+    </section>
+  )}
+  {aliran.length > 0 && (
+    <section class="bagian" aria-labelledby="judul-terbaru">
+      <div class="wadah">
+        <div class="judul-bagian"><h2 id="judul-terbaru">{t.terbaru}</h2></div>
+        <SaringKabar bahasa={bahasa} />
+        <ul class="aliran" data-aliran>
+          {aliran.map((b) => <li data-jenis={b.jenis} data-kategori={b.kategori}><BarisKabar bahasa={bahasa} baris={b} /></li>)}
+        </ul>
+        <p class="kosong" data-kosong hidden>{t.kosong}</p>
+        {arsip.length > 0 && (
+          <a class="kartu pita-arsip" href={RUTE.eventSebelumnya[bahasa]}>
+            <span class="teks"><span class="judul">{t.arsip.pita}</span><span>{t.arsip.pitaKalimat}</span></span>
+            <span class="tautan">{t.arsip.tautan}<Ikon nama="arrow_forward" ukuran={20} /></span>
+          </a>
+        )}
+      </div>
+    </section>
+  )}
+</Dasar>
+
+<style>
+  .kisi-event { display: grid; gap: var(--ruang-2); }
+  @media (min-width: 1024px) { .kisi-event { grid-template-columns: repeat(2, 1fr); } }
+  .kisi-event li, .aliran li { display: grid; }
+  .aliran { display: grid; gap: var(--ruang-2); }
+  .aliran li[hidden] { display: none; }
+  .kosong { margin-top: var(--ruang-2); }
+  .pita-arsip { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--ruang-2); margin-top: var(--ruang-5); }
+  .pita-arsip .teks { display: grid; gap: var(--ruang-1); }
+  .pita-arsip .judul { color: var(--marun-600); font: 500 var(--huruf-judul-4) / 1.3 var(--font-judul); font-variation-settings: "SOFT" 100; }
+  :lang(zh) .pita-arsip .judul { font-family: var(--font-judul-han); font-weight: 400; }
+  .tautan { display: inline-flex; align-items: center; gap: var(--ruang-1); color: var(--marun-600); font-weight: 600; text-decoration: underline; text-decoration-thickness: var(--garis); text-underline-offset: 0.2em; }
+</style>

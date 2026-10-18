@@ -1,0 +1,10 @@
+id:
+  nama: Hangzhou
+  provinsi: Zhejiang
+  lon: 120.16
+  lat: 30.27
+  label: bawah
+  contoh: false
+zh:
+  nama: 杭州
+  provinsi: 浙江省

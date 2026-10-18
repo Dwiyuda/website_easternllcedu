@@ -1,0 +1,71 @@
+---
+import '@fontsource-variable/fraunces/soft.css';
+import '@fontsource-variable/figtree';
+import '../styles/tokens.css';
+import '../styles/dasar.css';
+import type { ImageMetadata } from 'astro';
+import { getImage } from 'astro:assets';
+import FilterHangat from '../components/FilterHangat.astro';
+import BilahMenu from '../components/tata/BilahMenu.astro';
+import KakiHalaman from '../components/tata/KakiHalaman.astro';
+import TawaranZh from '../components/tata/TawaranZh.astro';
+import TombolWa from '../components/tata/TombolWa.astro';
+import gedung from '../assets/foto/gedung.webp';
+import { UI } from '../i18n/ui';
+import { pasangan, rapikan, type Pasangan } from '../i18n/rute';
+import type { Bahasa } from '../lib/dua-bahasa';
+
+interface Props {
+  bahasa: Bahasa; judul: string; deskripsi: string; judulWa: string; indeks?: boolean; pasanganBahasa?: Pasangan; gambarOg?: ImageMetadata;
+}
+const { bahasa, judul, deskripsi, judulWa, indeks = true, pasanganBahasa, gambarOg } = Astro.props;
+const bolehDiindeks = import.meta.env.MODE === 'final' && indeks;
+// Halaman detail (study tour, nanti kampus dan artikel) tidak ada di RUTE: pasangannya dikirim halaman itu sendiri.
+const pasang = pasanganBahasa ?? pasangan(Astro.url.pathname);
+const situs = Astro.site!;
+// Gambar pratinjau saat dibagikan (Desain Teknis bagian 6): sampul artikel, poster event, sampul album; bawaan foto gedung.
+const og = await getImage({ src: gambarOg ?? gedung, width: 1200, height: 630, format: 'jpg' });
+---
+<!doctype html>
+<html lang={bahasa === 'zh' ? 'zh-Hans' : 'id'}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{judul}</title>
+    <meta name="description" content={deskripsi} />
+    <link rel="canonical" href={new URL(rapikan(Astro.url.pathname), situs).href} />
+    {pasang && (
+      <>
+        <link rel="alternate" hreflang="id" href={new URL(pasang.id, situs).href} />
+        <link rel="alternate" hreflang="zh-Hans" href={new URL(pasang.zh, situs).href} />
+        <link rel="alternate" hreflang="x-default" href={new URL(pasang.id, situs).href} />
+      </>
+    )}
+    {!bolehDiindeks && <meta name="robots" content="noindex, nofollow" />}
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={judul} />
+    <meta property="og:description" content={deskripsi} />
+    <meta property="og:image" content={new URL(og.src, situs).href} />
+    <meta property="og:locale" content={bahasa === 'zh' ? 'zh_CN' : 'id_ID'} />
+    <link rel="icon" type="image/png" sizes="32x32" href="/ikon/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/ikon/apple-touch-icon.png" />
+    <script is:inline>document.documentElement.classList.add('js');</script>
+    <slot name="kepala" />
+  </head>
+  <body>
+    <a class="lewati" href="#isi">{UI[bahasa].lewati}</a>
+    <FilterHangat />
+    {bahasa === 'id' && pasang && <TawaranZh tujuan={pasang.zh} />}
+    <BilahMenu bahasa={bahasa} pasangan={pasang} />
+    <main id="isi"><slot /></main>
+    <KakiHalaman bahasa={bahasa} />
+    <TombolWa bahasa={bahasa} judulHalaman={judulWa} />
+    <script>
+      // Elemen muncul sekali saat digulir (MASTER.md bagian Gerak). Tanpa JavaScript semuanya langsung tampil.
+      const pengamat = new IntersectionObserver((daftar, o) => daftar.forEach((d) => {
+        if (d.isIntersecting) { d.target.classList.add('tampak'); o.unobserve(d.target); }
+      }), { rootMargin: '0px 0px -10% 0px' });
+      document.querySelectorAll('[data-muncul]').forEach((el) => pengamat.observe(el));
+    </script>
+  </body>
+</html>

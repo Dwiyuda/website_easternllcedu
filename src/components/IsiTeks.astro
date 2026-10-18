@@ -1,0 +1,44 @@
+---
+// Isi artikel dan event (Naskah Kabar Dan Event, Pola detail; Model Konten: teks dengan subjudul dan daftar). Markdown terbatas diurai
+// lib/isi.ts. Tabel dibungkus wadah yang bisa digulir mendatar di HP; tabindex supaya bisa digulir dengan papan ketik.
+import PotongIsi from './PotongIsi.astro';
+import type { Bahasa } from '../lib/dua-bahasa';
+import { uraiIsi } from '../lib/isi';
+
+interface Props { isi: string; bahasa: Bahasa }
+const { isi, bahasa } = Astro.props;
+---
+<div class="isi-teks">
+  {uraiIsi(isi).map((b) => (b.jenis === 'judul'
+    ? (b.tingkat === 2 ? <h2><PotongIsi isi={b.isi} bahasa={bahasa} /></h2> : <h3><PotongIsi isi={b.isi} bahasa={bahasa} /></h3>)
+    : b.jenis === 'daftar'
+      ? (b.urut
+        ? <ol>{b.butir.map((x) => <li><PotongIsi isi={x} bahasa={bahasa} /></li>)}</ol>
+        : <ul>{b.butir.map((x) => <li><PotongIsi isi={x} bahasa={bahasa} /></li>)}</ul>)
+      : b.jenis === 'tabel'
+        ? (
+          <div class="tabel" tabindex="0">
+            <table>
+              <thead><tr>{b.kepala.map((x) => <th scope="col"><PotongIsi isi={x} bahasa={bahasa} /></th>)}</tr></thead>
+              <tbody>{b.baris.map((r) => <tr>{r.map((x) => <td><PotongIsi isi={x} bahasa={bahasa} /></td>)}</tr>)}</tbody>
+            </table>
+          </div>
+        )
+        : <p><PotongIsi isi={b.isi} bahasa={bahasa} /></p>))}
+</div>
+
+<style>
+  .isi-teks { display: grid; gap: var(--ruang-2); max-width: var(--lebar-baca); }
+  :lang(zh) .isi-teks { max-width: var(--lebar-baca-han); }
+  h2, h3 { margin-top: var(--ruang-2); }
+  h2 { font-size: var(--huruf-judul-3); line-height: 1.2; }
+  h3 { font-size: var(--huruf-judul-4); line-height: 1.3; }
+  :lang(zh) h2 { font-size: calc(var(--huruf-judul-3) * 0.9); }
+  :lang(zh) h3 { font-size: calc(var(--huruf-judul-4) * 0.9); }
+  ul, ol { display: grid; gap: var(--ruang-1); margin: 0; padding-left: var(--ruang-3); }
+  .tabel { overflow-x: auto; border-radius: var(--radius-kecil); }
+  table { width: 100%; border-collapse: collapse; font-size: var(--huruf-kecil); line-height: 1.55; font-variant-numeric: tabular-nums; }
+  th, td { padding: var(--ruang-1) var(--ruang-2); text-align: left; vertical-align: top; }
+  th { background: var(--peach-100); color: var(--marun-600); font-weight: 600; }
+  tbody tr:nth-child(odd) { background: var(--kartu-100); }
+</style>

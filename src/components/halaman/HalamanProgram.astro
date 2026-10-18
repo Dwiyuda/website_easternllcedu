@@ -1,0 +1,23 @@
+---
+// Halaman Program (Naskah Program): pembuka ringkas 程, empat kartu program yang sama dengan Beranda, penutup "Belum yakin".
+import { getEntry } from 'astro:content';
+import Program from '../beranda/Program.astro';
+import Penutup from '../beranda/Penutup.astro';
+import PembukaRingkas from '../bagian/PembukaRingkas.astro';
+import Dasar from '../../layouts/Dasar.astro';
+import { UI } from '../../i18n/ui';
+import { RUTE } from '../../i18n/rute';
+import type { Bahasa } from '../../lib/dua-bahasa';
+import { butirRemah } from '../../lib/navigasi';
+
+interface Props { bahasa: Bahasa }
+const { bahasa } = Astro.props;
+const beranda = await getEntry('beranda', 'beranda');
+if (!beranda) throw new Error('src/content/halaman/beranda.yaml tidak ditemukan');
+const t = UI[bahasa].programHalaman;
+---
+<Dasar bahasa={bahasa} judul={t.seo.judul} deskripsi={t.seo.deskripsi} judulWa={t.judul}>
+  <PembukaRingkas bahasa={bahasa} hanzi="程" judul={t.judul} kalimat={t.kalimat} remah={butirRemah(bahasa, [], t.judul, RUTE.program[bahasa])} />
+  <Program bahasa={bahasa} teks={beranda.data[bahasa].program} />
+  <Penutup bahasa={bahasa} teks={t.penutup} judulHalaman={t.judul} tombol={[{}]} />
+</Dasar>

@@ -13,8 +13,8 @@ id:
     judul: Alumni dan beasiswa
     kalimat: '{alumni} alumni Eastern LLC berangkat kuliah ke Tiongkok pada 2024–2025, di {kampus} kampus.'
   karya:
-    judul: Karya siswa di koran 硕河橋
-    kalimat: 23 karangan Mandarin siswa Eastern LLC dimuat di kolom koran 硕河橋, dibimbing guru 陈慧珠.
+    judul: Karya siswa dimuat di koran
+    kalimat: Puluhan karangan Mandarin siswa Eastern LLC dimuat di kolom koran lokal, dibimbing guru pembimbing.
   camp:
     judul: Kata peserta camp
   penutup:
@@ -36,7 +36,7 @@ zh:
     kalimat: 2024–2025年，共有{alumni}名东方校友赴中国{kampus}所院校留学。
   karya:
     judul: 学生作文登报
-    kalimat: 23篇东方学生的中文作文刊登于《硕河橋》专栏，指导老师陈慧珠。
+    kalimat: 东方学生的多篇中文作文刊登于本地报纸专栏，由指导老师带领。
   camp:
     judul: 营员心声
   penutup:

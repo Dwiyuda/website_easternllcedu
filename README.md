@@ -4,6 +4,10 @@ Versi **publik (showcase)** dari website Eastern LLC — sebuah lembaga kursus
 bahasa Mandarin: situs statis dua bahasa (Indonesia & 中文) dengan panel admin
 berbasis Git (Sveltia CMS).
 
+**Situs yang sudah berjalan: [easternllc.co.id](https://easternllc.co.id)** —
+repo ini adalah salinan showcase dari situs tersebut dengan data yang disterilkan
+(repo asli yang ter-deploy bersifat privat).
+
 Repo ini dibuat sebagai contoh karya. **Semua data asli sudah diganti data
 contoh**: nomor kontak, email, alamat, koordinat, legalitas, akun media sosial,
 data alumni, harga, mitra, dan foto bukan nilai sebenarnya. Dokumen internal,

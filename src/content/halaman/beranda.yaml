@@ -42,7 +42,7 @@ id:
       - judul: Mengenal kampusnya langsung
         bukti: Campus tour dan summer camp ke Tiongkok setiap tahun sejak 2023
       - judul: Karangan siswa dimuat di koran
-        bukti: 23 karangan Mandarin siswa Eastern LLC dimuat di kolom koran 硕河橋
+        bukti: Puluhan karangan Mandarin siswa Eastern LLC dimuat di kolom koran lokal
   kampus:
     judul: Kampus di Tiongkok (China)
     kalimat: "{kampus} kampus di {kota} kota, dari Beijing sampai Guangzhou. Titik yang lebih besar berarti lebih banyak kampus."
@@ -106,7 +106,7 @@ zh:
       - judul: 实地了解中国院校
         bukti: 自2023年起每年组织院校参访和夏令营
       - judul: 学生作文登报
-        bukti: 23篇东方学生的中文作文刊登于报纸专栏《硕河橋》
+        bukti: 东方学生的多篇中文作文刊登于本地报纸专栏
   kampus:
     judul: 中国院校
     kalimat: "{kampus}所院校，分布在北京到广州等{kota}座城市。圆点越大，院校越多。"
